@@ -56,6 +56,11 @@ model Session {
     @@map("sessions")
 }
 
+enum Role {
+    USER
+    ADMIN
+}
+
 model User {
     id            String    @id @default(cuid())
     name          String
@@ -65,6 +70,7 @@ model User {
     business      String
     image         String?
     password      String
+    role          Role      @default(USER)
     accounts      Account[]
     sessions      Session[]
     posts         Post[]
