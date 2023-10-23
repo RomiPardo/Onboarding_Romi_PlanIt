@@ -3,10 +3,11 @@ import {
   getServerSession,
   type NextAuthOptions,
 } from "next-auth";
+
 import CredentialsProvider from "next-auth/providers/credentials";
-import { db } from "~/server/db";
 import {z} from 'zod';
 import bcrypt from 'bcryptjs';
+import prisma from "~/server/db";
 
 const loginUserSchema = z.object({
   email: z.string().regex(/^[a-z0-9_-]{3,15}$/g, "Invalid email"),
@@ -28,7 +29,7 @@ export const authOptions: NextAuthOptions = {
 
         const {email, password} = loginUserSchema.parse(credentials);
 
-        const user = await db.user.findUnique({
+        const user = await prisma.user.findUnique({
           where: {
             email
           }
@@ -36,7 +37,7 @@ export const authOptions: NextAuthOptions = {
 
         if (!user) return null
 
-        const isPasswordValid = await bcrypt.compare(password, user.password);
+        const isPasswordValid = await bcrypt.compare(password, user.hashedPassword);
 
         if (!isPasswordValid) return null;
 
