@@ -9,7 +9,7 @@ CREATE TABLE "users" (
     "email" TEXT NOT NULL,
     "business" TEXT NOT NULL,
     "image" TEXT,
-    "password" TEXT NOT NULL,
+    "hashedPassword" TEXT NOT NULL,
     "role" "Role" NOT NULL DEFAULT 'USER',
 
     CONSTRAINT "users_pkey" PRIMARY KEY ("id")
