@@ -17,7 +17,7 @@ const User = () => {
 
 const UserPage = () => {
   const { query } = useRouter();
-  const userQuery = api.users.getById.useQuery(
+  const userQuery = api.user.getById.useQuery(
     typeof query.id === "string" ? query.id : "",
   );
 
