@@ -11,7 +11,7 @@ import prisma from "~/server/db";
 
 const loginUserSchema = z.object({
   email: z.string().min(1, "Invalid email").email("Invalid email"),
-  password: z.string().min(5, "Password should be minimum of 5 characters"),
+  password: z.string().min(8, "Password should be at least 8 characters long"),
 });
 
 export const authOptions: NextAuthOptions = {
