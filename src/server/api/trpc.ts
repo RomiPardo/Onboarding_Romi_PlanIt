@@ -28,14 +28,6 @@ interface CreateContextOptions {
   session: Session | null;
 }
 
-export const createContext = async (opts: CreateNextContextOptions) => {
-  const { req, res } = opts;
-  const session = await getServerAuthSession({ req, res });
-  return {
-    session,
-  };
-};
-
 /**
  * This helper generates the "internals" for a tRPC context. If you need to use it, you can export
  * it from here.
