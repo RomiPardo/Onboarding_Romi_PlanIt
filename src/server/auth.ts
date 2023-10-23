@@ -21,8 +21,8 @@ export const authOptions: NextAuthOptions = {
       name: "Domain Account",
 
       credentials: {
-        email: { label: "Mail", type: "mail", placeholder: "text@text.com"},
-        password: { label: "Password", type: "password", placeholder: "Pa$$w0rd" }
+        email: { label: "Mail", type: "mail"},
+        password: { label: "Password", type: "password"}
       },
 
       async authorize(credentials, req) {
