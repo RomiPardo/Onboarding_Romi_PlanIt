@@ -26,7 +26,7 @@ export const userRouter = createTRPCRouter({
 
   registerUser: publicProcedure
     .input(RegisterUserSchema)
-    .query(
+    .mutation(
       async ({ ctx, input: { name, lastName, email, business, password } }) => {
         const user = await ctx.prisma.user.findUnique({
           where: {
