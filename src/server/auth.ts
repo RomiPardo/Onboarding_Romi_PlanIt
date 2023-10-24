@@ -1,84 +1,78 @@
 import { type GetServerSidePropsContext } from "next";
-import {
-  getServerSession,
-  type NextAuthOptions,
-} from "next-auth";
+import { getServerSession, type NextAuthOptions } from "next-auth";
 
 import CredentialsProvider from "next-auth/providers/credentials";
-import { SafeParseReturnType, z } from 'zod';
-import bcrypt from 'bcryptjs';
+import bcrypt from "bcryptjs";
 import prisma from "~/server/db";
-
-const loginUserSchema = z.object({
-  email: z.string().min(1, "Invalid email").email("Invalid email"),
-  password: z.string().min(8, "Password should be at least 8 characters long"),
-});
+import { LoginUserSchema } from "./schemas/userSchema";
 
 export const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
-
       credentials: {
-        email: { label: "Email", type: "email"},
-        password: { label: "Password", type: "password"}
+        email: { label: "Email", type: "email" },
+        password: { label: "Password", type: "password" },
       },
 
       async authorize(credentials, req) {
-        const result = loginUserSchema.safeParse(credentials);
+        const result = LoginUserSchema.safeParse(credentials);
 
         if (result.success) {
           const { email, password } = result.data;
 
           const user = await prisma.user.findUnique({
             where: {
-              email
-            }
-          })
+              email,
+            },
+          });
 
-          if (!user) return null
+          if (!user) return null;
 
-          const isPasswordValid = await bcrypt.compare(password, user.hashedPassword);
+          const isPasswordValid = await bcrypt.compare(
+            password,
+            user.hashedPassword,
+          );
 
           if (!isPasswordValid) return null;
 
           return user;
         } else {
-          console.error('Validation errors:', result.error.issues);
+          console.error("Validation errors:", result.error.issues);
           return null;
         }
-      }
-    })
+      },
+    }),
   ],
 
   callbacks: {
-    session({session, token}) {
+    session({ session, token }) {
       return {
         ...session,
         user: {
           ...session.user,
-          id: token.id
-        }
+          id: token.id,
+        },
       };
     },
 
-    jwt({token, user}) {
+    jwt({ token, user }) {
       if (user) {
         return {
           ...token,
           id: user.id,
-        }
+        };
       }
 
       return token;
-    }
+    },
   },
 
   pages: {
-    signIn: "/login"
+    signIn: "/login",
   },
 
   session: {
-    strategy: "jwt"
+    strategy: "jwt",
   },
 
   secret: process.env.JWT_SECRET,
@@ -95,5 +89,3 @@ export const getServerAuthSession = (ctx: {
 }) => {
   return getServerSession(ctx.req, ctx.res, authOptions);
 };
-
-
