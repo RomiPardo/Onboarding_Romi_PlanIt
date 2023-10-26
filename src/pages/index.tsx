@@ -1,4 +1,4 @@
-import { signIn, useSession } from "next-auth/react";
+import { signIn, signOut, useSession } from "next-auth/react";
 import Register from "./components/Register";
 
 import { api } from "~/utils/api";
@@ -6,22 +6,15 @@ import { useState } from "react";
 
 const Home = () => {
   const { data: session } = useSession();
-  const [showRegister, setRegister] = useState(false);
+  const [showRegister, setShowRegister] = useState(false);
 
-  const { mutate } = api.user.registerUser.useMutation({
+  const registerMutation = api.user.registerUser.useMutation({
     onError(err) {
-      const error = err.toString();
-      const errors = error.match(/{[^{}]+}/g);
-      if (errors !== null) {
-        const json = JSON.parse(errors[0]);
-        alert(json.message);
-      } else {
-        alert(err.message);
-      }
+      alert(err.message);
     },
-    onSuccess(user) {
-      if (user) {
-        setRegister(false);
+    async onSuccess(data) {
+      if (data.user) {
+        setShowRegister(false);
       } else {
         alert("An unexpected error happened");
       }
@@ -35,19 +28,25 @@ const Home = () => {
     business: string;
     password: string;
   }) => {
-    const newUser = await mutate({
-      name: user.name,
-      lastName: user.lastName,
-      email: user.email,
-      password: user.password,
-      business: user.business,
-    });
-    signIn("credentials", {
-      email: user.email,
-      password: user.password,
-      callbackUrl: `http://localhost:3000/`,
-    });
-    console.log(session);
+    try {
+      await registerMutation.mutateAsync({
+        name: user.name,
+        lastName: user.lastName,
+        email: user.email,
+        password: user.password,
+        business: user.business,
+      });
+
+      await signIn("credentials", {
+        email: user.email,
+        password: user.password,
+        callbackUrl: `http://localhost:3000/`,
+      });
+    } catch (err) {}
+  };
+
+  const logOut = async () => {
+    await signOut();
   };
 
   const show = showRegister ? "hidden" : "block";
@@ -56,7 +55,7 @@ const Home = () => {
     return (
       <>
         <div>
-          <a onClick={(e) => setRegister(true)} className={show}>
+          <a onClick={(e) => setShowRegister(true)} className={show}>
             ¡Regístrate aquí!
           </a>
         </div>
@@ -65,7 +64,12 @@ const Home = () => {
       </>
     );
   } else {
-    return <p>Has iniciado sesion</p>;
+    return (
+      <>
+        <p>Has iniciado sesion</p>
+        <button onClick={(e) => logOut()}>LogOut</button>
+      </>
+    );
   }
 };
 
