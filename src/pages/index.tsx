@@ -12,7 +12,7 @@ const Home = () => {
     onError(err) {
       alert(err.message);
     },
-    async onSuccess(data) {
+    onSuccess(data) {
       if (data.user) {
         setShowRegister(false);
       } else {
