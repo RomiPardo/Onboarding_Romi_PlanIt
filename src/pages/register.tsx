@@ -7,7 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 type UserSchema = z.infer<typeof userShema>;
 
-const Register = ({}: {}) => {
+const Register = () => {
   const {
     register,
     handleSubmit,
