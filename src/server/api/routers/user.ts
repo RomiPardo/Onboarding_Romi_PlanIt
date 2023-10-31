@@ -37,7 +37,7 @@ export const userRouter = createTRPCRouter({
         if (user !== null) {
           throw new TRPCError({
             code: "BAD_REQUEST",
-            message: "The user already exists",
+            message: "Ya existe un usuario con ese mail",
           });
         }
 

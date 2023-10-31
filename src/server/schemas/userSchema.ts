@@ -13,8 +13,5 @@ export const RegisterUserSchema = z.object({
     .min(1, "Debe completar este campo")
     .email("Formato invalido del mail"),
   business: z.string().min(1, "Debe completar este campo"),
-  password: z
-    .string()
-    .min(1, "Debe completar este campo")
-    .min(8, "La contraseña debe tener mas de 8 caracteres"),
+  password: z.string().min(8, "La contraseña debe tener mas de 8 caracteres"),
 });

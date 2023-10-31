@@ -4,9 +4,6 @@ export default {
   content: ["./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
-      lineHeight: {
-        "11": "51.84px",
-      },
       screens: {
         sm: "393px",
         md: "1250px",
@@ -29,15 +26,7 @@ export default {
         poppins: ["Poppins", "sans-serif"],
       },
       width: {
-        "97": "485.89px",
         "11/12": "90%",
-        "125": "125%",
-      },
-      spacing: {
-        "9.5": "2.18rem",
-      },
-      padding: {
-        "1/9": "11%",
       },
     },
   },
