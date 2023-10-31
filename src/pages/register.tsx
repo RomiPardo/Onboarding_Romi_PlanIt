@@ -51,8 +51,6 @@ const Register = () => {
     };
   }, []);
 
-  const onSubmit: SubmitHandler<UserSchema> = (data) => signUp(data);
-
   const signUp = async (user: UserSchema) => {
     try {
       await registerMutation.mutateAsync({
@@ -152,7 +150,7 @@ const Register = () => {
             </div>
 
             <FormProvider {...methods}>
-              <form onSubmit={handleSubmit(onSubmit)}>
+              <form onSubmit={handleSubmit(signUp)}>
                 <Input
                   type="text"
                   placeholder="Nombre"

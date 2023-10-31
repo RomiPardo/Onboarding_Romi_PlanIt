@@ -4,15 +4,10 @@ interface InputProps {
   type: string;
   id: string;
   placeholder: string;
-  errorMessage: string | undefined;
+  errorMessage?: string;
 }
 
-const Input: React.FC<InputProps> = ({
-  type,
-  id,
-  placeholder,
-  errorMessage,
-}) => {
+const Input = ({ type, id, placeholder, errorMessage }: InputProps) => {
   const { register } = useFormContext();
 
   return (
@@ -25,7 +20,11 @@ const Input: React.FC<InputProps> = ({
         {...register(id)}
       ></input>
 
-      <p className="block text-sm text-red-600 md:text-base">{errorMessage}</p>
+      {errorMessage && (
+        <p className="block text-sm text-red-600 md:text-base">
+          {errorMessage}
+        </p>
+      )}
     </div>
   );
 };
