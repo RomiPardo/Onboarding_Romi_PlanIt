@@ -1,11 +1,11 @@
 import { useFormContext } from "react-hook-form";
 
-interface InputProps {
+type InputProps = {
   type: string;
   id: string;
   placeholder: string;
   errorMessage?: string;
-}
+};
 
 const Input = ({ type, id, placeholder, errorMessage }: InputProps) => {
   const { register } = useFormContext();
