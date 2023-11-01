@@ -5,11 +5,8 @@ export default {
   theme: {
     extend: {
       screens: {
-        xs: "393px",
-        sm: "650px",
-        md: "910px",
-        lg: "1180px",
-        xl: "1440px",
+        sm: "393px",
+        md: "1250px",
       },
       gradientColorStops: {
         "blue-300": "#0f58b7",
@@ -18,11 +15,18 @@ export default {
       colors: {
         black: "#1C1C1C",
         gray: "#7D7D7D80",
+        "blue-300": "#0F58B7",
       },
       boxShadow: {
         sm: "2px 2px 10px 0px rgba(0, 0, 0, 0.25)",
         md: "2px 2px 10px 10px rgba(0, 0, 0, 0.05)",
         lg: "5px 5px 30px 0px rgba(0, 0, 0, 0.10)",
+      },
+      fontFamily: {
+        poppins: ["Poppins", "sans-serif"],
+      },
+      width: {
+        "11/12": "90%",
       },
     },
   },
