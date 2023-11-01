@@ -42,14 +42,14 @@ const Register = () => {
       <Toast />
 
       <AuthentificationBanner>
-        <div className="flex flex-grow  flex-col justify-between">
-          <div className="ms:w-6/12 flex flex-col px-5 pb-24 pt-7 md:px-32 md:pb-0 md:pt-56">
-            <div className="flex flex-col pb-14">
+        <div className="flex flex-grow flex-col justify-between">
+          <div className="ms:w-6/12 flex flex-col p-56 px-5 pt-7 md:px-32 md:pb-0 md:pt-56">
+            <div className="flex flex-col pb-12 md:pb-20">
               <h4 className="w-10/12 pb-5 text-4xl font-semibold leading-10 md:w-full md:pb-10 md:font-medium md:leading-9">
                 ¡Hola, otra vez!
               </h4>
 
-              <p className=" pb-4 text-lg font-normal leading-5 md:w-full md:pb-6 md:text-lg">
+              <p className="w-4/5 text-lg font-normal leading-5 md:w-full md:text-lg">
                 Por favor, confirma tu información para ingresar a Plan IT.
               </p>
             </div>
