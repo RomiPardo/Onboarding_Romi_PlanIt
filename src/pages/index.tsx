@@ -1,4 +1,4 @@
-import { signOut, useSession } from "next-auth/react";
+import { signOut } from "next-auth/react";
 import { getServerSession } from "next-auth/next";
 import {
   GetServerSidePropsContext,
@@ -9,9 +9,7 @@ import { authOptions } from "~/server/auth";
 
 type HomeProps = InferGetServerSidePropsType<typeof getServerSideProps>;
 
-const Home: NextPage<HomeProps> = ({ sessionId }) => {
-  const { data: session } = useSession();
-
+const Home: NextPage<HomeProps> = () => {
   const logOut = async () => {
     await signOut();
   };
