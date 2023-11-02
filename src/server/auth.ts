@@ -51,11 +51,11 @@ export const authOptions: NextAuthOptions = {
         user: {
           ...session.user,
           id: token.id,
+          role: token.role,
           lastName: token.lastName,
           name: token.name,
           email: token.email,
           image: token.image,
-          role: token.role,
         },
       };
     },
@@ -67,11 +67,11 @@ export const authOptions: NextAuthOptions = {
         return {
           ...token,
           id: currentUser.id,
+          role: currentUser.role,
           lastName: currentUser.lastName,
           name: currentUser.name,
           email: currentUser.email,
           image: currentUser.image,
-          role: currentUser.role,
         };
       }
 
