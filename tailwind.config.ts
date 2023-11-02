@@ -5,7 +5,8 @@ export default {
   theme: {
     extend: {
       screens: {
-        sm: "393px",
+        xs: "393px",
+        sm: "1050px",
         md: "1250px",
       },
       gradientColorStops: {
@@ -14,8 +15,11 @@ export default {
       },
       colors: {
         black: "#1C1C1C",
-        gray: "#7D7D7D80",
+        "dark-gray": "#7D7D7D80",
         "blue-300": "#0F58B7",
+        "light-blue": "#9BC7FF",
+        "light-gray": "#FBFBFB",
+        gray: "#EEE",
       },
       boxShadow: {
         sm: "2px 2px 10px 0px rgba(0, 0, 0, 0.25)",

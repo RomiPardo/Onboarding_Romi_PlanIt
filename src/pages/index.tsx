@@ -1,4 +1,3 @@
-import { signOut, useSession } from "next-auth/react";
 import { getServerSession } from "next-auth/next";
 import {
   GetServerSidePropsContext,
@@ -6,23 +5,20 @@ import {
   NextPage,
 } from "next";
 import { authOptions } from "~/server/auth";
+import NavBar from "~/components/NavBar";
 
-type HomeProps = InferGetServerSidePropsType<typeof getServerSideProps>;
+type PresentProps = InferGetServerSidePropsType<typeof getServerSideProps>;
 
-const Home: NextPage<HomeProps> = ({ sessionId }) => {
-  const { data: session } = useSession();
+const Present: NextPage<PresentProps> = () => (
+  <>
+    <NavBar />
 
-  const logOut = async () => {
-    await signOut();
-  };
-
-  return (
-    <main className="font-poppins">
-      <p>Has iniciado sesion</p>
-      <button onClick={(e) => logOut()}>LogOut</button>
+    <main className="bg-light-gray  font-poppins">
+      <br></br>
+      <p className="text-center">Pagina no implementada</p>
     </main>
-  );
-};
+  </>
+);
 
 export const getServerSideProps = async (
   context: GetServerSidePropsContext,
@@ -39,10 +35,8 @@ export const getServerSideProps = async (
   }
 
   return {
-    props: {
-      sessionId: session?.user.id,
-    },
+    props: {},
   };
 };
 
-export default Home;
+export default Present;

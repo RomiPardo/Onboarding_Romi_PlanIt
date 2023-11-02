@@ -1,5 +1,5 @@
 import { type GetServerSidePropsContext } from "next";
-import { getServerSession, type NextAuthOptions } from "next-auth";
+import { getServerSession, type NextAuthOptions, type User } from "next-auth";
 
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
@@ -51,15 +51,27 @@ export const authOptions: NextAuthOptions = {
         user: {
           ...session.user,
           id: token.id,
+          lastName: token.lastName,
+          name: token.name,
+          email: token.email,
+          image: token.image,
+          role: token.role,
         },
       };
     },
 
     jwt({ token, user }) {
+      const currentUser = user as User;
+
       if (user) {
         return {
           ...token,
-          id: user.id,
+          id: currentUser.id,
+          lastName: currentUser.lastName,
+          name: currentUser.name,
+          email: currentUser.email,
+          image: currentUser.image,
+          role: currentUser.role,
         };
       }
 
