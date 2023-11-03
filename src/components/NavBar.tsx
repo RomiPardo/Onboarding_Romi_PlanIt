@@ -4,7 +4,7 @@ import UserAccount from "./UserAccount";
 import { useRouter } from "next/router";
 
 const NavBar = () => {
-  const router = useRouter();
+  const router = useRouter().asPath;
 
   return (
     <nav className="flex flex-col gap-y-4 bg-white px-5 py-14 shadow-md sm:px-28 sm:py-8 sm:shadow-none">
@@ -13,49 +13,49 @@ const NavBar = () => {
           <li className="flex flex-col gap-y-2">
             <Link href="/">Regalos</Link>
 
-            <hr
-              className={
-                router.asPath === "/"
-                  ? "h-[3px] bg-gradient-to-br from-blue-300 to-blue-500 bg-clip-content"
-                  : "hidden"
-              }
-            />
+            {router === "/" && (
+              <hr
+                className={
+                  "h-[3px] bg-gradient-to-br from-blue-300 to-blue-500 bg-clip-content"
+                }
+              />
+            )}
           </li>
 
           <li className="flex flex-col gap-y-2">
             <Link href="/catering">Catering</Link>
 
-            <hr
-              className={
-                router.asPath === "/catering"
-                  ? "h-[3px] bg-gradient-to-br from-blue-300 to-blue-500 bg-clip-content"
-                  : "hidden"
-              }
-            />
+            {router === "/catering" && (
+              <hr
+                className={
+                  "h-[3px] bg-gradient-to-br from-blue-300 to-blue-500 bg-clip-content"
+                }
+              />
+            )}
           </li>
 
           <li className="flex flex-col gap-y-2">
             <Link href="/merchandising">Merchandising</Link>
 
-            <hr
-              className={
-                router.asPath === "/merchandising"
-                  ? "h-[3px] bg-gradient-to-br from-blue-300 to-blue-500 bg-clip-content"
-                  : "hidden"
-              }
-            />
+            {router === "/merchandising" && (
+              <hr
+                className={
+                  "h-[3px] bg-gradient-to-br from-blue-300 to-blue-500 bg-clip-content"
+                }
+              />
+            )}
           </li>
 
           <li className="flex flex-col gap-y-2">
             <Link href="/eventos">Eventos</Link>
 
-            <hr
-              className={
-                router.asPath === "/eventos"
-                  ? "h-[3px] bg-gradient-to-br from-blue-300 to-blue-500 bg-clip-content"
-                  : "hidden"
-              }
-            />
+            {router === "/eventos" && (
+              <hr
+                className={
+                  "h-[3px] bg-gradient-to-br from-blue-300 to-blue-500 bg-clip-content"
+                }
+              />
+            )}
           </li>
         </ul>
       </div>

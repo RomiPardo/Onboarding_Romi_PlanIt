@@ -1,6 +1,6 @@
 import Layout from "~/components/Layout";
 
-const Events = () => (
+const Present = () => (
   <Layout>
     <main className="bg-light-gray  font-poppins">
       <br></br>
@@ -9,4 +9,4 @@ const Events = () => (
   </Layout>
 );
 
-export default Events;
+export default Present;

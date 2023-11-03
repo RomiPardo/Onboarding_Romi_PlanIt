@@ -5,20 +5,11 @@ import {
   NextPage,
 } from "next";
 import { authOptions } from "~/server/auth";
-import NavBar from "~/components/NavBar";
+import Layout from "~/components/Layout";
 
-type PresentProps = InferGetServerSidePropsType<typeof getServerSideProps>;
+type HomeProps = InferGetServerSidePropsType<typeof getServerSideProps>;
 
-const Present: NextPage<PresentProps> = () => (
-  <>
-    <NavBar />
-
-    <main className="bg-light-gray  font-poppins">
-      <br></br>
-      <p className="text-center">Pagina no implementada</p>
-    </main>
-  </>
-);
+const Home: NextPage<HomeProps> = () => <></>;
 
 export const getServerSideProps = async (
   context: GetServerSidePropsContext,
@@ -35,8 +26,11 @@ export const getServerSideProps = async (
   }
 
   return {
-    props: {},
+    redirect: {
+      permanent: false,
+      destination: "/regalos",
+    },
   };
 };
 
-export default Present;
+export default Home;
