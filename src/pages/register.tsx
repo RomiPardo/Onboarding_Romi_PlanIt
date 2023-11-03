@@ -1,7 +1,7 @@
 import { signIn } from "next-auth/react";
 import { FormProvider, useForm } from "react-hook-form";
 import { api } from "~/utils/api";
-import { RegisterUserSchema as userShema } from "~/server/schemas/userSchema";
+import { RegisterUserSchema as UserShema } from "~/server/schemas/userSchema";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Input from "~/components/Input";
@@ -10,12 +10,13 @@ import AuthentificationBanner from "~/components/AuthentificationBanner";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Toast from "~/components/Toast";
+import Button from "~/components/Button";
 
-type UserSchema = z.infer<typeof userShema>;
+type UserSchemaType = z.infer<typeof UserShema>;
 
 const Register = () => {
-  const methods = useForm<UserSchema>({
-    resolver: zodResolver(userShema),
+  const methods = useForm<UserSchemaType>({
+    resolver: zodResolver(UserShema),
   });
   const {
     formState: { errors },
@@ -24,7 +25,7 @@ const Register = () => {
 
   const registerMutation = api.user.registerUser.useMutation();
 
-  const signUp = async (user: UserSchema) => {
+  const signUp = async (user: UserSchemaType) => {
     try {
       await registerMutation.mutateAsync({
         ...user,
@@ -102,19 +103,14 @@ const Register = () => {
                 />
 
                 <div className="rounded bg-white pt-5 md:pt-12">
-                  <button
-                    className="box-border h-7 w-full rounded border-0 bg-gradient-to-br from-blue-300 to-blue-500 text-center text-base font-medium leading-4 text-white shadow-sm hover:cursor-pointer md:h-9 md:text-base md:font-medium"
-                    type="submit"
-                  >
-                    REGISTRARSE
-                  </button>
+                  <Button intent="primary" text="REGISTRARSE" />
                 </div>
               </form>
             </FormProvider>
           </div>
 
           <div className="hidden flex-row items-center justify-end gap-5 pr-6 md:flex">
-            <button className="flex h-8 w-56 flex-row items-center justify-center gap-3 rounded-xl bg-blue-300 text-base font-normal leading-4 text-white">
+            <Button intent="help" text="¿Necesitás ayuda?">
               <span>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -126,8 +122,7 @@ const Register = () => {
                   <circle cx="5" cy="5" r="5" fill="white" />
                 </svg>
               </span>
-              ¿Necesitás ayuda?
-            </button>
+            </Button>
 
             <div className="flex h-20 w-20 items-center justify-center rounded-lg bg-white shadow-lg ">
               <img rel="logo" src="/registerPage/logo.png" className="" />

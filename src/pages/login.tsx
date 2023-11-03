@@ -1,6 +1,6 @@
 import { signIn } from "next-auth/react";
 import { FormProvider, useForm } from "react-hook-form";
-import { LoginUserSchema as userShema } from "~/server/schemas/userSchema";
+import { LoginUserSchema as UserShema } from "~/server/schemas/userSchema";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Input from "~/components/Input";
@@ -10,12 +10,13 @@ import Toast from "~/components/Toast";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Button from "~/components/Button";
 
-type UserSchema = z.infer<typeof userShema>;
+type UserSchemaType = z.infer<typeof UserShema>;
 
 const Register = () => {
-  const methods = useForm<UserSchema>({
-    resolver: zodResolver(userShema),
+  const methods = useForm<UserSchemaType>({
+    resolver: zodResolver(UserShema),
   });
   const {
     formState: { errors },
@@ -24,7 +25,7 @@ const Register = () => {
 
   const router = useRouter();
 
-  const login = async (user: UserSchema) => {
+  const login = async (user: UserSchemaType) => {
     const res = await signIn("credentials", {
       ...user,
       redirect: false,
@@ -77,12 +78,7 @@ const Register = () => {
                 </div>
 
                 <div className="rounded bg-white pb-5 md:pb-4 ">
-                  <button
-                    className="box-border h-7 w-full rounded border-0 bg-gradient-to-br from-blue-300 to-blue-500 text-center text-base font-medium leading-4 text-white shadow-sm hover:cursor-pointer md:h-9 md:text-base md:font-medium"
-                    type="submit"
-                  >
-                    INICIAR SESIÓN
-                  </button>
+                  <Button intent="primary" text="INICIAR SESIÓN" />
                 </div>
 
                 <div className="flex flex-col items-center justify-center gap-y-2">
@@ -99,7 +95,7 @@ const Register = () => {
           </div>
 
           <div className="hidden flex-row items-center justify-end gap-5 pr-6 md:flex">
-            <button className="flex h-8 w-56 flex-row items-center justify-center gap-3 rounded-xl bg-blue-300 text-base font-normal leading-4 text-white">
+            <Button intent="help" text="¿Necesitás ayuda?">
               <span>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -111,10 +107,9 @@ const Register = () => {
                   <circle cx="5" cy="5" r="5" fill="white" />
                 </svg>
               </span>
-              ¿Necesitás ayuda?
-            </button>
+            </Button>
 
-            <div className="flex h-20 w-20 items-center justify-center rounded-lg bg-white shadow-lg ">
+            <div className="flex h-20 w-20 items-center justify-center rounded-lg bg-white shadow-lg">
               <img rel="logo" src="/registerPage/logo.png" className="" />
             </div>
           </div>
