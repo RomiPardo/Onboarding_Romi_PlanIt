@@ -11,9 +11,9 @@ const NavBar = () => {
       <div className="hidden items-center justify-center sm:flex">
         <ul className="flex list-none flex-row gap-x-9 bg-gradient-to-br from-blue-300 to-blue-500 bg-clip-text text-lg font-medium leading-5 text-transparent">
           <li className="flex flex-col gap-y-2">
-            <Link href="/">Regalos</Link>
+            <Link href="/regalos">Regalos</Link>
 
-            {router === "/" && (
+            {router === "/regalos" && (
               <hr
                 className={
                   "h-[3px] bg-gradient-to-br from-blue-300 to-blue-500 bg-clip-content"
