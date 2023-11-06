@@ -2,7 +2,7 @@ import Layout from "~/components/Layout";
 
 const Merchandising = () => (
   <Layout>
-    <main className="bg-light-gray font-poppins">
+    <main className="bg-light-gray pb-28 font-poppins">
       <br></br>
       <p className="text-center">Pagina no implementada</p>
     </main>
