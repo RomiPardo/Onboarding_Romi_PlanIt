@@ -2,6 +2,9 @@ import Link from "next/link";
 import SearchBar from "./SearchBar";
 import UserAccount from "./UserAccount";
 import { useRouter } from "next/router";
+import { Dropdown, DropdownTrigger } from "@nextui-org/react";
+import { signOut, useSession } from "next-auth/react";
+import DropdownUser from "./DropdownUser";
 
 const NavBar = () => {
   const router = useRouter().asPath;
@@ -63,25 +66,31 @@ const NavBar = () => {
       <div className="flex flex-col justify-between gap-y-7 sm:flex-row sm:items-end sm:gap-0">
         <div className="flex flex-row justify-between sm:block">
           <img
-            className="w-24"
+            className="w-24 hover:cursor-pointer"
             src="/navbar/logoSecondaryDark.png"
             alt="Planit Logo"
           />
 
-          <img
-            rel="menu option"
-            src="/navbar/menu.png"
-            className="w-10 sm:hidden"
-          />
+          <Dropdown>
+            <DropdownTrigger>
+              <img
+                rel="menu option"
+                src="/navbar/menu.png"
+                className="w-10 hover:cursor-pointer sm:hidden"
+              />
+            </DropdownTrigger>
+
+            <DropdownUser version="main" />
+          </Dropdown>
         </div>
 
         <SearchBar />
 
-        <div className="hidden flex-row items-center justify-between gap-x-5 sm:flex">
+        <div className="hidden items-center gap-x-3 pb-2 sm:flex">
           <img
             src="/navbar/bell.png"
             alt="campana de notificaciones"
-            className="h-5 w-5"
+            className="h-5 w-5  hover:cursor-pointer"
           />
 
           <UserAccount />

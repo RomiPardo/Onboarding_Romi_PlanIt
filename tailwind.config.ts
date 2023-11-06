@@ -22,6 +22,7 @@ export default {
         gray: "#EEE",
       },
       boxShadow: {
+        xs: "0px 1.7px 17px 0px rgba(0, 0, 0, 0.04)",
         sm: "2px 2px 10px 0px rgba(0, 0, 0, 0.25)",
         md: "2px 2px 10px 10px rgba(0, 0, 0, 0.05)",
         lg: "5px 5px 30px 0px rgba(0, 0, 0, 0.10)",

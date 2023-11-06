@@ -58,6 +58,7 @@ export const authOptions: NextAuthOptions = {
           name: token.name,
           email: token.email,
           image: token.image,
+          points: token.points,
         },
       };
     },
@@ -74,6 +75,7 @@ export const authOptions: NextAuthOptions = {
           name: currentUser.name,
           email: currentUser.email,
           image: currentUser.image,
+          points: currentUser.points,
         };
       }
 

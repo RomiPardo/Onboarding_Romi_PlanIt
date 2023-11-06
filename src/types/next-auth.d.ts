@@ -12,6 +12,7 @@ declare module "next-auth" {
     name?: string;
     email?: string;
     image?: string;
+    points?: number;
   };
 }
 
@@ -23,5 +24,6 @@ declare module "next-auth/jwt" {
     name?: string;
     email?: string;
     image?: string;
+    points?: number;
   };
 }

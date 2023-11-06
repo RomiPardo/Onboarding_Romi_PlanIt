@@ -1,25 +1,16 @@
+import { Dropdown, DropdownTrigger } from "@nextui-org/react";
 import { signOut, useSession } from "next-auth/react";
-import { useRouter } from "next/router";
-import {
-  Dropdown,
-  DropdownTrigger,
-  DropdownMenu,
-  DropdownItem,
-} from "@nextui-org/react";
+import DropdownUser from "./DropdownUser";
 
 const UserAccount = () => {
   const session = useSession();
-  const imageLink = session.data?.user.image ? session.data?.user.image : "";
-
-  const logOut = async () => {
-    await signOut({ callbackUrl: "/" });
-  };
+  const imageLink = session.data?.user.image
+    ? session.data?.user.image
+    : "/userImage/default.png";
 
   return (
     <div className="flex items-center gap-x-3">
-      {imageLink !== "" && (
-        <img className="h-10 w-10 rounded-3xl" src={imageLink} />
-      )}
+      <img className="h-10 w-10 rounded-3xl" src={imageLink} />
 
       <div className="flex flex-col">
         <div className="flex gap-x-2 text-lg font-medium leading-5">
@@ -31,7 +22,9 @@ const UserAccount = () => {
         <Dropdown>
           <DropdownTrigger>
             <div className="flex flex-row items-center gap-x-1 text-base font-normal leading-4 text-[#7D7D7D]">
-              <span>{session.data?.user.role}</span>
+              <span className="hover:cursor-pointer">
+                {session.data?.user.role}
+              </span>
 
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -48,14 +41,8 @@ const UserAccount = () => {
               </svg>
             </div>
           </DropdownTrigger>
-          <DropdownMenu>
-            <DropdownItem
-              className="text-base font-normal leading-4 text-[#7D7D7D]"
-              onClick={logOut}
-            >
-              Log Out
-            </DropdownItem>
-          </DropdownMenu>
+
+          <DropdownUser version="user" />
         </Dropdown>
       </div>
     </div>
