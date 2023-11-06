@@ -1,5 +1,5 @@
 import { type GetServerSidePropsContext } from "next";
-import { getServerSession, type NextAuthOptions } from "next-auth";
+import { getServerSession, type NextAuthOptions, type User } from "next-auth";
 
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
@@ -14,6 +14,8 @@ export const authOptions: NextAuthOptions = {
         password: { label: "Password", type: "password" },
       },
 
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       async authorize(credentials, req) {
         const result = LoginUserSchema.safeParse(credentials);
 
@@ -51,15 +53,31 @@ export const authOptions: NextAuthOptions = {
         user: {
           ...session.user,
           id: token.id,
+          role: token.role,
+          lastName: token.lastName,
+          name: token.name,
+          email: token.email,
+          image: token.image,
+          points: token.points,
+          contactNumber: token.contactNumber,
         },
       };
     },
 
     jwt({ token, user }) {
+      const currentUser = user as User;
+
       if (user) {
         return {
           ...token,
-          id: user.id,
+          id: currentUser.id,
+          role: currentUser.role,
+          lastName: currentUser.lastName,
+          name: currentUser.name,
+          email: currentUser.email,
+          image: currentUser.image,
+          points: currentUser.points,
+          contactNumber: currentUser.contactNumber,
         };
       }
 

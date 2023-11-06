@@ -2,6 +2,7 @@ import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "../trpc";
 import { protectedProcedure } from "../trpc";
 import { RegisterUserSchema } from "~/server/schemas/userSchema";
+import { EditionUserSchema } from "~/server/schemas/userSchema";
 import bcrypt from "bcryptjs";
 import { TRPCError } from "@trpc/server";
 
@@ -55,6 +56,38 @@ export const userRouter = createTRPCRouter({
 
         return {
           user: newUser,
+        };
+      },
+    ),
+
+  updateUser: publicProcedure
+    .input(EditionUserSchema)
+    .mutation(
+      async ({
+        ctx,
+        input: { completeName, email, contactNumber, password },
+      }) => {
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        const splitted = completeName.split(" ");
+        const name = splitted.shift();
+        const lastName = splitted.join(" ");
+
+        const updatedUser = await ctx.prisma.user.update({
+          where: {
+            email,
+          },
+          data: {
+            name,
+            lastName,
+            email,
+            hashedPassword,
+            contactNumber,
+          },
+        });
+
+        return {
+          user: updatedUser,
         };
       },
     ),
