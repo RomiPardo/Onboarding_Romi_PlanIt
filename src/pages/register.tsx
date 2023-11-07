@@ -141,7 +141,7 @@ const Register = () => {
                 usuario propio.
               </p>
 
-              <p className="text-sm font-normal leading-normal text-gray md:text-base md:leading-4">
+              <p className="text-dark-gray text-sm font-normal leading-normal md:text-base md:leading-4">
                 ¿Ya tenés una cuenta?{" "}
                 <Link href="/login" className="text-blue-300">
                   Inicia sesión aquí.
@@ -226,7 +226,7 @@ const Register = () => {
           <img className="h-9" src="/registerPage/logoSecondaryDark.png" />
         </div>
 
-        <div className="flex w-full flex-col items-center justify-between text-xs font-normal leading-normal text-gray">
+        <div className="text-dark-gray flex w-full flex-col items-center justify-between text-xs font-normal leading-normal">
           <div className="flex w-full flex-grow flex-row items-center justify-between">
             <p className="m-0 ">info@planit.com.uy</p>
             <p className="m-0">Tel: +598 96593615</p>

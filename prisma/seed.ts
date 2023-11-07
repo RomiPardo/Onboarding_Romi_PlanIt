@@ -1,37 +1,38 @@
 import prisma from "~/server/db";
+import bcrypt from "bcryptjs";
 
 async function main() {
   const alice = await prisma.user.upsert({
-    where: { email: 'alice@prisma.io' },
+    where: { email: "alice@prisma.io" },
     update: {},
     create: {
-      email: 'alice@prisma.io',
-      name: 'Alice',
-      lastName: 'Joy',
-      business: 'star',
-      hashedPassword: '5f4dcc3b5aa765d61d8327deb882cf99',
+      email: "alice@prisma.io",
+      name: "Alice",
+      lastName: "Joy",
+      business: "star",
+      hashedPassword: await bcrypt.hash("Contra1234", 10),
     },
   });
 
   const bob = await prisma.user.upsert({
-    where: { email: 'bob@prisma.io' },
+    where: { email: "bob@prisma.io" },
     update: {},
     create: {
-      email: 'bob@prisma.io',
-      name: 'Bob',
-      lastName: 'Ray',
-      business: 'logans',
-      hashedPassword: '6c569aabbf7775ef8fc5705a9f1f9b2f',
+      email: "bob@prisma.io",
+      name: "Bob",
+      lastName: "Ray",
+      business: "logans",
+      hashedPassword: await bcrypt.hash("Contra1234", 10),
     },
   });
 }
 
 main()
   .then(async () => {
-    await prisma.$disconnect()
+    await prisma.$disconnect();
   })
   .catch(async (e) => {
-    console.error(e)
-    await prisma.$disconnect()
-    process.exit(1)
-  })
+    console.error(e);
+    await prisma.$disconnect();
+    process.exit(1);
+  });

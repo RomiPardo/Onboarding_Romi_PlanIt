@@ -11,6 +11,7 @@ CREATE TABLE "users" (
     "image" TEXT,
     "hashedPassword" TEXT NOT NULL,
     "role" "Role" NOT NULL DEFAULT 'USER',
+    "points" INTEGER NOT NULL DEFAULT 0,
 
     CONSTRAINT "users_pkey" PRIMARY KEY ("id")
 );

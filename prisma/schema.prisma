@@ -12,6 +12,7 @@ datasource db {
     // https://next-auth.js.org/adapters/prisma#create-the-prisma-schema
     // https://www.prisma.io/docs/reference/api-reference/prisma-schema-reference#string
     url      = env("DATABASE_URL")
+    // directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
 }
 
 enum Role {
@@ -29,6 +30,7 @@ model User {
     hashedPassword String
     role           Role    @default(USER)
     contactNumber  String?
+    points         Int     @default(0)
 
     @@map("users")
 }

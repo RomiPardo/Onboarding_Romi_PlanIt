@@ -1,4 +1,3 @@
-import { signOut, useSession } from "next-auth/react";
 import { getServerSession } from "next-auth/next";
 import {
   GetServerSidePropsContext,
@@ -6,23 +5,11 @@ import {
   NextPage,
 } from "next";
 import { authOptions } from "~/server/auth";
+import Layout from "~/components/Layout";
 
 type HomeProps = InferGetServerSidePropsType<typeof getServerSideProps>;
 
-const Home: NextPage<HomeProps> = ({ sessionId }) => {
-  const { data: session } = useSession();
-
-  const logOut = async () => {
-    await signOut();
-  };
-
-  return (
-    <main className="font-poppins">
-      <p>Has iniciado sesion</p>
-      <button onClick={(e) => logOut()}>LogOut</button>
-    </main>
-  );
-};
+const Home: NextPage<HomeProps> = () => <></>;
 
 export const getServerSideProps = async (
   context: GetServerSidePropsContext,
@@ -39,8 +26,9 @@ export const getServerSideProps = async (
   }
 
   return {
-    props: {
-      sessionId: session?.user.id,
+    redirect: {
+      permanent: false,
+      destination: "/regalos",
     },
   };
 };
