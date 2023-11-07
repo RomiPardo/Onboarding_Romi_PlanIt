@@ -18,10 +18,21 @@ export const RegisterUserSchema = z.object({
 
 export const EditionUserSchema = z.object({
   completeName: z.string().min(1, "Debe completar este campo"),
+  oldEmail: z.string().email("Formato invalido del mail"),
   email: z
     .string()
     .min(1, "Debe completar este campo")
     .email("Formato invalido del mail"),
   contactNumber: z.string(),
-  password: z.string().min(8, "La contraseña debe tener mas de 8 caracteres"),
+  password: z.string(),
+});
+
+export const NewUserSchema = z.object({
+  completeName: z.string().min(1, "Debe completar este campo"),
+  email: z
+    .string()
+    .min(1, "Debe completar este campo")
+    .email("Formato invalido del mail"),
+  contactNumber: z.string(),
+  password: z.string(),
 });

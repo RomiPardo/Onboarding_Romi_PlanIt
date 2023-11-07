@@ -65,7 +65,7 @@ export const userRouter = createTRPCRouter({
     .mutation(
       async ({
         ctx,
-        input: { completeName, email, contactNumber, password },
+        input: { completeName, email, contactNumber, password, oldEmail },
       }) => {
         const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -73,11 +73,26 @@ export const userRouter = createTRPCRouter({
         const name = splitted.shift();
         const lastName = splitted.join(" ");
 
+        if (oldEmail !== email) {
+          const user = await ctx.prisma.user.findUnique({
+            where: {
+              email,
+            },
+          });
+
+          if (user !== null) {
+            throw new TRPCError({
+              code: "BAD_REQUEST",
+              message: "Ya existe un usuario con ese mail",
+            });
+          }
+        }
+
         const updatedUser =
           password === ""
             ? await ctx.prisma.user.update({
                 where: {
-                  email,
+                  email: oldEmail,
                 },
                 data: {
                   name,
@@ -86,9 +101,10 @@ export const userRouter = createTRPCRouter({
                   contactNumber,
                 },
               })
-            : await ctx.prisma.user.update({
+            : password.length >= 8
+            ? await ctx.prisma.user.update({
                 where: {
-                  email,
+                  email: oldEmail,
                 },
                 data: {
                   name,
@@ -97,7 +113,14 @@ export const userRouter = createTRPCRouter({
                   hashedPassword,
                   contactNumber,
                 },
-              });
+              })
+            : null;
+
+        if (updatedUser === null)
+          throw new TRPCError({
+            code: "BAD_REQUEST",
+            message: "La contraseña debe tener mas de 8 caracteres",
+          });
 
         return {
           user: updatedUser,

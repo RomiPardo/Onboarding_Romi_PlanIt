@@ -1,11 +1,11 @@
 import Layout from "~/components/Layout";
 import { FormProvider, useForm } from "react-hook-form";
-import { EditionUserSchema as userShema } from "~/server/schemas/userSchema";
+import { NewUserSchema as userShema } from "~/server/schemas/userSchema";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Input from "~/components/Input";
 import { api } from "~/utils/api";
-import { signOut, useSession } from "next-auth/react";
+import { signIn, signOut, useSession } from "next-auth/react";
 
 type UserSchema = z.infer<typeof userShema>;
 
@@ -25,6 +25,7 @@ const Acount = () => {
     try {
       await updateMutation.mutateAsync({
         ...user,
+        oldEmail: session.data?.user.email ? session.data?.user.email : "",
       });
     } catch (error) {
       alert(error);
