@@ -38,17 +38,17 @@ const Acount = () => {
 
   return (
     <Layout>
-      <main className="bg-light-gray px-32 pb-24 pt-24 font-poppins">
-        <h4 className="pb-10 text-4xl font-medium leading-9">
+      <main className="ms:px-32 ms:pb-24 ms:pt-24 bg-light-gray px-5 pb-36 pt-10 font-poppins">
+        <h4 className="ms:text-4xl ms:leading-9 pb-10 text-lg font-medium leading-normal">
           Información personal
         </h4>
 
         {session.data?.user && (
-          <div className="bg-white">
+          <div className="ms:bg-white">
             <FormProvider {...methods}>
               <form onSubmit={handleSubmit(editUser)}>
-                <div className="flex justify-between px-32 py-20">
-                  <div className="w-[467px] text-gray">
+                <div className="ms:flex-row ms:px-32 ms:py-20 flex flex-col justify-between">
+                  <div className="ms:w-[467px] w-full pb-6 text-gray">
                     <label className="text-xs font-normal">Email</label>
 
                     <Input
@@ -96,16 +96,16 @@ const Acount = () => {
                     />
                   </div>
 
-                  <div className="flex flex-col text-xl font-normal leading-5 text-blue-300">
+                  <div className="ms:text-xl ms:leading-5 flex flex-col text-sm font-normal leading-normal text-blue-300">
                     <button
-                      className="h-9 text-right hover:cursor-pointer"
+                      className="ms:text-right h-9 text-left hover:cursor-pointer"
                       type="submit"
                     >
                       Editar información
                     </button>
 
                     <button
-                      className="h-9 text-right hover:cursor-pointer"
+                      className="ms:text-right h-9 text-left hover:cursor-pointer"
                       onClick={logOut}
                     >
                       Cerrar cuenta
