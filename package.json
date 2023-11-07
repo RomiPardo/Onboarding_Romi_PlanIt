@@ -27,6 +27,7 @@
     "@types/bcryptjs": "^2.4.5",
     "@vercel/postgres": "^0.5.1",
     "bcryptjs": "^2.4.3",
+    "class-variance-authority": "^0.7.0",
     "husky": "^8.0.3",
     "next": "^13.5.4",
     "next-auth": "^4.23.0",

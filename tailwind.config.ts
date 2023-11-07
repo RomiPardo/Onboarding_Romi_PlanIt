@@ -7,6 +7,7 @@ export default {
       screens: {
         xs: "393px",
         sm: "1050px",
+        ms: "1190px",
         md: "1250px",
       },
       gradientColorStops: {
@@ -19,7 +20,7 @@ export default {
         "blue-300": "#0F58B7",
         "light-blue": "#9BC7FF",
         "light-gray": "#FBFBFB",
-        gray: "#EEE",
+        gray: "#7D7D7D",
       },
       boxShadow: {
         xs: "0px 1.7px 17px 0px rgba(0, 0, 0, 0.04)",

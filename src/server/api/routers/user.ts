@@ -73,18 +73,31 @@ export const userRouter = createTRPCRouter({
         const name = splitted.shift();
         const lastName = splitted.join(" ");
 
-        const updatedUser = await ctx.prisma.user.update({
-          where: {
-            email,
-          },
-          data: {
-            name,
-            lastName,
-            email,
-            hashedPassword,
-            contactNumber,
-          },
-        });
+        const updatedUser =
+          password === ""
+            ? await ctx.prisma.user.update({
+                where: {
+                  email,
+                },
+                data: {
+                  name,
+                  lastName,
+                  email,
+                  contactNumber,
+                },
+              })
+            : await ctx.prisma.user.update({
+                where: {
+                  email,
+                },
+                data: {
+                  name,
+                  lastName,
+                  email,
+                  hashedPassword,
+                  contactNumber,
+                },
+              });
 
         return {
           user: updatedUser,

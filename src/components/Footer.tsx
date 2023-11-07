@@ -1,6 +1,6 @@
 const Footer = () => (
   <footer className="bg-light-gray pb-5">
-    <div className="hidden flex-col px-32 text-base font-light leading-5 text-[#7D7D7D] sm:flex">
+    <div className="hidden flex-col px-32 text-base font-light leading-5 text-gray sm:flex">
       <hr className="my-2 w-full" />
 
       <div className="flex w-full flex-grow flex-row items-center justify-between">

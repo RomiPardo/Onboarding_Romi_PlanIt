@@ -22,6 +22,6 @@ export const EditionUserSchema = z.object({
     .string()
     .min(1, "Debe completar este campo")
     .email("Formato invalido del mail"),
-  contactNumber: z.string().min(1, "Debe completar este campo"),
+  contactNumber: z.string(),
   password: z.string().min(8, "La contraseña debe tener mas de 8 caracteres"),
 });

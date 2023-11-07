@@ -61,7 +61,7 @@ const DropdownUser = ({ version }: { version: string }) => {
             </DropdownItem>
 
             <DropdownItem className="border-b border-black pb-2">
-              <Link href="">Cuenta</Link>
+              <Link href="/cuenta">Cuenta</Link>
             </DropdownItem>
 
             <DropdownItem className="border-b border-black pb-2">
@@ -76,11 +76,11 @@ const DropdownUser = ({ version }: { version: string }) => {
               <Link href="">Campañas y métricas</Link>
             </DropdownItem>
 
-            <DropdownItem className="border-b border-black pb-2 text-[#7D7D7D]">
+            <DropdownItem className="border-b border-black pb-2 text-gray">
               <Link href="">Ayuda</Link>
             </DropdownItem>
 
-            <DropdownItem className="pb-2 text-[#7D7D7D]" onClick={logOut}>
+            <DropdownItem className="pb-2 text-gray" onClick={logOut}>
               Cerrar Sesión
             </DropdownItem>
           </DropdownSection>
@@ -118,7 +118,7 @@ const DropdownUser = ({ version }: { version: string }) => {
           </DropdownItem>
 
           <DropdownItem className="border-b border-black pb-2">
-            <Link href="">Cuenta</Link>
+            <Link href="/cuenta">Cuenta</Link>
           </DropdownItem>
 
           <DropdownItem className="border-b border-black pb-2">
@@ -133,11 +133,11 @@ const DropdownUser = ({ version }: { version: string }) => {
             <Link href="">Campañas y métricas</Link>
           </DropdownItem>
 
-          <DropdownItem className="border-b border-black pb-2 text-[#7D7D7D]">
+          <DropdownItem className="border-b border-black pb-2 text-gray">
             <Link href="">Ayuda</Link>
           </DropdownItem>
 
-          <DropdownItem className="pb-2 text-[#7D7D7D]" onClick={logOut}>
+          <DropdownItem className="pb-2 text-gray" onClick={logOut}>
             Cerrar Sesión
           </DropdownItem>
         </DropdownMenu>

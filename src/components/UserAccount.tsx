@@ -21,7 +21,7 @@ const UserAccount = () => {
 
         <Dropdown>
           <DropdownTrigger>
-            <div className="flex flex-row items-center gap-x-1 text-base font-normal leading-4 text-[#7D7D7D]">
+            <div className="flex flex-row items-center gap-x-1 text-base font-normal leading-4 text-gray">
               <span className="hover:cursor-pointer">
                 {session.data?.user.role}
               </span>
