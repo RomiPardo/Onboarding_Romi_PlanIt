@@ -7,6 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Input from "~/components/Input";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 
 type UserSchema = z.infer<typeof userShema>;
 
@@ -72,9 +73,9 @@ const Register = () => {
         <div className="hidden w-6/12 flex-col bg-gradient-to-br from-blue-300 to-blue-500 md:flex">
           <div className="flex flex-col px-32 pb-32 pt-28">
             <div>
-              <img
-                rel="logo"
+              <Image
                 src="/registerPage/logoSecondary.png"
+                alt="planit logo"
                 className="w-40"
               />
             </div>
@@ -95,9 +96,13 @@ const Register = () => {
           </div>
 
           <div className="relative">
-            <img className="relative" src="/registerPage/macBookPro16.png" />
-            <img
-              rel="planit page in mac book"
+            <Image
+              className="relative"
+              src="/registerPage/macBookPro16.png"
+              alt="page photo"
+            />
+            <Image
+              alt="planit page in mac book"
               className="absolute top-[2.18rem] pr-[68px]"
               src="/registerPage/design.png"
             />
@@ -112,16 +117,16 @@ const Register = () => {
 
           <div className="relative flex w-full justify-between px-5 pt-12">
             <div>
-              <img
-                rel="logo"
+              <Image
+                alt="logo"
                 src="/registerPage/logoSecondary.png"
                 className="w-24"
               />
             </div>
 
             <div>
-              <img
-                rel="menu option"
+              <Image
+                alt="menu option"
                 src="/registerPage/menu.png"
                 className="w-11"
               />
@@ -130,7 +135,7 @@ const Register = () => {
         </div>
 
         <div className="flex flex-grow  flex-col justify-between">
-          <div className="ms:w-6/12 flex flex-col px-5 pb-24 pt-7 md:px-32 md:pb-0 md:pt-40">
+          <div className="flex flex-col px-5 pb-24 pt-7 ms:w-6/12 md:px-32 md:pb-0 md:pt-40">
             <div className="flex flex-col pb-14">
               <h4 className="w-10/12 pb-5 text-4xl font-semibold leading-10 md:w-full md:pb-10 md:font-medium md:leading-9">
                 ¡Bienvenido a Plan IT!
@@ -141,7 +146,7 @@ const Register = () => {
                 usuario propio.
               </p>
 
-              <p className="text-dark-gray text-sm font-normal leading-normal md:text-base md:leading-4">
+              <p className="text-sm font-normal leading-normal text-dark-gray md:text-base md:leading-4">
                 ¿Ya tenés una cuenta?{" "}
                 <Link href="/login" className="text-blue-300">
                   Inicia sesión aquí.
@@ -215,7 +220,7 @@ const Register = () => {
             </button>
 
             <div className="flex h-20 w-20 items-center justify-center rounded-lg bg-white shadow-lg ">
-              <img rel="logo" src="/registerPage/logo.png" className="" />
+              <Image alt="logo" src="/registerPage/logo.png" className="" />
             </div>
           </div>
         </div>
@@ -223,10 +228,14 @@ const Register = () => {
 
       <footer className="bg-dark-blue flex flex-col gap-y-12 px-5 pb-8 md:hidden ">
         <div>
-          <img className="h-9" src="/registerPage/logoSecondaryDark.png" />
+          <Image
+            className="h-9"
+            src="/registerPage/logoSecondaryDark.png"
+            alt="logo"
+          />
         </div>
 
-        <div className="text-dark-gray flex w-full flex-col items-center justify-between text-xs font-normal leading-normal">
+        <div className="flex w-full flex-col items-center justify-between text-xs font-normal leading-normal text-dark-gray">
           <div className="flex w-full flex-grow flex-row items-center justify-between">
             <p className="m-0 ">info@planit.com.uy</p>
             <p className="m-0">Tel: +598 96593615</p>
@@ -240,10 +249,26 @@ const Register = () => {
             </div>
 
             <div className="flex flex-row gap-x-5">
-              <img className="h-3" src="/registerPage/facebook.png" />
-              <img className="h-3" src="/registerPage/linkedin.png" />
-              <img className="h-3" src="/registerPage/twitter.png" />
-              <img className="h-3" src="/registerPage/instagram.png" />
+              <Image
+                className="h-3"
+                src="/registerPage/facebook.png"
+                alt="facebook"
+              />
+              <Image
+                className="h-3"
+                src="/registerPage/linkedin.png"
+                alt="linkedin"
+              />
+              <Image
+                className="h-3"
+                src="/registerPage/twitter.png"
+                alt="twitter"
+              />
+              <Image
+                className="h-3"
+                src="/registerPage/instagram.png"
+                alt="instagram"
+              />
             </div>
           </div>
         </div>

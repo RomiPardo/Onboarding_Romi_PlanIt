@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 const Footer = () => (
   <footer className="bg-light-gray pb-5">
     <div className="hidden flex-col px-32 text-base font-light leading-5 text-[#7D7D7D] sm:flex">
@@ -9,19 +11,27 @@ const Footer = () => (
         <div className="flex flex-row items-center gap-x-2">
           <p>Powered by </p>
 
-          <img className="h-5" src="/footer/eagerworks.png" />
+          <Image
+            className="h-5"
+            src="/footer/eagerworks.png"
+            alt="eagerworks logo"
+          />
         </div>
 
         <div className="flex flex-row gap-x-5">
-          <img className="h-6" src="/footer/linkedin.png" />
-          <img className="h-6" src="/footer/instagram.png" />
+          <Image className="h-6" src="/footer/linkedin.png" alt="linkedin" />
+          <Image className="h-6" src="/footer/instagram.png" alt="instagram" />
         </div>
       </div>
     </div>
 
     <div className="flex flex-col gap-y-12 px-5 pb-8 sm:hidden">
       <div>
-        <img className="h-8" src="/registerPage/logoSecondaryDark.png" />
+        <Image
+          className="h-8"
+          src="/registerPage/logoSecondaryDark.png"
+          alt="logo"
+        />
       </div>
 
       <div className="flex w-full flex-col items-center justify-between text-xs font-normal leading-normal text-dark-gray">
@@ -38,10 +48,26 @@ const Footer = () => (
           </div>
 
           <div className="flex flex-row gap-x-5">
-            <img className="h-3" src="/registerPage/facebook.png" />
-            <img className="h-3" src="/registerPage/linkedin.png" />
-            <img className="h-3" src="/registerPage/twitter.png" />
-            <img className="h-3" src="/registerPage/instagram.png" />
+            <Image
+              className="h-3"
+              src="/registerPage/facebook.png"
+              alt="facebook"
+            />
+            <Image
+              className="h-3"
+              src="/registerPage/linkedin.png"
+              alt="linkedin"
+            />
+            <Image
+              className="h-3"
+              src="/registerPage/twitter.png"
+              alt="twitter"
+            />
+            <Image
+              className="h-3"
+              src="/registerPage/instagram.png"
+              alt="instagram"
+            />
           </div>
         </div>
       </div>

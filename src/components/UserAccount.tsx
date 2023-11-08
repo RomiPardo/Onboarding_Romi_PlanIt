@@ -1,6 +1,8 @@
 import { Dropdown, DropdownTrigger } from "@nextui-org/react";
 import { signOut, useSession } from "next-auth/react";
 import DropdownUser from "./DropdownUser";
+import Image from "next/image";
+import DropdownArrow from "./DropdownArrow";
 
 const UserAccount = () => {
   const session = useSession();
@@ -10,7 +12,11 @@ const UserAccount = () => {
 
   return (
     <div className="flex items-center gap-x-3">
-      <img className="h-10 w-10 rounded-3xl" src={imageLink} />
+      <Image
+        className="h-10 w-10 rounded-3xl"
+        src={imageLink}
+        alt="user profile photo"
+      />
 
       <div className="flex flex-col">
         <div className="flex gap-x-2 text-lg font-medium leading-5">
@@ -26,23 +32,11 @@ const UserAccount = () => {
                 {session.data?.user.role}
               </span>
 
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="9"
-                height="5"
-                viewBox="0 0 9 5"
-                fill="none"
-              >
-                <path
-                  d="M7 0.5H2L4.5 3.5L7 0.5Z"
-                  fill="#7D7D7D"
-                  stroke="#7D7D7D"
-                />
-              </svg>
+              <DropdownArrow />
             </div>
           </DropdownTrigger>
 
-          <DropdownUser version="user" />
+          <DropdownUser />
         </Dropdown>
       </div>
     </div>

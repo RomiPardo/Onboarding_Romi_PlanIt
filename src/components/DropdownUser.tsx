@@ -2,147 +2,103 @@ import React from "react";
 import { DropdownMenu, DropdownItem, DropdownSection } from "@nextui-org/react";
 import Link from "next/link";
 import { signOut, useSession } from "next-auth/react";
+import DropDownItem from "./DropdownItem";
 
-const DropdownUser = ({ version }: { version: string }) => {
+type DropdownUserProps = {
+  mobile?: boolean;
+};
+
+const DropdownUser = ({ mobile = false }: DropdownUserProps) => {
   const session = useSession();
 
   const logOut = async () => {
     await signOut({ callbackUrl: "/" });
   };
 
-  switch (version) {
-    case "main":
-      return (
-        <DropdownMenu
-          className="w-56 rounded-md bg-white p-5 text-sm font-light leading-5 text-black shadow-xs"
-          itemClasses={{
-            base: [
-              "mb-2",
-              "data-[hover=true]:text-blue-300",
-              "data-[selectable=true]:focus:text-blue-300",
-              "data-[pressed=true]:text-blue-300",
-              "data-[focus-visible=true]:ring-none",
-            ],
-          }}
-        >
-          <DropdownSection>
-            <DropdownItem className="border-b border-black pb-2">
-              <Link href="/regalos">Regalos</Link>
-            </DropdownItem>
+  return (
+    <DropdownMenu
+      className="w-56 rounded-md bg-white p-5 text-sm font-light leading-5 text-black shadow-xs"
+      itemClasses={{
+        base: [
+          "mb-2",
+          "data-[hover=true]:text-blue-300",
+          "data-[selectable=true]:focus:text-blue-300",
+          "data-[pressed=true]:text-blue-300",
+          "data-[focus-visible=true]:ring-none",
+        ],
+      }}
+    >
+      {mobile ? (
+        <DropdownSection>
+          <DropDownItem
+            route="/regalos"
+            linkText="Regalos"
+            intent={"primary"}
+          />
 
-            <DropdownItem className="border-b border-black pb-2">
-              <Link href="/catering">Catering</Link>
-            </DropdownItem>
+          <DropDownItem
+            route="/catering"
+            linkText="Catering"
+            intent={"primary"}
+          />
 
-            <DropdownItem className="border-b border-black pb-2">
-              <Link href="/merchandising">Merchandising</Link>
-            </DropdownItem>
+          <DropDownItem
+            route="/merchandising"
+            linkText="Merchandising"
+            intent={"primary"}
+          />
 
-            <DropdownItem className="border-b-[1.5px] border-black pb-4">
-              <Link href="/eventos">Eventos</Link>
-            </DropdownItem>
-          </DropdownSection>
+          <DropDownItem
+            route="/eventos"
+            linkText="Eventos"
+            intent={"secondary"}
+          />
+        </DropdownSection>
+      ) : (
+        <></>
+      )}
 
-          <DropdownSection>
-            <DropdownItem className="border-b border-black pb-2">
-              <div className="flex flex-row gap-x-[86px]">
-                <div className="flex flex-col">
-                  <p className="bg-gradient-to-br from-blue-300 to-blue-500 bg-clip-text text-lg font-medium text-transparent">
-                    {session.data?.user.points}
-                  </p>
+      <DropdownSection>
+        <DropDownItem route="" linkText="" intent={"primary"}>
+          <div className="flex flex-row gap-x-[86px]">
+            <div className="flex flex-col">
+              <p className="bg-gradient-to-br from-blue-300 to-blue-500 bg-clip-text text-lg font-medium text-transparent">
+                {session.data?.user.points}
+              </p>
 
-                  <p className="text-black">Puntos</p>
-                </div>
-
-                <div className="flex items-end text-blue-300">
-                  <Link href="">Ver más</Link>
-                </div>
-              </div>
-            </DropdownItem>
-
-            <DropdownItem className="border-b border-black pb-2">
-              <Link href="">Cuenta</Link>
-            </DropdownItem>
-
-            <DropdownItem className="border-b border-black pb-2">
-              <Link href="">Favoritos</Link>
-            </DropdownItem>
-
-            <DropdownItem className="border-b border-black pb-2">
-              <Link href="">Pedidos y Consultas</Link>
-            </DropdownItem>
-
-            <DropdownItem className="border-b border-black pb-2">
-              <Link href="">Campañas y métricas</Link>
-            </DropdownItem>
-
-            <DropdownItem className="border-b border-black pb-2 text-[#7D7D7D]">
-              <Link href="">Ayuda</Link>
-            </DropdownItem>
-
-            <DropdownItem className="pb-2 text-[#7D7D7D]" onClick={logOut}>
-              Cerrar Sesión
-            </DropdownItem>
-          </DropdownSection>
-        </DropdownMenu>
-      );
-
-    case "user":
-      return (
-        <DropdownMenu
-          className="w-56 rounded-md bg-white p-5 text-sm font-light leading-5 text-black shadow-xs"
-          itemClasses={{
-            base: [
-              "mb-2",
-              "data-[hover=true]:text-blue-300",
-              "data-[selectable=true]:focus:text-blue-300",
-              "data-[pressed=true]:text-blue-300",
-              "data-[focus-visible=true]:ring-none",
-            ],
-          }}
-        >
-          <DropdownItem className="border-b border-black pb-2">
-            <div className="flex flex-row gap-x-[86px]">
-              <div className="flex flex-col">
-                <p className="bg-gradient-to-br from-blue-300 to-blue-500 bg-clip-text text-lg font-medium text-transparent">
-                  {session.data?.user.points}
-                </p>
-
-                <p className="text-black">Puntos</p>
-              </div>
-
-              <div className="flex items-end text-blue-300">
-                <Link href="">Ver más</Link>
-              </div>
+              <p className="text-black">Puntos</p>
             </div>
-          </DropdownItem>
 
-          <DropdownItem className="border-b border-black pb-2">
-            <Link href="">Cuenta</Link>
-          </DropdownItem>
+            <div className="flex items-end text-blue-300">
+              <Link href="">Ver más</Link>
+            </div>
+          </div>
+        </DropDownItem>
 
-          <DropdownItem className="border-b border-black pb-2">
-            <Link href="">Favoritos</Link>
-          </DropdownItem>
+        <DropDownItem route="/" linkText="Cuenta" intent={"primary"} />
 
-          <DropdownItem className="border-b border-black pb-2">
-            <Link href="">Pedidos y Consultas</Link>
-          </DropdownItem>
+        <DropDownItem route="/" linkText="Favoritos" intent={"primary"} />
 
-          <DropdownItem className="border-b border-black pb-2">
-            <Link href="">Campañas y métricas</Link>
-          </DropdownItem>
+        <DropDownItem
+          route="/"
+          linkText="Pedidos y Consultas"
+          intent={"primary"}
+        />
 
-          <DropdownItem className="border-b border-black pb-2 text-[#7D7D7D]">
-            <Link href="">Ayuda</Link>
-          </DropdownItem>
+        <DropDownItem
+          route="/"
+          linkText="Campañas y métricas"
+          intent={"primary"}
+        />
 
-          <DropdownItem className="pb-2 text-[#7D7D7D]" onClick={logOut}>
-            Cerrar Sesión
-          </DropdownItem>
-        </DropdownMenu>
-      );
-  }
+        <DropDownItem route="/" linkText="Ayuda" intent={"tertiary"} />
+
+        <DropDownItem action={logOut} route="" linkText="">
+          Cerrar Sesión
+        </DropDownItem>
+      </DropdownSection>
+    </DropdownMenu>
+  );
 };
 
 export default DropdownUser;
