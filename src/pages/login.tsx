@@ -11,6 +11,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Button from "~/components/Button";
+import Image from "next/image";
 
 type UserSchemaType = z.infer<typeof UserShema>;
 
@@ -32,7 +33,7 @@ const Register = () => {
     });
 
     if (res?.status !== 200) {
-      toast.error("La contraseña y/o email ingresados fueron incorrectos");
+      toast.error("La contraseña y/o email ingresados son incorrectos");
     } else {
       router.replace("/");
     }
@@ -44,7 +45,7 @@ const Register = () => {
 
       <AuthentificationBanner>
         <div className="flex flex-grow flex-col justify-between">
-          <div className="ms:w-6/12 flex flex-col p-56 px-5 pt-7 md:px-32 md:pb-0 md:pt-56">
+          <div className="flex flex-col p-56 px-5 pt-7 ms:w-6/12 md:px-32 md:pb-0 md:pt-56">
             <div className="flex flex-col pb-12 md:pb-20">
               <h4 className="w-10/12 pb-5 text-4xl font-semibold leading-10 md:w-full md:pb-10 md:font-medium md:leading-9">
                 ¡Hola, otra vez!
@@ -110,7 +111,7 @@ const Register = () => {
             </Button>
 
             <div className="flex h-20 w-20 items-center justify-center rounded-lg bg-white shadow-lg">
-              <img rel="logo" src="/registerPage/logo.png" className="" />
+              <Image alt="logo" src="/registerPage/logo.png" className="" />
             </div>
           </div>
         </div>
@@ -118,7 +119,11 @@ const Register = () => {
 
       <footer className="bg-dark-blue flex flex-col gap-y-12 px-5 pb-8 md:hidden ">
         <div>
-          <img className="h-9" src="/registerPage/logoSecondaryDark.png" />
+          <Image
+            className="h-9"
+            src="/registerPage/logoSecondaryDark.png"
+            alt="logo"
+          />
         </div>
 
         <div className="flex w-full flex-col items-center justify-between text-xs font-normal leading-normal text-gray">
@@ -135,10 +140,26 @@ const Register = () => {
             </div>
 
             <div className="flex flex-row gap-x-5">
-              <img className="h-3" src="/registerPage/facebook.png" />
-              <img className="h-3" src="/registerPage/linkedin.png" />
-              <img className="h-3" src="/registerPage/twitter.png" />
-              <img className="h-3" src="/registerPage/instagram.png" />
+              <Image
+                className="h-3"
+                src="/registerPage/facebook.png"
+                alt="facebook"
+              />
+              <Image
+                className="h-3"
+                src="/registerPage/linkedin.png"
+                alt="linkedin"
+              />
+              <Image
+                className="h-3"
+                src="/registerPage/twitter.png"
+                alt="twitter"
+              />
+              <Image
+                className="h-3"
+                src="/registerPage/instagram.png"
+                alt="instagram"
+              />
             </div>
           </div>
         </div>

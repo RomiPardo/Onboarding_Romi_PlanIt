@@ -20,12 +20,10 @@ interface ButtonProps extends VariantProps<typeof buttonStyles> {
 }
 
 const Button = ({ intent, children, text, ...props }: ButtonProps) => (
-  <>
-    <button className={buttonStyles({ intent })} {...props} type="submit">
-      {children}
-      {text}
-    </button>
-  </>
+  <button className={buttonStyles({ intent })} {...props} type="submit">
+    {children}
+    {text}
+  </button>
 );
 
 export default Button;
