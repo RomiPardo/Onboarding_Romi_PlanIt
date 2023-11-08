@@ -5,7 +5,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Input from "~/components/Input";
 import { api } from "~/utils/api";
-import { signIn, signOut, useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 
 type UserSchema = z.infer<typeof userShema>;
 
@@ -18,15 +18,18 @@ const Acount = () => {
     handleSubmit,
   } = methods;
 
-  const session = useSession();
+  const { data: session, update } = useSession();
+
   const updateMutation = api.user.updateUser.useMutation();
 
   const editUser = async (user: UserSchema) => {
     try {
       await updateMutation.mutateAsync({
         ...user,
-        oldEmail: session.data?.user.email ? session.data?.user.email : "",
+        oldEmail: session?.user.email ? session?.user.email : "",
       });
+
+      await update();
     } catch (error) {
       alert(error);
     }
@@ -38,22 +41,22 @@ const Acount = () => {
 
   return (
     <Layout>
-      <main className="ms:px-32 ms:pb-24 ms:pt-24 bg-light-gray px-5 pb-36 pt-10 font-poppins">
-        <h4 className="ms:text-4xl ms:leading-9 pb-10 text-lg font-medium leading-normal">
+      <main className="bg-light-gray px-5 pb-36 pt-10 font-poppins ms:px-32 ms:pb-24 ms:pt-24">
+        <h4 className="pb-10 text-lg font-medium leading-normal ms:text-4xl ms:leading-9">
           Información personal
         </h4>
 
-        {session.data?.user && (
+        {session?.user && (
           <div className="ms:bg-white">
             <FormProvider {...methods}>
               <form onSubmit={handleSubmit(editUser)}>
-                <div className="ms:flex-row ms:px-32 ms:py-20 flex flex-col justify-between">
-                  <div className="ms:w-[467px] w-full pb-6 text-gray">
+                <div className="flex flex-col justify-between ms:flex-row ms:px-32 ms:py-20">
+                  <div className="w-full pb-6 text-gray ms:w-[467px]">
                     <label className="text-xs font-normal">Email</label>
 
                     <Input
                       type="email"
-                      value={session.data?.user.email}
+                      value={session?.user.email}
                       id="email"
                       errorMessage={errors.email?.message}
                       intent="secondary"
@@ -63,11 +66,7 @@ const Acount = () => {
 
                     <Input
                       type="text"
-                      value={
-                        session.data?.user.name +
-                        " " +
-                        session.data?.user.lastName
-                      }
+                      value={session?.user.name + " " + session?.user.lastName}
                       id="completeName"
                       errorMessage={errors.completeName?.message}
                       intent="secondary"
@@ -79,7 +78,7 @@ const Acount = () => {
 
                     <Input
                       type="string"
-                      value={session.data?.user.contactNumber}
+                      value={session?.user.contactNumber}
                       id="contactNumber"
                       intent="secondary"
                       errorMessage={errors.contactNumber?.message}
@@ -96,16 +95,16 @@ const Acount = () => {
                     />
                   </div>
 
-                  <div className="ms:text-xl ms:leading-5 flex flex-col text-sm font-normal leading-normal text-blue-300">
+                  <div className="flex flex-col text-sm font-normal leading-normal text-blue-300 ms:text-xl ms:leading-5">
                     <button
-                      className="ms:text-right h-9 text-left hover:cursor-pointer"
+                      className="h-9 text-left hover:cursor-pointer ms:text-right"
                       type="submit"
                     >
                       Editar información
                     </button>
 
                     <button
-                      className="ms:text-right h-9 text-left hover:cursor-pointer"
+                      className="h-9 text-left hover:cursor-pointer ms:text-right"
                       onClick={logOut}
                     >
                       Cerrar cuenta
