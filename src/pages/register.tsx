@@ -104,14 +104,15 @@ const Register = () => {
                 />
 
                 <div className="rounded bg-white pt-5 md:pt-12">
-                  <Button intent="primary" text="REGISTRARSE" />
+                  <Button intent="primary">REGISTRARSE</Button>
                 </div>
               </form>
             </FormProvider>
           </div>
 
           <div className="hidden flex-row items-center justify-end gap-5 pr-6 md:flex">
-            <Button intent="help" text="¿Necesitás ayuda?">
+            <Button intent="help">
+              ¿Necesitás ayuda?
               <span>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
