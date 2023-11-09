@@ -55,7 +55,7 @@ const Footer = () => (
         <hr className="my-2 w-full" />
 
         <div className="flex w-full flex-grow flex-row items-center justify-between">
-          <div className="">
+          <div>
             <p className="m-0">PlanIT, 2021 - All rights reserved</p>
           </div>
 

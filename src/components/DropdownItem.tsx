@@ -17,12 +17,12 @@ const itemDropdownStyles = cva("", {
   },
 });
 
-interface ItemDropdownProps extends VariantProps<typeof itemDropdownStyles> {
+type ItemDropdownProps = VariantProps<typeof itemDropdownStyles> & {
   route: string;
   linkText: string;
   children?: ReactNode;
   action?: () => Promise<void>;
-}
+};
 
 const ItemDropdown = ({
   intent,

@@ -30,28 +30,24 @@ const DropdownUser = ({ mobile = false }: DropdownUserProps) => {
     >
       {mobile ? (
         <DropdownSection>
-          <ItemDropdown
-            route="/regalos"
-            linkText="Regalos"
-            intent={"primary"}
-          />
+          <ItemDropdown route="/regalos" linkText="Regalos" intent="primary" />
 
           <ItemDropdown
             route="/catering"
             linkText="Catering"
-            intent={"primary"}
+            intent="primary"
           />
 
           <ItemDropdown
             route="/merchandising"
             linkText="Merchandising"
-            intent={"primary"}
+            intent="primary"
           />
 
           <ItemDropdown
             route="/eventos"
             linkText="Eventos"
-            intent={"secondary"}
+            intent="secondary"
           />
         </DropdownSection>
       ) : (
@@ -59,7 +55,7 @@ const DropdownUser = ({ mobile = false }: DropdownUserProps) => {
       )}
 
       <DropdownSection>
-        <ItemDropdown route="" linkText="" intent={"primary"}>
+        <ItemDropdown route="" linkText="" intent="primary">
           <div className="flex flex-row gap-x-[86px]">
             <div className="flex flex-col">
               <p className="bg-gradient-to-br from-blue-300 to-blue-500 bg-clip-text text-lg font-medium text-transparent">
@@ -75,25 +71,25 @@ const DropdownUser = ({ mobile = false }: DropdownUserProps) => {
           </div>
         </ItemDropdown>
 
-        <ItemDropdown route="/" linkText="Cuenta" intent={"primary"} />
+        <ItemDropdown route="/" linkText="Cuenta" intent="primary" />
 
-        <ItemDropdown route="/" linkText="Favoritos" intent={"primary"} />
+        <ItemDropdown route="/" linkText="Favoritos" intent="primary" />
 
         <ItemDropdown
           route="/"
           linkText="Pedidos y Consultas"
-          intent={"primary"}
+          intent="primary"
         />
 
         <ItemDropdown
           route="/"
           linkText="Campañas y métricas"
-          intent={"primary"}
+          intent="primary"
         />
 
-        <ItemDropdown route="/" linkText="Ayuda" intent={"tertiary"} />
+        <ItemDropdown route="/" linkText="Ayuda" intent="tertiary" />
 
-        <ItemDropdown action={logOut} route="" linkText="" intent={"forth"}>
+        <ItemDropdown action={logOut} route="" linkText="" intent="forth">
           <p>Cerrar Sesión</p>
         </ItemDropdown>
       </DropdownSection>
