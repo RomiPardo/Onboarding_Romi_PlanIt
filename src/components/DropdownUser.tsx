@@ -1,5 +1,5 @@
 import React from "react";
-import { DropdownMenu, DropdownItem, DropdownSection } from "@nextui-org/react";
+import { Menu } from "@headlessui/react";
 import Link from "next/link";
 import { signOut, useSession } from "next-auth/react";
 import ItemDropdown from "./DropdownItem";
@@ -16,20 +16,9 @@ const DropdownUser = ({ mobile = false }: DropdownUserProps) => {
   };
 
   return (
-    <DropdownMenu
-      className="w-56 rounded-md bg-white p-5 text-sm font-light leading-5 text-black shadow-xs"
-      itemClasses={{
-        base: [
-          "mb-2",
-          "data-[hover=true]:text-blue-300",
-          "data-[selectable=true]:focus:text-blue-300",
-          "data-[pressed=true]:text-blue-300",
-          "data-[focus-visible=true]:ring-none",
-        ],
-      }}
-    >
-      {mobile ? (
-        <DropdownSection>
+    <Menu.Items className="fixed right-0 mr-6 w-56 rounded-md bg-white p-5 shadow-xs">
+      {mobile && (
+        <Menu.Items>
           <ItemDropdown route="/regalos" linkText="Regalos" intent="primary" />
 
           <ItemDropdown
@@ -49,12 +38,10 @@ const DropdownUser = ({ mobile = false }: DropdownUserProps) => {
             linkText="Eventos"
             intent="secondary"
           />
-        </DropdownSection>
-      ) : (
-        <DropdownItem> </DropdownItem>
+        </Menu.Items>
       )}
 
-      <DropdownSection>
+      <Menu.Items>
         <ItemDropdown route="" linkText="" intent="primary">
           <div className="flex flex-row gap-x-[86px]">
             <div className="flex flex-col">
@@ -92,8 +79,8 @@ const DropdownUser = ({ mobile = false }: DropdownUserProps) => {
         <ItemDropdown action={logOut} route="" linkText="" intent="forth">
           <p>Cerrar Sesión</p>
         </ItemDropdown>
-      </DropdownSection>
-    </DropdownMenu>
+      </Menu.Items>
+    </Menu.Items>
   );
 };
 

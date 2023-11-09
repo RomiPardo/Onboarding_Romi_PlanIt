@@ -1,4 +1,4 @@
-import { DropdownItem } from "@nextui-org/react";
+import { Menu } from "@headlessui/react";
 import { cva, VariantProps } from "class-variance-authority";
 import Link from "next/link";
 import { ReactNode } from "react";
@@ -6,10 +6,12 @@ import { ReactNode } from "react";
 const itemDropdownStyles = cva("", {
   variants: {
     intent: {
-      primary: "border-b border-black pb-2",
-      secondary: "border-b-[1.5px] border-black pb-4",
-      tertiary: "border-b border-black pb-2 text-[#7D7D7D]",
-      forth: "pb-2 text-[#7D7D7D]",
+      primary: "border-b border-black py-2 text-sm font-light leading-5 w-full",
+      secondary:
+        "border-b-2 border-black py-2 text-sm font-light leading-5 w-full",
+      tertiary:
+        "border-b border-black py-2 text-[#7D7D7D] text-sm font-light leading-5  w-full",
+      forth: "py-2 text-[#7D7D7D] text-sm font-light leading-5 w-full",
     },
   },
   defaultVariants: {
@@ -32,13 +34,30 @@ const ItemDropdown = ({
   action,
   ...props
 }: ItemDropdownProps) => (
-  <DropdownItem className={itemDropdownStyles({ intent })} onClick={action}>
-    {children === undefined ? (
-      <Link href={route}>{linkText}</Link>
-    ) : (
-      <div>{children}</div>
-    )}
-  </DropdownItem>
+  <Menu.Item>
+    {({ active }) =>
+      children === undefined ? (
+        <div className={itemDropdownStyles({ intent })}>
+          <Link
+            href={route}
+            onClick={action}
+            className={`${active ? "text-blue-300" : "text-black"} `}
+          >
+            {linkText}
+          </Link>
+        </div>
+      ) : (
+        <div
+          onClick={action}
+          className={`${
+            active ? "text-blue-300" : "text-black"
+          } ${itemDropdownStyles({ intent })}`}
+        >
+          {children}
+        </div>
+      )
+    }
+  </Menu.Item>
 );
 
 export default ItemDropdown;

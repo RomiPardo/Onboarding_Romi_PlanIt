@@ -1,7 +1,7 @@
 import Link from "next/link";
 import SearchBar from "./SearchBar";
 import UserAccount from "./UserAccount";
-import { Dropdown, DropdownTrigger } from "@nextui-org/react";
+import { Menu } from "@headlessui/react";
 import DropdownUser from "./DropdownUser";
 import Image from "next/image";
 import { useRouter } from "next/router";
@@ -46,8 +46,8 @@ const NavBar = () => {
             height={33.47}
           />
 
-          <Dropdown>
-            <DropdownTrigger>
+          <Menu as="div">
+            <Menu.Button>
               <Image
                 alt="menu option"
                 src="/navbar/menu.png"
@@ -55,10 +55,10 @@ const NavBar = () => {
                 width={42}
                 height={33.47}
               />
-            </DropdownTrigger>
+            </Menu.Button>
 
             <DropdownUser mobile={true} />
-          </Dropdown>
+          </Menu>
         </div>
 
         <SearchBar />

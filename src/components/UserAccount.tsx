@@ -1,8 +1,8 @@
-import { Dropdown, DropdownTrigger } from "@nextui-org/react";
-import { signOut, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import DropdownUser from "./DropdownUser";
 import Image from "next/image";
 import DropdownArrow from "./DropdownArrow";
+import { Menu } from "@headlessui/react";
 
 const UserAccount = () => {
   const session = useSession();
@@ -27,8 +27,8 @@ const UserAccount = () => {
           <p>{session.data?.user.lastName}</p>
         </div>
 
-        <Dropdown>
-          <DropdownTrigger>
+        <Menu as="div">
+          <Menu.Button>
             <div className="flex flex-row items-center gap-x-1 text-base font-normal leading-4 text-[#7D7D7D]">
               <span className="hover:cursor-pointer">
                 {session.data?.user.role}
@@ -36,10 +36,10 @@ const UserAccount = () => {
 
               <DropdownArrow />
             </div>
-          </DropdownTrigger>
+          </Menu.Button>
 
           <DropdownUser />
-        </Dropdown>
+        </Menu>
       </div>
     </div>
   );
