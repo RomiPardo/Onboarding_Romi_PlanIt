@@ -41,7 +41,8 @@ const AuthentificationBanner = ({ children }: { children: ReactNode }) => {
             <Image
               alt="logo"
               src="/registerPage/logoSecondary.png"
-              className="w-40"
+              width={160}
+              height={52}
             />
           </div>
 
@@ -65,11 +66,15 @@ const AuthentificationBanner = ({ children }: { children: ReactNode }) => {
             className="relative"
             src="/registerPage/macBookPro16.png"
             alt="computer"
+            width={644}
+            height={407}
           />
           <Image
             alt="planit page in mac book"
             className="pr-17 absolute top-8"
             src="/registerPage/design.png"
+            width={642}
+            height={373}
           />
         </div>
       </div>
@@ -85,7 +90,8 @@ const AuthentificationBanner = ({ children }: { children: ReactNode }) => {
             <Image
               alt="logo"
               src="/registerPage/logoSecondary.png"
-              className="w-24"
+              width={104}
+              height={33}
             />
           </div>
 
@@ -93,7 +99,8 @@ const AuthentificationBanner = ({ children }: { children: ReactNode }) => {
             <Image
               alt="menu option"
               src="/registerPage/menu.png"
-              className="w-11"
+              width={42}
+              height={24}
             />
           </div>
         </div>
