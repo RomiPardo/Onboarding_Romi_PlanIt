@@ -12,15 +12,26 @@ const Footer = () => (
           <p>Powered by </p>
 
           <Image
-            className="h-5"
             src="/footer/eagerworks.png"
             alt="eagerworks logo"
+            height={19}
+            width={112}
           />
         </div>
 
         <div className="flex flex-row gap-x-5">
-          <Image className="h-6" src="/footer/linkedin.png" alt="linkedin" />
-          <Image className="h-6" src="/footer/instagram.png" alt="instagram" />
+          <Image
+            src="/footer/linkedin.png"
+            alt="linkedin"
+            width={23}
+            height={23}
+          />
+          <Image
+            src="/footer/instagram.png"
+            alt="instagram"
+            width={23}
+            height={23}
+          />
         </div>
       </div>
     </div>
@@ -28,9 +39,10 @@ const Footer = () => (
     <div className="flex flex-col gap-y-12 px-5 pb-8 sm:hidden">
       <div>
         <Image
-          className="h-8"
           src="/registerPage/logoSecondaryDark.png"
           alt="logo"
+          width={104}
+          height={34.46}
         />
       </div>
 
@@ -49,24 +61,28 @@ const Footer = () => (
 
           <div className="flex flex-row gap-x-5">
             <Image
-              className="h-3"
               src="/registerPage/facebook.png"
               alt="facebook"
+              width={7}
+              height={12}
             />
             <Image
-              className="h-3"
               src="/registerPage/linkedin.png"
               alt="linkedin"
+              width={13}
+              height={12}
             />
             <Image
-              className="h-3"
               src="/registerPage/twitter.png"
               alt="twitter"
+              width={14}
+              height={12}
             />
             <Image
-              className="h-3"
               src="/registerPage/instagram.png"
               alt="instagram"
+              width={13}
+              height={12}
             />
           </div>
         </div>

@@ -2,7 +2,7 @@ import React from "react";
 import { DropdownMenu, DropdownItem, DropdownSection } from "@nextui-org/react";
 import Link from "next/link";
 import { signOut, useSession } from "next-auth/react";
-import DropDownItem from "./DropdownItem";
+import ItemDropdown from "./DropdownItem";
 
 type DropdownUserProps = {
   mobile?: boolean;
@@ -30,36 +30,36 @@ const DropdownUser = ({ mobile = false }: DropdownUserProps) => {
     >
       {mobile ? (
         <DropdownSection>
-          <DropDownItem
+          <ItemDropdown
             route="/regalos"
             linkText="Regalos"
             intent={"primary"}
           />
 
-          <DropDownItem
+          <ItemDropdown
             route="/catering"
             linkText="Catering"
             intent={"primary"}
           />
 
-          <DropDownItem
+          <ItemDropdown
             route="/merchandising"
             linkText="Merchandising"
             intent={"primary"}
           />
 
-          <DropDownItem
+          <ItemDropdown
             route="/eventos"
             linkText="Eventos"
             intent={"secondary"}
           />
         </DropdownSection>
       ) : (
-        <></>
+        <DropdownItem> </DropdownItem>
       )}
 
       <DropdownSection>
-        <DropDownItem route="" linkText="" intent={"primary"}>
+        <ItemDropdown route="" linkText="" intent={"primary"}>
           <div className="flex flex-row gap-x-[86px]">
             <div className="flex flex-col">
               <p className="bg-gradient-to-br from-blue-300 to-blue-500 bg-clip-text text-lg font-medium text-transparent">
@@ -73,29 +73,29 @@ const DropdownUser = ({ mobile = false }: DropdownUserProps) => {
               <Link href="">Ver más</Link>
             </div>
           </div>
-        </DropDownItem>
+        </ItemDropdown>
 
-        <DropDownItem route="/" linkText="Cuenta" intent={"primary"} />
+        <ItemDropdown route="/" linkText="Cuenta" intent={"primary"} />
 
-        <DropDownItem route="/" linkText="Favoritos" intent={"primary"} />
+        <ItemDropdown route="/" linkText="Favoritos" intent={"primary"} />
 
-        <DropDownItem
+        <ItemDropdown
           route="/"
           linkText="Pedidos y Consultas"
           intent={"primary"}
         />
 
-        <DropDownItem
+        <ItemDropdown
           route="/"
           linkText="Campañas y métricas"
           intent={"primary"}
         />
 
-        <DropDownItem route="/" linkText="Ayuda" intent={"tertiary"} />
+        <ItemDropdown route="/" linkText="Ayuda" intent={"tertiary"} />
 
-        <DropDownItem action={logOut} route="" linkText="">
-          Cerrar Sesión
-        </DropDownItem>
+        <ItemDropdown action={logOut} route="" linkText="" intent={"forth"}>
+          <p>Cerrar Sesión</p>
+        </ItemDropdown>
       </DropdownSection>
     </DropdownMenu>
   );

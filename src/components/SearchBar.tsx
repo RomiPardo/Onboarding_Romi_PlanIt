@@ -8,6 +8,8 @@ const SearchBar = () => {
         className="ml-2 hover:cursor-pointer sm:hidden"
         src="/navbar/searchButton.png"
         alt="search button"
+        width={24}
+        height={27}
       />
 
       <input
@@ -19,12 +21,16 @@ const SearchBar = () => {
         className="mr-2 hidden hover:cursor-pointer sm:block"
         src="/navbar/searchButton.png"
         alt="search button"
+        width={24}
+        height={27}
       />
 
       <Image
         className="mr-2 hover:cursor-pointer sm:hidden"
         src="/navbar/filters.png"
         alt="filters button"
+        width={28}
+        height={28}
       />
     </div>
   );

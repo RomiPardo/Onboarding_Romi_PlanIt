@@ -3,38 +3,42 @@ import { cva, VariantProps } from "class-variance-authority";
 import Link from "next/link";
 import { ReactNode } from "react";
 
-const dropdownItemStyles = cva("", {
+const itemDropdownStyles = cva("", {
   variants: {
     intent: {
       primary: "border-b border-black pb-2",
       secondary: "border-b-[1.5px] border-black pb-4",
       tertiary: "border-b border-black pb-2 text-[#7D7D7D]",
       forth: "pb-2 text-[#7D7D7D]",
-      defaultVariants: {
-        intent: "primary",
-      },
     },
+  },
+  defaultVariants: {
+    intent: "primary",
   },
 });
 
-interface DropdownItemProps extends VariantProps<typeof dropdownItemStyles> {
+interface ItemDropdownProps extends VariantProps<typeof itemDropdownStyles> {
   route: string;
   linkText: string;
   children?: ReactNode;
   action?: () => Promise<void>;
 }
 
-const DropDownItem = ({
+const ItemDropdown = ({
   intent,
   route,
   linkText,
-  children = undefined,
+  children,
   action,
   ...props
-}: DropdownItemProps) => (
-  <DropdownItem className={dropdownItemStyles({ intent })} onClick={action}>
-    {children === undefined ? <Link href={route}>{linkText}</Link> : children}
+}: ItemDropdownProps) => (
+  <DropdownItem className={itemDropdownStyles({ intent })} onClick={action}>
+    {children === undefined ? (
+      <Link href={route}>{linkText}</Link>
+    ) : (
+      <div>{children}</div>
+    )}
   </DropdownItem>
 );
 
-export default DropDownItem;
+export default ItemDropdown;

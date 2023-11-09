@@ -76,7 +76,8 @@ const Register = () => {
               <Image
                 src="/registerPage/logoSecondary.png"
                 alt="planit logo"
-                className="w-40"
+                width={160}
+                height={52}
               />
             </div>
 
@@ -100,11 +101,15 @@ const Register = () => {
               className="relative"
               src="/registerPage/macBookPro16.png"
               alt="page photo"
+              width={644}
+              height={407}
             />
             <Image
               alt="planit page in mac book"
               className="absolute top-[2.18rem] pr-[68px]"
               src="/registerPage/design.png"
+              width={642}
+              height={373}
             />
           </div>
         </div>
@@ -120,7 +125,8 @@ const Register = () => {
               <Image
                 alt="logo"
                 src="/registerPage/logoSecondary.png"
-                className="w-24"
+                width={104}
+                height={33}
               />
             </div>
 
@@ -128,7 +134,8 @@ const Register = () => {
               <Image
                 alt="menu option"
                 src="/registerPage/menu.png"
-                className="w-11"
+                width={42}
+                height={24}
               />
             </div>
           </div>
@@ -220,7 +227,12 @@ const Register = () => {
             </button>
 
             <div className="flex h-20 w-20 items-center justify-center rounded-lg bg-white shadow-lg ">
-              <Image alt="logo" src="/registerPage/logo.png" className="" />
+              <Image
+                alt="logo"
+                src="/registerPage/logo.png"
+                width={28}
+                height={42}
+              />
             </div>
           </div>
         </div>
@@ -229,9 +241,10 @@ const Register = () => {
       <footer className="bg-dark-blue flex flex-col gap-y-12 px-5 pb-8 md:hidden ">
         <div>
           <Image
-            className="h-9"
             src="/registerPage/logoSecondaryDark.png"
             alt="logo"
+            height={36}
+            width={104}
           />
         </div>
 
@@ -250,24 +263,28 @@ const Register = () => {
 
             <div className="flex flex-row gap-x-5">
               <Image
-                className="h-3"
                 src="/registerPage/facebook.png"
                 alt="facebook"
+                width={7}
+                height={12}
               />
               <Image
-                className="h-3"
                 src="/registerPage/linkedin.png"
                 alt="linkedin"
+                width={13}
+                height={12}
               />
               <Image
-                className="h-3"
                 src="/registerPage/twitter.png"
                 alt="twitter"
+                width={14}
+                height={12}
               />
               <Image
-                className="h-3"
                 src="/registerPage/instagram.png"
                 alt="instagram"
+                width={12}
+                height={12}
               />
             </div>
           </div>

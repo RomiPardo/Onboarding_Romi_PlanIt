@@ -39,9 +39,11 @@ const NavBar = () => {
       <div className="flex flex-col justify-between gap-y-7 sm:flex-row sm:items-end sm:gap-0">
         <div className="flex flex-row justify-between sm:block">
           <Image
-            className="w-24 hover:cursor-pointer"
+            className="hover:cursor-pointer"
             src="/navbar/logoSecondaryDark.png"
             alt="Planit Logo"
+            width={96}
+            height={33.47}
           />
 
           <Dropdown>
@@ -49,7 +51,9 @@ const NavBar = () => {
               <Image
                 alt="menu option"
                 src="/navbar/menu.png"
-                className="w-10 hover:cursor-pointer sm:hidden"
+                className="hover:cursor-pointer sm:hidden"
+                width={42}
+                height={33.47}
               />
             </DropdownTrigger>
 
@@ -63,7 +67,9 @@ const NavBar = () => {
           <Image
             src="/navbar/bell.png"
             alt="campana de notificaciones"
-            className="h-5 w-5  hover:cursor-pointer"
+            className="hover:cursor-pointer"
+            width={20}
+            height={20}
           />
 
           <UserAccount />

@@ -13,9 +13,11 @@ const UserAccount = () => {
   return (
     <div className="flex items-center gap-x-3">
       <Image
-        className="h-10 w-10 rounded-3xl"
+        className="rounded-3xl"
         src={imageLink}
         alt="user profile photo"
+        width={40}
+        height={40}
       />
 
       <div className="flex flex-col">
