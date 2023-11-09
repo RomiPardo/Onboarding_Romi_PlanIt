@@ -46,10 +46,10 @@ const Register = () => {
       <Toast />
 
       <AuthentificationBanner>
-        <div className="flex flex-grow  flex-col justify-between">
-          <div className="ms:w-6/12 flex flex-col px-5 pb-24 pt-7 md:px-32 md:pb-0 md:pt-40">
+        <div className="flex flex-col">
+          <div className="ms:w-6/12 flex flex-col px-5 pb-24 pt-7 md:px-32 md:pb-14 md:pt-40">
             <div className="flex flex-col pb-14">
-              <h4 className="w-10/12 pb-5 text-4xl font-semibold leading-10 md:w-full md:pb-10 md:font-medium md:leading-9">
+              <h4 className="w-10/12 pb-5 text-4xl font-semibold leading-10 md:w-full md:pb-9 md:font-medium md:leading-9">
                 ¡Bienvenido a Plan IT!
               </h4>
 
@@ -103,14 +103,14 @@ const Register = () => {
                   errorMessage={errors.business?.message}
                 />
 
-                <div className="rounded bg-white pt-5 md:pt-12">
+                <div className="rounded bg-white md:pt-5">
                   <Button intent="primary">REGISTRARSE</Button>
                 </div>
               </form>
             </FormProvider>
           </div>
 
-          <div className="hidden flex-row items-center justify-end gap-5 pr-6 md:flex">
+          <div className="hidden flex-row items-center justify-end gap-5 pb-6 pr-6 md:flex">
             <Button intent="help">
               ¿Necesitás ayuda?
               <span>
@@ -126,10 +126,10 @@ const Register = () => {
               </span>
             </Button>
 
-            <div className="flex h-20 w-20 items-center justify-center rounded-lg bg-white shadow-lg ">
+            <div className="flex h-20 w-20 items-center justify-center rounded-lg bg-white shadow-lg">
               <Image
-                src="/registerPage/logoSecondary.png"
-                alt="planit logo"
+                alt="logo"
+                src="/registerPage/logo.png"
                 width={28}
                 height={42}
               />

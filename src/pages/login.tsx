@@ -44,10 +44,10 @@ const Register = () => {
       <Toast />
 
       <AuthentificationBanner>
-        <div className="flex flex-grow flex-col justify-between">
-          <div className="ms:w-6/12 flex flex-col p-56 px-5 pt-7 md:px-32 md:pb-0 md:pt-56">
+        <div className="flex flex-grow flex-col">
+          <div className="ms:w-6/12 md:pb-34 flex flex-col p-56 px-5 pt-7 md:px-32 md:pt-56">
             <div className="flex flex-col pb-12 md:pb-20">
-              <h4 className="w-10/12 pb-5 text-4xl font-semibold leading-10 md:w-full md:pb-10 md:font-medium md:leading-9">
+              <h4 className="w-10/12 pb-5 text-4xl font-semibold leading-10 md:w-full md:pb-9 md:font-medium md:leading-9">
                 ¡Hola, otra vez!
               </h4>
 
@@ -95,7 +95,7 @@ const Register = () => {
             </FormProvider>
           </div>
 
-          <div className="hidden flex-row items-center justify-end gap-5 pr-6 md:flex">
+          <div className="hidden flex-row items-center justify-end gap-5 pb-6 pr-6 md:flex">
             <Button intent="help">
               ¿Necesitás ayuda?
               <span>

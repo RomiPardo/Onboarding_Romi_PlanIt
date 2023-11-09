@@ -35,8 +35,8 @@ const AuthentificationBanner = ({ children }: { children: ReactNode }) => {
 
   return (
     <main className="flex w-full flex-col md:flex-row">
-      <div className="hidden w-6/12 flex-col bg-gradient-to-br from-blue-300 to-blue-500 md:flex">
-        <div className="flex flex-col px-32 pb-32 pt-28">
+      <div className="hidden w-6/12 flex-col justify-between bg-gradient-to-br from-blue-300 to-blue-500 md:flex">
+        <div className="flex flex-col px-28 py-28">
           <div>
             <Image
               alt="logo"
@@ -46,7 +46,7 @@ const AuthentificationBanner = ({ children }: { children: ReactNode }) => {
             />
           </div>
 
-          <div className="w-4/5 py-10 leading-10">
+          <div className="w-4/5 pb-10 pt-14 leading-10">
             <h3 className="text-5xl font-semibold text-white">
               Comienza a simplificar tus acciones,{" "}
               <span className="text-blue-300">aquí.</span>
@@ -54,27 +54,29 @@ const AuthentificationBanner = ({ children }: { children: ReactNode }) => {
           </div>
 
           <div>
-            <h6 className="w-11/12 text-xl font-normal leading-5 text-white">
+            <h6 className="w-10/12 text-xl font-normal leading-5 text-white">
               En nuestra plataforma web vas a encontrar todo lo que estás
               buscando.
             </h6>
           </div>
         </div>
 
-        <div className="relative">
+        <div className="relative flex flex-col align-top">
           <Image
-            className="relative"
+            className="relative h-auto w-11/12"
             src="/registerPage/macBookPro16.png"
             alt="computer"
-            width={644}
-            height={407}
+            width="0"
+            height="0"
+            sizes="100vw"
           />
           <Image
             alt="planit page in mac book"
-            className="pr-17 absolute top-8"
+            className="absolute h-full w-[89%] pt-7"
             src="/registerPage/design.png"
-            width={642}
-            height={373}
+            width="0"
+            height="0"
+            sizes="100vw"
           />
         </div>
       </div>
