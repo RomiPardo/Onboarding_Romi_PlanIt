@@ -11,7 +11,7 @@ const UserAccount = () => {
     : "/userImage/default.png";
 
   return (
-    <div className="flex items-center gap-x-3">
+    <div className="flex h-[44px] items-center gap-x-3">
       <Image
         className="rounded-3xl"
         src={imageLink}
@@ -29,7 +29,7 @@ const UserAccount = () => {
 
         <Menu as="div">
           <Menu.Button>
-            <div className="flex flex-row items-center gap-x-1 text-base font-normal leading-4 text-[#7D7D7D]">
+            <div className="flex flex-row items-center gap-x-1 text-base font-normal leading-4">
               <span className="hover:cursor-pointer">
                 {session.data?.user.role}
               </span>

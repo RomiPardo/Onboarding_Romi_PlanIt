@@ -6,9 +6,10 @@ import { ReactNode } from "react";
 const itemDropdownStyles = cva("", {
   variants: {
     intent: {
-      primary: "border-b border-black py-2 text-sm font-light leading-5 w-full",
+      primary:
+        "border-b border-black py-2 text-sm font-light leading-5 w-full text-black",
       secondary:
-        "border-b-2 border-black py-2 text-sm font-light leading-5 w-full",
+        "border-b-2 border-black py-2 text-sm font-light leading-5 w-full text-black",
       tertiary:
         "border-b border-black py-2 text-[#7D7D7D] text-sm font-light leading-5  w-full",
       forth: "py-2 text-[#7D7D7D] text-sm font-light leading-5 w-full",
@@ -41,7 +42,7 @@ const ItemDropdown = ({
           <Link
             href={route}
             onClick={action}
-            className={`${active ? "text-blue-300" : "text-black"} `}
+            className={`${active ? "text-blue-300" : ""} `}
           >
             {linkText}
           </Link>
@@ -49,9 +50,9 @@ const ItemDropdown = ({
       ) : (
         <div
           onClick={action}
-          className={`${
-            active ? "text-blue-300" : "text-black"
-          } ${itemDropdownStyles({ intent })}`}
+          className={`${active ? "text-blue-300" : ""} ${itemDropdownStyles({
+            intent,
+          })}`}
         >
           {children}
         </div>

@@ -43,13 +43,15 @@ const DropdownUser = ({ mobile = false }: DropdownUserProps) => {
 
       <Menu.Items>
         <ItemDropdown route="" linkText="" intent="primary">
-          <div className="flex flex-row gap-x-[86px]">
+          <div className="flex flex-row justify-between">
             <div className="flex flex-col">
               <p className="bg-gradient-to-br from-blue-300 to-blue-500 bg-clip-text text-lg font-medium text-transparent">
                 {session.data?.user.points}
               </p>
 
-              <p className="text-black">Puntos</p>
+              <p className="text-base font-light leading-5 text-black">
+                Puntos
+              </p>
             </div>
 
             <div className="flex items-end text-blue-300">
