@@ -47,7 +47,7 @@ const Input = ({
         {...register(id)}
         value={stateOfInput}
         onChange={(e) => setStateOfInput(e.target.value)}
-      ></input>
+      />
 
       {errorMessage && (
         <p className="block text-sm text-red-600 md:text-base">

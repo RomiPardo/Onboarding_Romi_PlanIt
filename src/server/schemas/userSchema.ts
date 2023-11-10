@@ -16,8 +16,9 @@ export const RegisterUserSchema = z.object({
   password: z.string().min(8, "La contraseña debe tener mas de 8 caracteres"),
 });
 
-export const EditionUserSchema = z.object({
-  completeName: z.string().min(1, "Debe completar este campo"),
+export const EditUserSchema = z.object({
+  name: z.string().min(1, "Debe completar este campo"),
+  lastName: z.string().min(1, "Debe completar este campo"),
   oldEmail: z.string().email("Formato invalido del mail"),
   email: z
     .string()
