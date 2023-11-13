@@ -29,7 +29,8 @@ export const EditUserSchema = z.object({
 });
 
 export const NewUserSchema = z.object({
-  completeName: z.string().min(1, "Debe completar este campo"),
+  name: z.string().min(1, "Debe completar este campo"),
+  lastName: z.string().min(1, "Debe completar este campo"),
   email: z
     .string()
     .min(1, "Debe completar este campo")

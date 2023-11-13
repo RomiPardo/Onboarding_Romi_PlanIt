@@ -5,7 +5,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { api } from "~/utils/api";
 import { signOut, useSession } from "next-auth/react";
-import LabeledInput from "~/components/LabeledInput";
+import Input from "~/components/Input";
 
 type UserSchema = z.infer<typeof userShema>;
 
@@ -24,20 +24,10 @@ const Acount = () => {
 
   const editUser = async (user: UserSchema) => {
     try {
-      const splitted = user.completeName.split(" ");
-      const name = splitted.shift();
-      const lastName = splitted.join(" ");
-
-      if (name !== undefined) {
-        await updateMutation.mutateAsync({
-          ...user,
-          oldEmail: session?.user.email ? session?.user.email : "",
-          name,
-          lastName,
-        });
-      } else {
-        alert("El nuevo nombre elegido es invalido");
-      }
+      await updateMutation.mutateAsync({
+        ...user,
+        oldEmail: session?.user.email ? session?.user.email : "",
+      });
 
       await update();
     } catch (error) {
@@ -62,7 +52,7 @@ const Acount = () => {
               <form onSubmit={handleSubmit(editUser)}>
                 <div className="ms:flex-row ms:px-32 ms:py-20 flex flex-col justify-between">
                   <div className="ms:w-[467px] w-full pb-6 text-gray">
-                    <LabeledInput
+                    <Input
                       label="Email"
                       type="email"
                       value={session?.user.email}
@@ -71,16 +61,25 @@ const Acount = () => {
                       intent="secondary"
                     />
 
-                    <LabeledInput
+                    <Input
                       label="Nombre"
                       type="text"
-                      value={session?.user.name + " " + session?.user.lastName}
-                      id="completeName"
-                      errorMessage={errors.completeName?.message}
+                      value={session?.user.name}
+                      id="name"
+                      errorMessage={errors.name?.message}
                       intent="secondary"
                     />
 
-                    <LabeledInput
+                    <Input
+                      label="Apellido"
+                      type="text"
+                      value={session?.user.lastName}
+                      id="lastName"
+                      errorMessage={errors.lastName?.message}
+                      intent="secondary"
+                    />
+
+                    <Input
                       label="Número de contacto"
                       type="string"
                       value={session?.user.contactNumber}
@@ -89,7 +88,7 @@ const Acount = () => {
                       errorMessage={errors.contactNumber?.message}
                     />
 
-                    <LabeledInput
+                    <Input
                       label="Contraseña"
                       type="password"
                       placeholder="•••••••••••••••••••"

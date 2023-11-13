@@ -22,6 +22,7 @@ interface InputProps extends VariantProps<typeof inputStyles> {
   placeholder?: string;
   errorMessage?: string;
   value?: string;
+  label?: string;
 }
 
 const Input = ({
@@ -31,29 +32,34 @@ const Input = ({
   placeholder,
   errorMessage,
   value,
+  label,
   ...props
 }: InputProps) => {
   const { register } = useFormContext();
   const [stateOfInput, setStateOfInput] = useState(value);
 
   return (
-    <div className="flex flex-col gap-y-2.5 pb-8 md:w-full md:pb-6">
-      <input
-        className={inputStyles({ intent })}
-        {...props}
-        type={type}
-        placeholder={placeholder}
-        id={id}
-        {...register(id)}
-        value={stateOfInput}
-        onChange={(e) => setStateOfInput(e.target.value)}
-      />
+    <div>
+      {label && <label className="text-xs font-normal">{label}</label>}
 
-      {errorMessage && (
-        <p className="block text-sm text-red-600 md:text-base">
-          {errorMessage}
-        </p>
-      )}
+      <div className="flex flex-col gap-y-2.5 pb-8 md:w-full md:pb-6">
+        <input
+          className={inputStyles({ intent })}
+          {...props}
+          type={type}
+          placeholder={placeholder}
+          id={id}
+          {...register(id)}
+          value={stateOfInput}
+          onChange={(e) => setStateOfInput(e.target.value)}
+        />
+
+        {errorMessage && (
+          <p className="block text-sm text-red-600 md:text-base">
+            {errorMessage}
+          </p>
+        )}
+      </div>
     </div>
   );
 };
