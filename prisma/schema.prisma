@@ -19,16 +19,60 @@ enum Role {
     ADMIN
 }
 
+enum ServiceType {
+    PRESENT
+    CATERING
+    MERCHANDISING
+    EVENT
+}
+
 model User {
-    id             String  @id @default(cuid())
-    name           String
-    lastName       String
-    email          String  @unique
-    business       String
-    image          String?
-    hashedPassword String
-    role           Role    @default(USER)
-    points         Int     @default(0)
+    id               String    @id @default(cuid())
+    name             String
+    lastName         String
+    email            String    @unique
+    business         String
+    image            String?
+    hashedPassword   String
+    role             Role      @default(USER)
+    points           Int       @default(0)
+    favoriteServices Service[]
 
     @@map("users")
+}
+
+model Provider {
+    id             String    @id @default(cuid())
+    name           String
+    email          String    @unique
+    hashedPassword String
+    services       Service[]
+
+    @@map("providers")
+}
+
+model Service {
+    id            String      @id @default(cuid())
+    type          ServiceType
+    image         String?
+    name          String      @unique
+    description   String      @default("No se ha ingresado una descripción")
+    price         Int
+    qualification Int
+    aditionals    Aditional[]
+    provider      Provider    @relation(fields: [providerId], references: [id])
+    providerId    String      @unique
+    favoritedBy   User[]    
+
+    @@map("services")
+}
+
+model Aditional {
+    id        String   @id @default(cuid())
+    name      String   @unique
+    price     Int
+    Service   Service? @relation(fields: [serviceId], references: [id])
+    serviceId String?  @unique
+
+    @@map("aditionals")
 }
