@@ -18,8 +18,8 @@ const NavBar = () => {
 
   return (
     <nav className="flex flex-col gap-y-5 rounded-b-md bg-white px-5 pb-5 pt-14 shadow-md sm:rounded-none sm:px-28 sm:py-8 sm:shadow-none">
-      <div className="sm:grid-row flex flex-row justify-between sm:grid sm:grid-cols-4 sm:items-end">
-        <div className="flex h-[44px] items-center">
+      <div className=" flex flex-row justify-between sm:grid sm:grid-cols-[1fr_1fr_1fr] sm:grid-rows-2 sm:items-center">
+        <div className="col-start-1 row-start-2 flex items-center">
           <Image
             className="justify-start hover:cursor-pointer"
             src="/navbar/logoSecondaryDark.png"
@@ -29,38 +29,36 @@ const NavBar = () => {
           />
         </div>
 
-        <div className="hidden flex-col gap-y-4 sm:col-span-2 sm:col-start-2 sm:flex">
-          <div className="flex justify-around">
-            {routes.map((route) => (
-              <div
-                key={route.path}
-                className="flex flex-col text-lg font-medium leading-5"
+        <div className="col-start-2 row-start-1 hidden justify-center gap-x-10 pb-4 sm:flex">
+          {routes.map((route) => (
+            <div
+              key={route.path}
+              className="flex flex-col text-lg font-medium leading-5"
+            >
+              <Link
+                href={route.path}
+                className="bg-gradient-to-br from-blue-300 to-blue-500 bg-clip-text text-transparent"
               >
-                <Link
-                  href={route.path}
-                  className="bg-gradient-to-br from-blue-300 to-blue-500 bg-clip-text text-transparent"
-                >
-                  {route.label}
-                </Link>
+                {route.label}
+              </Link>
 
-                {asPath === route.path && (
-                  <hr
-                    className={
-                      "h-[2px] bg-gradient-to-br from-blue-300 to-blue-500 bg-clip-content  text-transparent"
-                    }
-                  />
-                )}
-              </div>
-            ))}
-          </div>
-
-          <div className="flex h-[44px] items-center">
-            <SearchBar />
-          </div>
+              {asPath === route.path && (
+                <hr
+                  className={
+                    "h-[2px] bg-gradient-to-br from-blue-300 to-blue-500 bg-clip-content text-transparent"
+                  }
+                />
+              )}
+            </div>
+          ))}
         </div>
 
-        <div>
-          <div className="hidden items-center justify-end gap-x-7 sm:flex">
+        <div className="col-start-2 row-start-2 hidden justify-center sm:flex">
+          <SearchBar />
+        </div>
+
+        <div className="col-start-3 row-start-2">
+          <div className="hidden items-center justify-end gap-x-5 sm:flex">
             <Image
               src="/navbar/bell.png"
               alt="campana de notificaciones"
