@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "../trpc";
 import { favoritedByServiceSchema } from "~/server/schemas/serviceSchema";
+import { TRPCError } from "@trpc/server";
 
 export const serviceRouter = createTRPCRouter({
   getById: publicProcedure.input(z.object({ id: z.string() })).query(
@@ -60,6 +61,10 @@ export const serviceRouter = createTRPCRouter({
           },
         });
       } else {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "Hubo problemas al identificar el usuario o el servicio",
+        });
       }
     }),
 });
