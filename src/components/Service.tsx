@@ -84,12 +84,21 @@ const Service = ({
             {name}
           </p>
 
-          <div className="flex items-center gap-x-1">
+          <div className="flex items-center gap-x-[2px] sm:gap-x-1">
+            <Image
+              className="block sm:hidden"
+              src="/service/star.png"
+              width={11.742}
+              height={11.742}
+              alt="Estrella de calificación"
+            />
+
             <p className="bg-gradient-to-br from-blue-300 to-blue-500 bg-clip-text text-xs font-normal leading-normal text-transparent sm:text-base sm:font-normal sm:leading-5">
               {calification}
             </p>
 
             <Image
+              className="hidden sm:block"
               src="/service/star.png"
               width={11.742}
               height={11.742}
@@ -98,7 +107,7 @@ const Service = ({
           </div>
         </div>
 
-        <p className="pb-1 text-xs font-normal leading-normal text-[#7D7D7D] sm:pb-3 sm:text-lg sm:font-medium sm:leading-5">
+        <p className="pb-1 text-sm font-normal leading-normal text-[#7D7D7D] sm:pb-3 sm:text-lg sm:font-medium sm:leading-5">
           {provider}
         </p>
 
