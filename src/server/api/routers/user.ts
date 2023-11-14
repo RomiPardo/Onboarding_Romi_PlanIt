@@ -91,7 +91,7 @@ export const userRouter = createTRPCRouter({
           });
 
         const updatedUser =
-          password === ""
+          password.length > 0
             ? await ctx.prisma.user.update({
                 where: {
                   email: oldEmail,

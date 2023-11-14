@@ -16,14 +16,14 @@ const inputStyles = cva("", {
   },
 });
 
-interface InputProps extends VariantProps<typeof inputStyles> {
+type InputProps = VariantProps<typeof inputStyles> & {
   type: string;
   id: string;
   placeholder?: string;
   errorMessage?: string;
   value?: string;
   label?: string;
-}
+};
 
 const Input = ({
   intent,
