@@ -25,22 +25,10 @@ const Service = ({
   const [isFavorite, setIsFavorite] = React.useState(favourite);
   const session = useSession();
 
-  const favourtiteMutation = api.service.changeFavoriteBy.useMutation();
+  const changeFavoriteService = () => {
+    // Call service to add service to favorite
 
-  const changeFavoriteService = async () => {
-    try {
-      const email = session.data?.user.email ? session.data?.user.email : "";
-
-      await favourtiteMutation.mutateAsync({
-        isFavorite: !isFavorite,
-        userEmail: email,
-        id,
-      });
-
-      setIsFavorite(!isFavorite);
-    } catch (error) {
-      alert(error);
-    }
+    setIsFavorite(!isFavorite);
   };
 
   return (
