@@ -104,6 +104,7 @@ const Register = () => {
               width={644}
               height={407}
             />
+
             <Image
               alt="planit page in mac book"
               className="absolute top-[2.18rem] pr-[68px]"
@@ -142,7 +143,7 @@ const Register = () => {
         </div>
 
         <div className="flex flex-grow  flex-col justify-between">
-          <div className="flex flex-col px-5 pb-24 pt-7 ms:w-6/12 md:px-32 md:pb-0 md:pt-40">
+          <div className="ms:w-6/12 flex flex-col px-5 pb-24 pt-7 md:px-32 md:pb-0 md:pt-40">
             <div className="flex flex-col pb-14">
               <h4 className="w-10/12 pb-5 text-4xl font-semibold leading-10 md:w-full md:pb-10 md:font-medium md:leading-9">
                 ¡Bienvenido a Plan IT!
@@ -268,18 +269,21 @@ const Register = () => {
                 width={7}
                 height={12}
               />
+
               <Image
                 src="/registerPage/linkedin.png"
                 alt="linkedin"
                 width={13}
                 height={12}
               />
+
               <Image
                 src="/registerPage/twitter.png"
                 alt="twitter"
                 width={14}
                 height={12}
               />
+
               <Image
                 src="/registerPage/instagram.png"
                 alt="instagram"

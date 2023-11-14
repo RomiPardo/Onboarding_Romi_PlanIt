@@ -1,18 +1,20 @@
 import { Menu } from "@headlessui/react";
 import { cva, VariantProps } from "class-variance-authority";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { ReactNode } from "react";
 
 const itemDropdownStyles = cva("", {
   variants: {
     intent: {
       primary:
-        "border-b border-black py-2 text-sm font-light leading-5 w-full text-black",
+        "border-b border-black py-2 text-sm font-light leading-5 w-full text-black hover:text-blue-300",
       secondary:
-        "border-b-2 border-black py-2 text-sm font-light leading-5 w-full text-black",
+        "border-b-2 border-black py-2 text-sm font-light leading-5 w-full text-black hover:text-blue-300",
       tertiary:
-        "border-b border-black py-2 text-[#7D7D7D] text-sm font-light leading-5  w-full",
-      forth: "py-2 text-[#7D7D7D] text-sm font-light leading-5 w-full",
+        "border-b border-black py-2 text-[#7D7D7D] text-sm font-light leading-5 w-full hover:text-blue-300",
+      forth:
+        "py-2 text-[#7D7D7D] text-sm font-light leading-5 w-full hover:text-blue-300",
     },
   },
   defaultVariants: {
@@ -34,20 +36,13 @@ const ItemDropdown = ({
   children,
   action,
   ...props
-}: ItemDropdownProps) => (
-  <Menu.Item>
-    {({ active }) =>
-      children === undefined ? (
-        <div className={itemDropdownStyles({ intent })}>
-          <Link
-            href={route}
-            onClick={action}
-            className={`${active ? "text-blue-300" : ""} `}
-          >
-            {linkText}
-          </Link>
-        </div>
-      ) : (
+}: ItemDropdownProps) => {
+  const { asPath } = useRouter();
+  const active = asPath === route;
+
+  return (
+    <Menu.Item>
+      {children ? (
         <div
           onClick={action}
           className={`${active ? "text-blue-300" : ""} ${itemDropdownStyles({
@@ -56,9 +51,19 @@ const ItemDropdown = ({
         >
           {children}
         </div>
-      )
-    }
-  </Menu.Item>
-);
+      ) : (
+        <div className={itemDropdownStyles({ intent })}>
+          <Link
+            href={route}
+            onClick={action}
+            className={`${active ? "text-blue-300" : ""}`}
+          >
+            {linkText}
+          </Link>
+        </div>
+      )}
+    </Menu.Item>
+  );
+};
 
 export default ItemDropdown;
