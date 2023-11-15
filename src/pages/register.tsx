@@ -58,7 +58,7 @@ const Register = () => {
                 usuario propio.
               </p>
 
-              <p className="text-sm font-normal leading-normal text-gray md:text-base md:leading-4">
+              <p className="text-sm font-normal leading-normal text-dark-gray md:text-base md:leading-4">
                 ¿Ya tenés una cuenta?{" "}
                 <Link href="/login" className="text-blue-300">
                   Inicia sesión aquí.
@@ -148,7 +148,7 @@ const Register = () => {
           />
         </div>
 
-        <div className="flex w-full flex-col items-center justify-between text-xs font-normal leading-normal text-gray">
+        <div className="flex w-full flex-col items-center justify-between text-xs font-normal leading-normal text-dark-gray">
           <div className="flex w-full flex-grow flex-row items-center justify-between">
             <p className="m-0 ">info@planit.com.uy</p>
             <p className="m-0">Tel: +598 96593615</p>
@@ -168,18 +168,21 @@ const Register = () => {
                 width={7}
                 height={12}
               />
+
               <Image
                 src="/registerPage/linkedin.png"
                 alt="linkedin"
                 width={13}
                 height={12}
               />
+
               <Image
                 src="/registerPage/twitter.png"
                 alt="twitter"
                 width={14}
                 height={12}
               />
+
               <Image
                 src="/registerPage/instagram.png"
                 alt="instagram"
