@@ -17,7 +17,7 @@ const NavBar = () => {
   const { asPath } = useRouter();
 
   return (
-    <nav className="flex flex-col gap-y-5 rounded-b-md bg-white px-5 pb-5 pt-14 shadow-md sm:rounded-none sm:px-28 sm:py-8 sm:shadow-none">
+    <nav className="fixed z-10 flex w-full flex-col gap-y-5 rounded-b-md bg-white px-5 pb-5 pt-14 shadow-md sm:rounded-none sm:px-28 sm:py-8 sm:shadow-none">
       <div className=" flex flex-row justify-between sm:grid sm:grid-cols-[1fr_1fr_1fr] sm:grid-rows-2 sm:items-center">
         <div className="col-start-1 row-start-2 flex items-center">
           <Image

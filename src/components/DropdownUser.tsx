@@ -16,7 +16,7 @@ const DropdownUser = ({ mobile = false }: DropdownUserProps) => {
   };
 
   return (
-    <Menu.Items className="fixed right-0 mr-6 w-56 rounded-md bg-white p-5 shadow-xs">
+    <Menu.Items className="absolute right-0 mr-6 w-56 rounded-md bg-white p-5 shadow-xs">
       {mobile && (
         <Menu.Items>
           <ItemDropdown route="/regalos" linkText="Regalos" intent="primary" />
