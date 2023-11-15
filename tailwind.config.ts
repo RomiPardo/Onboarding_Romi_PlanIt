@@ -40,6 +40,11 @@ module.exports = {
       },
       width: {
         "11/12": "90%",
+        "5/4": "125%",
+      },
+      padding: {
+        "17": "68px",
+        "34": "134px",
       },
       colors: {
         border: "hsl(var(--border))",

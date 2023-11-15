@@ -5,13 +5,7 @@ import { Menu } from "@headlessui/react";
 import DropdownUser from "./DropdownUser";
 import Image from "next/image";
 import { useRouter } from "next/router";
-
-const routes = [
-  { path: "/regalos", label: "Regalos" },
-  { path: "/catering", label: "Catering" },
-  { path: "/merchandising", label: "Merchandising" },
-  { path: "/eventos", label: "Eventos" },
-];
+import { routesMenu } from "./routes";
 
 const NavBar = () => {
   const { asPath } = useRouter();
@@ -30,7 +24,7 @@ const NavBar = () => {
         </div>
 
         <div className="col-start-2 row-start-1 hidden justify-center gap-x-10 pb-4 sm:flex">
-          {routes.map((route) => (
+          {routesMenu.map((route) => (
             <div
               key={route.path}
               className="flex flex-col text-lg font-medium leading-5"
