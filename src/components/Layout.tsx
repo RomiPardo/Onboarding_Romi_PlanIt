@@ -3,10 +3,10 @@ import NavBar from "./NavBar";
 import Footer from "./Footer";
 
 const Layout = ({ children }: { children: ReactNode }) => (
-  <div>
+  <div className="flex h-screen flex-col">
     <NavBar />
 
-    {children}
+    <div className="flex-grow bg-light-gray">{children}</div>
 
     <Footer />
   </div>

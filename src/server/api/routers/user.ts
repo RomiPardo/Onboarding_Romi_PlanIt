@@ -100,6 +100,7 @@ export const userRouter = createTRPCRouter({
                   name,
                   lastName,
                   email,
+                  hashedPassword,
                   contactNumber,
                 },
               })
@@ -111,7 +112,6 @@ export const userRouter = createTRPCRouter({
                   name,
                   lastName,
                   email,
-                  hashedPassword,
                   contactNumber,
                 },
               });

@@ -6,6 +6,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { api } from "~/utils/api";
 import { signOut, useSession } from "next-auth/react";
 import Input from "~/components/Input";
+import Toast from "~/components/Toast";
+import { toast } from "react-toastify";
+import Button from "~/components/Button";
 
 type UserSchema = z.infer<typeof userShema>;
 
@@ -22,7 +25,8 @@ const Acount = () => {
 
   const updateMutation = api.user.updateUser.useMutation({
     onError(error, variables, context) {
-      alert(error);
+      console.log(error.message);
+      toast.error(error.message);
     },
     async onSuccess() {
       await update();
@@ -42,8 +46,10 @@ const Acount = () => {
 
   return (
     <Layout>
-      <main className="bg-light-gray px-5 pb-36 pt-10 font-poppins ms:px-32 ms:pb-24 ms:pt-24">
-        <h4 className="pb-10 text-lg font-medium leading-normal ms:text-4xl ms:leading-9">
+      <Toast />
+
+      <main className="ms:px-32 ms:pb-24 ms:pt-24 bg-light-gray px-5 pb-36 pt-10 font-poppins">
+        <h4 className="ms:text-4xl ms:leading-9 pb-10 text-lg font-medium leading-normal">
           Información personal
         </h4>
 
@@ -51,8 +57,8 @@ const Acount = () => {
           <div className="ms:bg-white">
             <FormProvider {...methods}>
               <form onSubmit={handleSubmit(editUser)}>
-                <div className="flex flex-col justify-between ms:flex-row ms:px-32 ms:py-20">
-                  <div className="w-full pb-6 text-gray ms:w-[467px]">
+                <div className="ms:flex-row ms:px-32 ms:py-20 flex flex-col justify-between">
+                  <div className="ms:w-[467px] w-full pb-6 text-gray">
                     <Input
                       label="Email"
                       type="email"
@@ -99,20 +105,14 @@ const Acount = () => {
                     />
                   </div>
 
-                  <div className="flex flex-col text-sm font-normal leading-normal text-blue-300 ms:text-xl ms:leading-5">
-                    <button
-                      className="h-9 text-left hover:cursor-pointer ms:text-right"
-                      type="submit"
-                    >
+                  <div className="ms:text-xl ms:leading-5 flex flex-col text-sm font-normal leading-normal text-blue-300">
+                    <Button intent="edition" type="submit">
                       Editar información
-                    </button>
+                    </Button>
 
-                    <button
-                      className="h-9 text-left hover:cursor-pointer ms:text-right"
-                      onClick={logOut}
-                    >
+                    <Button intent="edition" action={logOut}>
                       Cerrar cuenta
-                    </button>
+                    </Button>
                   </div>
                 </div>
               </form>

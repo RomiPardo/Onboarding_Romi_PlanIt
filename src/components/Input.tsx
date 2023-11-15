@@ -39,7 +39,7 @@ const Input = ({
   const [stateOfInput, setStateOfInput] = useState(value);
 
   return (
-    <div>
+    <div className="flex flex-col gap-y-3 pb-8 md:w-full md:pb-10">
       {label && <label className="text-xs font-normal">{label}</label>}
 
       <div className="flex flex-col gap-y-2.5 pb-8 md:w-full md:pb-6">
