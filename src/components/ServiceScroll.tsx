@@ -5,6 +5,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import Shimmer from "./Shimmer";
 import Toast from "./Toast";
 import { toast } from "react-toastify";
+import { Spinner } from "./Spinner";
 
 enum ServiceType {
   PRESENT = "PRESENT",
@@ -38,7 +39,7 @@ const ServiceScroll = ({ category }: ServiceScrollProps) => {
     onError(error) {
       toast.error("Sucedio un error inesperado al obtener los servicios");
     },
-    onSuccess(data, variables, context) {
+    onSuccess(data) {
       if (data) {
         setMyCursor(data.cursor ?? myCursor);
 
@@ -73,7 +74,7 @@ const ServiceScroll = ({ category }: ServiceScrollProps) => {
         dataLength={services.length}
         next={loadMoreServices}
         hasMore={hasMore}
-        loader={<Shimmer />}
+        loader={services.length === 0 ? <Shimmer /> : <Spinner />}
       >
         <div className="grid-rows-auto mx-auto grid grid-cols-1 gap-5 xxxxs:grid-cols-2 xxxs:grid-cols-3 xxs:grid-cols-4 xs:grid-cols-5 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
           {services.map((service, index) => (
