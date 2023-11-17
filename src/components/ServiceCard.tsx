@@ -44,7 +44,7 @@ const Service = ({
         />
 
         <div className="absolute right-0 top-0 pr-3 pt-3 hover:cursor-pointer sm:pt-5">
-          {isFavorite && (
+          {isFavorite ? (
             <Image
               src="/service/favoriteIconTrue.png"
               width={13}
@@ -52,9 +52,7 @@ const Service = ({
               alt="Icono de favorito seleccionado"
               onClick={changeFavoriteService}
             />
-          )}
-
-          {!isFavorite && (
+          ) : (
             <Image
               src="/service/favoriteIconFalse.png"
               width={13}
@@ -72,9 +70,8 @@ const Service = ({
             {name}
           </p>
 
-          <div className="flex items-center gap-x-[2px] sm:gap-x-1">
+          <div className="flex flex-row-reverse items-center gap-x-[2px] sm:flex-row sm:gap-x-1">
             <Image
-              className="block sm:hidden"
               src="/service/star.png"
               width={11.742}
               height={11.742}
@@ -84,14 +81,6 @@ const Service = ({
             <p className="bg-gradient-to-br from-blue-300 to-blue-500 bg-clip-text text-xs font-normal leading-normal text-transparent sm:text-base sm:font-normal sm:leading-5">
               {calification}
             </p>
-
-            <Image
-              className="hidden sm:block"
-              src="/service/star.png"
-              width={11.742}
-              height={11.742}
-              alt="Estrella de calificación"
-            />
           </div>
         </div>
 
