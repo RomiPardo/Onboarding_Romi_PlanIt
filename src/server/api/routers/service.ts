@@ -117,4 +117,20 @@ export const serviceRouter = createTRPCRouter({
 
       return { services: data, cursor: data[data.length - 1]?.id };
     }),
+
+  getLengthFiltered: publicProcedure
+    .input(
+      z.object({
+        category: z.enum(["PRESENT", "CATERING", "MERCHANDISING", "EVENT"]),
+      }),
+    )
+    .query(async ({ ctx, input: { category } }) => {
+      const data = await ctx.prisma.service.findMany({
+        where: {
+          type: category,
+        },
+      });
+
+      return data.length;
+    }),
 });

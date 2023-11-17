@@ -34,6 +34,7 @@ const ServiceScroll = ({ category }: ServiceScrollProps) => {
   const [services, setServices] = useState<Service[]>([]);
   const [myCursor, setMyCursor] = useState("0");
   const [hasMore, setHasMore] = useState(true);
+  const length = api.service.getLengthFiltered.useQuery({ category }).data;
 
   const getServicesMutation = api.service.getFilteredServices.useMutation({
     onError(error) {
@@ -69,6 +70,10 @@ const ServiceScroll = ({ category }: ServiceScrollProps) => {
   return (
     <>
       <Toast />
+
+      <p className="flex items-center justify-center pb-12 pt-8 text-sm font-normal leading-normal text-[#7D7D7D] sm:hidden">
+        {length} resultados
+      </p>
 
       <InfiniteScroll
         dataLength={services.length}
