@@ -3,7 +3,7 @@ import Layout from "~/components/Layout";
 
 const Merchandising = () => (
   <Layout>
-    <Categories category="merchandising" />
+    <Categories category="MERCHANDISING" />
   </Layout>
 );
 

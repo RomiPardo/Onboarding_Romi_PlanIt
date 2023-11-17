@@ -3,104 +3,104 @@ import { api } from "~/utils/api";
 import Service from "../components/Service";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Shimmer from "./Shimmer";
+import Toast from "./Toast";
+import { toast } from "react-toastify";
+
+enum ServiceType {
+  PRESENT = "PRESENT",
+  CATERING = "CATERING",
+  MERCHANDISING = "MERCHANDISING",
+  EVENT = "EVENT",
+}
 
 type Service = {
   id: string;
   image?: string;
   name: string;
-  calification: number;
+  description: string;
+  qualification: number;
   provider: string;
   price: number;
-  category: string;
+  type: ServiceType;
+  providerId: string;
 };
 
 type ServiceScrollProps = {
-  category: string;
+  category: "PRESENT" | "CATERING" | "MERCHANDISING" | "EVENT";
 };
 
 const ServiceScroll = ({ category }: ServiceScrollProps) => {
-  const servicesTest: Service[] = [
-    {
-      id: "1",
-      image: undefined,
-      name: "Item 1",
-      calification: 50.0,
-      provider: "Franca",
-      price: 50.9,
-      category: category,
-    },
-    {
-      id: "2",
-      image: "/userImage/example.png",
-      name: "Item 2",
-      calification: 80.0,
-      provider: "Manga",
-      price: 50.9,
-      category: category,
-    },
-    {
-      id: "3",
-      image: undefined,
-      name: "Item 3",
-      calification: 50.0,
-      provider: "Franca",
-      price: 50.9,
-      category: category,
-    },
-    {
-      id: "4",
-      image: "/userImage/example.png",
-      name: "Item 4",
-      calification: 80.0,
-      provider: "Manga",
-      price: 50.9,
-      category: category,
-    },
-  ];
+  const [services, setServices] = useState<Service[]>([]);
+  const [myCursor, setMyCursor] = useState("0");
+  const [hasMore, setHasMore] = useState(true);
 
-  const [services, setServices] = useState<Service[]>(servicesTest);
-  const [page, setPage] = useState(1);
+  const getServicesMutation = api.service.getFilteredServices.useMutation({
+    onError(error) {
+      toast.error("Sucedio un error inesperado al obtener los servicios");
+    },
+    onSuccess(data, variables, context) {
+      if (data) {
+        setMyCursor(data.cursor ?? myCursor);
+
+        const newServices = data.services as Service[];
+
+        if (newServices.length === 0) {
+          setHasMore(false);
+        } else {
+          setTimeout(() => {
+            setServices((prevServices: Service[]) => [
+              ...prevServices,
+              ...newServices,
+            ]);
+          }, 1500);
+        }
+      }
+    },
+  });
 
   const loadMoreServices = () => {
-    //const nextPage = (page % 7) + 1;
-    //const newServices = (await api.service.getServices(category, nextPage)) ?? [];
-    //setServices((prevServices: Service[]) => [...prevServices, ...newServices]);
-    setTimeout(() => {
-      setServices((prevServices: Service[]) => [
-        ...prevServices,
-        ...servicesTest,
-      ]);
-    }, 1500);
-    //setPage(nextPage);
+    getServicesMutation.mutate({
+      category,
+      myCursor,
+    });
   };
 
   return (
-    <InfiniteScroll
-      dataLength={services.length}
-      next={loadMoreServices}
-      hasMore={true}
-      loader={<Shimmer />}
-      endMessage={
-        <p style={{ textAlign: "center" }}>
-          <b>No hay mas servicios disponibles</b>
-        </p>
-      }
-    >
-      <div className="grid-rows-auto mx-auto grid grid-cols-1 gap-5 xxxxs:grid-cols-2 xxxs:grid-cols-3 xxs:grid-cols-4 xs:grid-cols-5 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
-        {services.map((service, index) => (
-          <div key={index} className="flex w-full justify-center">
-            <Service
-              id={service.id}
-              name={service.name}
-              calification={service.calification}
-              provider={service.provider}
-              price={service.price}
-              imageSrc={service.image}
-            />
-          </div>
-        ))}
-      </div>
-    </InfiniteScroll>
+    <>
+      <Toast />
+
+      <InfiniteScroll
+        dataLength={services.length}
+        next={loadMoreServices}
+        hasMore={hasMore}
+        loader={<Shimmer />}
+      >
+        <div className="grid-rows-auto mx-auto grid grid-cols-1 gap-5 xxxxs:grid-cols-2 xxxs:grid-cols-3 xxs:grid-cols-4 xs:grid-cols-5 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+          {services.map((service, index) => (
+            <div key={index} className="flex w-full justify-center">
+              {service.image ? (
+                <Service
+                  id={service.id}
+                  name={service.name}
+                  calification={service.qualification}
+                  idProvider={service.providerId}
+                  price={service.price}
+                  imageSrc={service.image}
+                />
+              ) : (
+                <Service
+                  id={service.id}
+                  name={service.name}
+                  calification={service.qualification}
+                  idProvider={service.providerId}
+                  price={service.price}
+                />
+              )}
+            </div>
+          ))}
+        </div>
+      </InfiniteScroll>
+    </>
   );
 };
 

@@ -3,7 +3,7 @@ import Layout from "~/components/Layout";
 
 const Present = () => (
   <Layout>
-    <Categories category="present" />
+    <Categories category="PRESENT" />
   </Layout>
 );
 

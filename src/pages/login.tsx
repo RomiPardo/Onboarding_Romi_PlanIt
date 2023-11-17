@@ -44,8 +44,8 @@ const Register = () => {
       <Toast />
 
       <AuthentificationBanner>
-        <div className="flex flex-grow flex-col">
-          <div className="ms:w-6/12 md:pb-34 flex flex-col p-56 px-5 pt-7 md:px-32 md:pt-56">
+        <div className="flex flex-grow flex-col bg-white">
+          <div className="ms:w-6/12 flex flex-col p-56 px-5 pt-7 md:px-32 md:pb-34 md:pt-56">
             <div className="flex flex-col pb-12 md:pb-20">
               <h4 className="w-10/12 pb-5 text-4xl font-semibold leading-10 md:w-full md:pb-9 md:font-medium md:leading-9">
                 ¡Hola, otra vez!
@@ -153,18 +153,21 @@ const Register = () => {
                 width={7}
                 height={12}
               />
+
               <Image
                 src="/registerPage/linkedin.png"
                 alt="linkedin"
                 width={13}
                 height={12}
               />
+
               <Image
                 src="/registerPage/twitter.png"
                 alt="twitter"
                 width={14}
                 height={12}
               />
+
               <Image
                 src="/registerPage/instagram.png"
                 alt="instagram"

@@ -3,7 +3,7 @@ import Layout from "~/components/Layout";
 
 const Events = () => (
   <Layout>
-    <Categories category="event" />
+    <Categories category="EVENT" />
   </Layout>
 );
 

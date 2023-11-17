@@ -59,6 +59,7 @@ export const authOptions: NextAuthOptions = {
           email: token.email,
           image: token.image,
           points: token.points,
+          favoriteServices: token.favoriteServices,
         },
       };
     },
@@ -76,6 +77,7 @@ export const authOptions: NextAuthOptions = {
           email: currentUser.email,
           image: currentUser.image,
           points: currentUser.points,
+          favoriteServices: currentUser.favoriteServices,
         };
       }
 

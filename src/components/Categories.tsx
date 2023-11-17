@@ -2,16 +2,16 @@ import ServiceScroll from "./ServiceScroll";
 import SubFilterBar from "./SubFilterBar";
 
 type CategoriesProps = {
-  category: "present" | "merchandising" | "event" | "catering";
+  category: "PRESENT" | "MERCHANDISING" | "EVENT" | "CATERING";
 };
 
 const Categories = ({ category }: CategoriesProps) => {
   const categorySpanish =
-    category === "present"
+    category === "PRESENT"
       ? "REGALO"
-      : category === "merchandising"
+      : category === "MERCHANDISING"
       ? "MERCHANDISING"
-      : category === "event"
+      : category === "EVENT"
       ? "EVENTO"
       : "CATERING";
 
