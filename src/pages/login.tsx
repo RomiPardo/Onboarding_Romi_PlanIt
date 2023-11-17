@@ -3,7 +3,7 @@ import { FormProvider, useForm } from "react-hook-form";
 import { LoginUserSchema as UserShema } from "~/server/schemas/userSchema";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import Input from "~/components/Input";
+import InputWithLabel from "~/components/InputWithLabel";
 import Link from "next/link";
 import AuthentificationBanner from "~/components/AuthentificationBanner";
 import Toast from "~/components/Toast";
@@ -22,6 +22,7 @@ const Register = () => {
   const {
     formState: { errors },
     handleSubmit,
+    register,
   } = methods;
 
   const router = useRouter();
@@ -58,20 +59,20 @@ const Register = () => {
 
             <FormProvider {...methods}>
               <form onSubmit={handleSubmit(login)}>
-                <Input
+                <InputWithLabel
                   type="email"
                   placeholder="Email"
-                  id="email"
                   errorMessage={errors.email?.message}
                   intent="primary"
+                  {...register("email")}
                 />
 
-                <Input
+                <InputWithLabel
                   type="password"
                   placeholder="Contraseña"
-                  id="password"
                   errorMessage={errors.password?.message}
                   intent="primary"
+                  {...register("password")}
                 />
 
                 <div className="flex flex-row gap-3 pb-16 md:pb-20">

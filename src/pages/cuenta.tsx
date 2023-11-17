@@ -5,26 +5,39 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { api } from "~/utils/api";
 import { signOut, useSession } from "next-auth/react";
-import Input from "~/components/Input";
+import InputWithLabel from "~/components/InputWithLabel";
 import Toast from "~/components/Toast";
 import { toast } from "react-toastify";
 import Button from "~/components/Button";
+import {
+  GetServerSidePropsContext,
+  InferGetServerSidePropsType,
+  NextPage,
+} from "next";
+import { getServerSession } from "next-auth";
+import { authOptions } from "~/server/auth";
 
 type UserSchema = z.infer<typeof userShema>;
 
-const Acount = () => {
+type AcountProps = InferGetServerSidePropsType<typeof getServerSideProps>;
+
+const Acount: NextPage<AcountProps> = ({ defaultValues }) => {
+  const { data: session, update } = useSession();
+
   const methods = useForm<UserSchema>({
+    mode: "onChange",
     resolver: zodResolver(userShema),
+    defaultValues,
   });
+
   const {
     formState: { errors },
     handleSubmit,
+    register,
   } = methods;
 
-  const { data: session, update } = useSession();
-
   const updateMutation = api.user.updateUser.useMutation({
-    onError(error, variables, context) {
+    onError(error) {
       console.log(error.message);
       toast.error(error.message);
     },
@@ -59,49 +72,45 @@ const Acount = () => {
               <form onSubmit={handleSubmit(editUser)}>
                 <div className="ms:flex-row ms:px-32 ms:py-20 flex flex-col justify-between">
                   <div className="ms:w-[467px] w-full pb-6 text-gray">
-                    <Input
+                    <InputWithLabel
                       label="Email"
                       type="email"
-                      value={session?.user.email}
-                      id="email"
                       errorMessage={errors.email?.message}
                       intent="secondary"
+                      {...register("email")}
                     />
 
-                    <Input
+                    <InputWithLabel
                       label="Nombre"
                       type="text"
-                      value={session?.user.name}
-                      id="name"
                       errorMessage={errors.name?.message}
                       intent="secondary"
+                      {...register("name")}
                     />
 
-                    <Input
+                    <InputWithLabel
                       label="Apellido"
                       type="text"
-                      value={session?.user.lastName}
-                      id="lastName"
                       errorMessage={errors.lastName?.message}
                       intent="secondary"
+                      {...register("lastName")}
                     />
 
-                    <Input
+                    <InputWithLabel
                       label="Número de contacto"
                       type="string"
-                      value={session?.user.contactNumber}
-                      id="contactNumber"
                       intent="secondary"
                       errorMessage={errors.contactNumber?.message}
+                      {...register("contactNumber")}
                     />
 
-                    <Input
+                    <InputWithLabel
                       label="Contraseña"
                       type="password"
                       placeholder="•••••••••••••••••••"
-                      id="password"
                       errorMessage={errors.password?.message}
                       intent="secondary"
+                      {...register("password")}
                     />
                   </div>
 
@@ -122,6 +131,32 @@ const Acount = () => {
       </main>
     </Layout>
   );
+};
+
+export const getServerSideProps = async (
+  context: GetServerSidePropsContext,
+) => {
+  const session = await getServerSession(context.req, context.res, authOptions);
+
+  if (!session?.user) {
+    return {
+      redirect: {
+        permanent: false,
+        destination: "/login",
+      },
+    };
+  }
+
+  return {
+    props: {
+      defaultValues: {
+        email: session?.user.email,
+        name: session?.user.name,
+        lastName: session?.user.lastName,
+        contactNumber: session?.user.contactNumber,
+      },
+    },
+  };
 };
 
 export default Acount;

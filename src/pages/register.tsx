@@ -4,7 +4,7 @@ import { api } from "~/utils/api";
 import { RegisterUserSchema as UserShema } from "~/server/schemas/userSchema";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import Input from "~/components/Input";
+import InputWithLabel from "~/components/InputWithLabel";
 import Link from "next/link";
 import AuthentificationBanner from "~/components/AuthentificationBanner";
 import { toast } from "react-toastify";
@@ -22,6 +22,7 @@ const Register = () => {
   const {
     formState: { errors },
     handleSubmit,
+    register,
   } = methods;
 
   const registerMutation = api.user.registerUser.useMutation();
@@ -68,44 +69,44 @@ const Register = () => {
 
             <FormProvider {...methods}>
               <form onSubmit={handleSubmit(signUp)}>
-                <Input
+                <InputWithLabel
                   type="text"
                   placeholder="Nombre"
-                  id="name"
                   errorMessage={errors.name?.message}
                   intent="primary"
+                  {...register("name")}
                 />
 
-                <Input
+                <InputWithLabel
                   type="text"
                   placeholder="Apellido"
-                  id="lastName"
                   errorMessage={errors.lastName?.message}
                   intent="primary"
+                  {...register("lastName")}
                 />
 
-                <Input
+                <InputWithLabel
                   type="email"
                   placeholder="Email"
-                  id="email"
                   errorMessage={errors.email?.message}
                   intent="primary"
+                  {...register("email")}
                 />
 
-                <Input
+                <InputWithLabel
                   type="password"
                   placeholder="Contraseña"
-                  id="password"
                   errorMessage={errors.password?.message}
                   intent="primary"
+                  {...register("password")}
                 />
 
-                <Input
+                <InputWithLabel
                   type="string"
                   placeholder="Nombre de la Empresa"
-                  id="business"
                   errorMessage={errors.business?.message}
                   intent="primary"
+                  {...register("business")}
                 />
 
                 <div className="rounded bg-white md:pt-5">

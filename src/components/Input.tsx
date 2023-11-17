@@ -1,6 +1,5 @@
-import { useFormContext } from "react-hook-form";
 import { cva, VariantProps } from "class-variance-authority";
-import { useState } from "react";
+import { forwardRef, InputHTMLAttributes } from "react";
 
 const inputStyles = cva("", {
   variants: {
@@ -16,52 +15,19 @@ const inputStyles = cva("", {
   },
 });
 
-type InputProps = VariantProps<typeof inputStyles> & {
-  type: string;
-  id: string;
-  placeholder?: string;
-  errorMessage?: string;
-  value?: string;
-  label?: string;
-};
+export type InputProps = VariantProps<typeof inputStyles> &
+  InputHTMLAttributes<HTMLInputElement>;
 
-const Input = ({
-  intent,
-  type,
-  id,
-  placeholder,
-  errorMessage,
-  value,
-  label,
-  ...props
-}: InputProps) => {
-  const { register } = useFormContext();
-  const [stateOfInput, setStateOfInput] = useState(value);
+const Input = forwardRef<HTMLInputElement, InputProps>(
+  ({ className, type, intent, ...props }, ref) => (
+    <input
+      className={inputStyles({ intent })}
+      {...props}
+      type={type}
+      ref={ref}
+    />
+  ),
+);
 
-  return (
-    <div className="flex flex-col gap-y-3 pb-8 md:w-full md:pb-10">
-      {label && <label className="text-xs font-normal">{label}</label>}
-
-      <div className="flex flex-col gap-y-2.5 pb-8 md:w-full md:pb-6">
-        <input
-          className={inputStyles({ intent })}
-          {...props}
-          type={type}
-          placeholder={placeholder}
-          id={id}
-          {...register(id)}
-          value={stateOfInput}
-          onChange={(e) => setStateOfInput(e.target.value)}
-        />
-
-        {errorMessage && (
-          <p className="block text-sm text-red-600 md:text-base">
-            {errorMessage}
-          </p>
-        )}
-      </div>
-    </div>
-  );
-};
-
+Input.displayName = "Input";
 export default Input;
