@@ -31,40 +31,28 @@ type ServiceScrollProps = {
 };
 
 const ServiceScroll = ({ category }: ServiceScrollProps) => {
-  const [services, setServices] = useState<Service[]>([]);
-  const [myCursor, setMyCursor] = useState("0");
-  const [hasMore, setHasMore] = useState(true);
+  const { data, error, fetchNextPage, hasNextPage } =
+    api.service.getFilteredServices.useInfiniteQuery(
+      { category },
+      {
+        getNextPageParam: (lastPage) => lastPage.nextCursor,
+      },
+    );
+
+  if (error) {
+    toast.error("Sucedio un error inesperado al obtener los servicios");
+  }
+
+  const services = data?.pages.flatMap((page) => page.data) ?? [];
+  const hasMore = hasNextPage ? hasNextPage : false;
   const length = api.service.getLengthFiltered.useQuery({ category }).data;
 
-  const getServicesMutation = api.service.getFilteredServices.useMutation({
-    onError(error) {
-      toast.error("Sucedio un error inesperado al obtener los servicios");
-    },
-    onSuccess(data) {
-      if (data) {
-        setMyCursor(data.cursor ?? myCursor);
+  const delay = (ms: number) =>
+    new Promise((resolve) => setTimeout(resolve, ms));
 
-        const newServices = data.services as Service[];
-
-        if (newServices.length === 0) {
-          setHasMore(false);
-        } else {
-          setTimeout(() => {
-            setServices((prevServices: Service[]) => [
-              ...prevServices,
-              ...newServices,
-            ]);
-          }, 1500);
-        }
-      }
-    },
-  });
-
-  const loadMoreServices = () => {
-    getServicesMutation.mutate({
-      category,
-      myCursor,
-    });
+  const loadMoreServices = async () => {
+    await delay(1500);
+    await fetchNextPage();
   };
 
   return (

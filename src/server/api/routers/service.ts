@@ -85,37 +85,34 @@ export const serviceRouter = createTRPCRouter({
   getFilteredServices: publicProcedure
     .input(
       z.object({
-        myCursor: z.string(),
+        cursor: z.string().nullish(),
         category: z.enum(["PRESENT", "CATERING", "MERCHANDISING", "EVENT"]),
+        limit: z.number().min(1).max(100).nullish(),
       }),
     )
-    .mutation(async ({ ctx, input: { myCursor, category } }) => {
-      const perPage = 12;
+    .query(async ({ ctx, input }) => {
+      const limit = input.limit ?? 12;
+      const { cursor, category } = input;
 
-      const data =
-        myCursor !== "0"
-          ? await ctx.prisma.service.findMany({
-              skip: 1,
-              take: perPage,
-              cursor: {
-                id: myCursor,
-              },
-              where: {
-                type: category,
-              },
-            })
-          : await ctx.prisma.service.findMany({
-              take: perPage,
-              where: {
-                type: category,
-              },
-            });
+      const data = await ctx.prisma.service.findMany({
+        take: limit + 1,
+        where: {
+          type: category,
+        },
+        cursor: cursor ? { id: cursor } : undefined,
+      });
 
-      if (data.length === 0) {
-        return { services: [], cursor: myCursor };
+      let nextCursor: typeof cursor | undefined = undefined;
+
+      if (data.length > limit) {
+        const nextItem = data.pop();
+        nextCursor = nextItem!.id;
       }
 
-      return { services: data, cursor: data[data.length - 1]?.id };
+      return {
+        data,
+        nextCursor,
+      };
     }),
 
   getLengthFiltered: publicProcedure
