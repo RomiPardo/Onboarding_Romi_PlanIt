@@ -28,6 +28,7 @@ model User {
     image          String?
     hashedPassword String
     role           Role    @default(USER)
+    contactNumber  String?
     points         Int     @default(0)
 
     @@map("users")

@@ -3,7 +3,7 @@ import Image from "next/image";
 
 const SearchBar = () => {
   return (
-    <div className="flex h-9 w-full items-center justify-between rounded-full border border-gray bg-light-gray sm:w-[460px] md:w-[587px]">
+    <div className="flex h-9 w-full items-center justify-between rounded-full border border-[#EEEEEE] bg-light-gray sm:w-[460px] md:w-[587px]">
       <Image
         className="my-2 ml-1 hover:cursor-pointer sm:hidden"
         src="/navbar/searchButton.png"
