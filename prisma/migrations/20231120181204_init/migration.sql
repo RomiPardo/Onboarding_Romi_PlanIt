@@ -16,6 +16,7 @@ CREATE TABLE "users" (
     "role" "Role" NOT NULL DEFAULT 'USER',
     "points" INTEGER NOT NULL DEFAULT 0,
     "serviceId" TEXT,
+    "contactNumber" TEXT,
 
     CONSTRAINT "users_pkey" PRIMARY KEY ("id")
 );
