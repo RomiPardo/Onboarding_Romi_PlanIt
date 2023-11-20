@@ -28,9 +28,10 @@ type Service = {
 
 type ServiceScrollProps = {
   category: "PRESENT" | "CATERING" | "MERCHANDISING" | "EVENT";
+  length: number;
 };
 
-const ServiceScroll = ({ category }: ServiceScrollProps) => {
+const ServiceScroll = ({ category, length }: ServiceScrollProps) => {
   const { data, error, fetchNextPage, hasNextPage } =
     api.service.getFilteredServices.useInfiniteQuery(
       { category },
@@ -45,7 +46,6 @@ const ServiceScroll = ({ category }: ServiceScrollProps) => {
 
   const services = data?.pages.flatMap((page) => page.data) ?? [];
   const hasMore = hasNextPage ? hasNextPage : false;
-  const length = api.service.getLengthFiltered.useQuery({ category }).data;
 
   const delay = (ms: number) =>
     new Promise((resolve) => setTimeout(resolve, ms));

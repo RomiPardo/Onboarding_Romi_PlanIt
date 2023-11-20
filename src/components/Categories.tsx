@@ -1,3 +1,4 @@
+import { api } from "~/utils/api";
 import ServiceScroll from "./ServiceScroll";
 import SubFilterBar from "./SubFilterBar";
 
@@ -15,6 +16,8 @@ const Categories = ({ category }: CategoriesProps) => {
       ? "EVENTO"
       : "CATERING";
 
+  const length = api.service.getLengthFiltered.useQuery({ category }).data;
+
   return (
     <main className="bg-light-gray px-5 pb-32 pt-8 font-poppins sm:px-32 sm:pb-28 sm:pt-24">
       <div className="hidden flex-col sm:flex">
@@ -23,13 +26,15 @@ const Categories = ({ category }: CategoriesProps) => {
 
           <h4 className="pb-4 text-4xl font-medium leading-9">Food Box*</h4>
 
-          <p className="text-lg font-normal leading-5">Más de 30 opciones*</p>
+          <p className="text-lg font-normal leading-5">
+            Más de {length} opciones
+          </p>
         </div>
 
         <SubFilterBar />
       </div>
 
-      <ServiceScroll category={category} />
+      <ServiceScroll category={category} length={length ?? 0} />
     </main>
   );
 };
