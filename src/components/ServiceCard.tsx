@@ -1,31 +1,26 @@
 import { useSession } from "next-auth/react";
 import Image from "next/image";
-import React from "react";
+import React, { useEffect } from "react";
 import { toast } from "react-toastify";
 import { api } from "~/utils/api";
 import Toast from "./Toast";
+import { Service } from "@prisma/client";
 
-type ServiceProps = {
-  imageSrc?: string;
-  favourite?: boolean;
-  id: string;
-  name: string;
-  calification: number;
-  idProvider: string;
-  price: number;
-};
-
-const ServiceCard = ({
-  id,
-  imageSrc = "/service/example.png",
-  favourite = false,
-  name,
-  calification,
-  idProvider,
-  price,
-}: ServiceProps) => {
-  const [isFavorite, setIsFavorite] = React.useState(favourite);
+const ServiceCard = ({ service }: { service: Service }) => {
   const session = useSession();
+
+  const favorite = api.service.isFavorite.useQuery({
+    id: service.id,
+    userEmail: session.data?.user.email ?? "",
+  }).data;
+
+  const [isFavorite, setIsFavorite] = React.useState(favorite);
+
+  useEffect(() => {
+    if (favorite !== isFavorite) {
+      setIsFavorite(favorite);
+    }
+  }, [favorite]);
 
   const favourtiteMutation = api.service.changeFavoriteBy.useMutation({
     onError(error, variables, context) {
@@ -36,7 +31,7 @@ const ServiceCard = ({
     },
   });
 
-  const provider = api.provider.getById.useQuery({ id: idProvider });
+  const provider = api.provider.getById.useQuery({ id: service.providerId });
 
   const changeFavoriteService = () => {
     const email = session.data?.user.email ? session.data?.user.email : "";
@@ -44,7 +39,7 @@ const ServiceCard = ({
     favourtiteMutation.mutate({
       isFavorite: !isFavorite,
       userEmail: email,
-      id,
+      id: service.id,
     });
   };
 
@@ -56,7 +51,7 @@ const ServiceCard = ({
         <div className="relative">
           <Image
             className="relative h-28 w-40 rounded-t-md sm:h-44 sm:w-56"
-            src={imageSrc}
+            src={service.image ?? "/service/example.png"}
             width="0"
             height="0"
             sizes="100vw"
@@ -87,7 +82,7 @@ const ServiceCard = ({
         <div className="px-3 py-3 sm:py-4">
           <div className="flex items-start justify-between sm:pb-1">
             <p className="truncate text-xs font-normal leading-normal sm:text-lg sm:font-medium sm:leading-5">
-              {name}
+              {service.name}
             </p>
 
             <div className="flex flex-row-reverse items-center gap-x-[2px] sm:flex-row sm:gap-x-1">
@@ -99,7 +94,7 @@ const ServiceCard = ({
               />
 
               <p className="bg-gradient-to-br from-blue-300 to-blue-500 bg-clip-text text-xs font-normal leading-normal text-transparent sm:text-base sm:font-normal sm:leading-5">
-                {calification}
+                {service.qualification}
               </p>
             </div>
           </div>
@@ -109,7 +104,7 @@ const ServiceCard = ({
           </p>
 
           <p className="bg-gradient-to-br from-blue-300 to-blue-500 bg-clip-text text-sm font-semibold leading-5 text-transparent sm:text-lg sm:font-medium">
-            ${price}
+            ${service.price}
             <span className="inline-block pl-1 text-xs font-normal leading-normal sm:hidden">
               cada una
             </span>

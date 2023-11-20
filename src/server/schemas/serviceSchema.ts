@@ -5,3 +5,8 @@ export const favoritedByServiceSchema = z.object({
   userEmail: z.string(),
   isFavorite: z.boolean(),
 });
+
+export const isFavoriteServiceSchema = z.object({
+  id: z.string(),
+  userEmail: z.string(),
+});

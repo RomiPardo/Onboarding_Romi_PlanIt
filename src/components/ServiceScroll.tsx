@@ -36,24 +36,7 @@ const ServiceScroll = ({ category }: ServiceScrollProps) => {
         <div className="grid-rows-auto mx-auto grid grid-cols-1 gap-5 xxxxs:grid-cols-2 xxxs:grid-cols-3 xxs:grid-cols-4 xs:grid-cols-5 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
           {services.map((service, index) => (
             <div key={index} className="flex w-full justify-center">
-              {service.image ? (
-                <ServiceCard
-                  id={service.id}
-                  name={service.name}
-                  calification={service.qualification}
-                  idProvider={service.providerId}
-                  price={service.price}
-                  imageSrc={service.image}
-                />
-              ) : (
-                <ServiceCard
-                  id={service.id}
-                  name={service.name}
-                  calification={service.qualification}
-                  idProvider={service.providerId}
-                  price={service.price}
-                />
-              )}
+              <ServiceCard service={service} />
             </div>
           ))}
         </div>

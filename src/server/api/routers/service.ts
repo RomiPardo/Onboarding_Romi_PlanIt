@@ -1,6 +1,9 @@
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "../trpc";
-import { favoritedByServiceSchema } from "~/server/schemas/serviceSchema";
+import {
+  favoritedByServiceSchema,
+  isFavoriteServiceSchema,
+} from "~/server/schemas/serviceSchema";
 import { TRPCError } from "@trpc/server";
 
 export const serviceRouter = createTRPCRouter({
@@ -113,5 +116,35 @@ export const serviceRouter = createTRPCRouter({
         data,
         nextCursor,
       };
+    }),
+
+  isFavorite: publicProcedure
+    .input(isFavoriteServiceSchema)
+    .query(async ({ ctx, input: { id, userEmail } }) => {
+      const favoritedBy = await ctx.prisma.service.findUnique({
+        where: {
+          id,
+        },
+        select: {
+          favoritedBy: true,
+        },
+      });
+
+      if (favoritedBy) {
+        const isFavorite = favoritedBy.favoritedBy.filter(
+          (u) => u.email === userEmail,
+        );
+
+        if (isFavorite.length > 0) {
+          return true;
+        } else {
+          return false;
+        }
+      } else {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "Hubo problemas al identificar el usuario o el servicio",
+        });
+      }
     }),
 });
