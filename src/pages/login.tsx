@@ -3,7 +3,7 @@ import { FormProvider, useForm } from "react-hook-form";
 import { LoginUserSchema as UserShema } from "~/server/schemas/userSchema";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import Input from "~/components/Input";
+import InputWithLabel from "~/components/InputWithLabel";
 import Link from "next/link";
 import AuthentificationBanner from "~/components/AuthentificationBanner";
 import Toast from "~/components/Toast";
@@ -22,6 +22,7 @@ const Register = () => {
   const {
     formState: { errors },
     handleSubmit,
+    register,
   } = methods;
 
   const router = useRouter();
@@ -44,8 +45,8 @@ const Register = () => {
       <Toast />
 
       <AuthentificationBanner>
-        <div className="flex flex-grow flex-col bg-white">
-          <div className="ms:w-6/12 flex flex-col p-56 px-5 pt-7 md:px-32 md:pb-34 md:pt-56">
+        <div className="flex flex-col bg-white md:w-6/12">
+          <div className="flex flex-col p-56 px-5 pt-7 md:px-32 md:pb-34 md:pt-56">
             <div className="flex flex-col pb-12 md:pb-20">
               <h4 className="w-10/12 pb-5 text-4xl font-semibold leading-10 md:w-full md:pb-9 md:font-medium md:leading-9">
                 ¡Hola, otra vez!
@@ -58,18 +59,20 @@ const Register = () => {
 
             <FormProvider {...methods}>
               <form onSubmit={handleSubmit(login)}>
-                <Input
+                <InputWithLabel
                   type="email"
                   placeholder="Email"
-                  id="email"
                   errorMessage={errors.email?.message}
+                  intent="primary"
+                  {...register("email")}
                 />
 
-                <Input
+                <InputWithLabel
                   type="password"
                   placeholder="Contraseña"
-                  id="password"
                   errorMessage={errors.password?.message}
+                  intent="primary"
+                  {...register("password")}
                 />
 
                 <div className="flex flex-row gap-3 pb-16 md:pb-20">

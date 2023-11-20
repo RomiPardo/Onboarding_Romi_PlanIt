@@ -7,6 +7,7 @@ const buttonStyles = cva("", {
       primary:
         "box-border h-9 w-full rounded border-0 bg-gradient-to-br from-blue-300 to-blue-500 text-center text-base font-medium leading-4 text-white shadow-sm hover:cursor-pointer md:h-9 md:text-base md:font-medium",
       help: "flex h-8 w-56 flex-row items-center justify-center gap-3 rounded-xl bg-blue-300 text-base font-normal leading-4 text-white",
+      edition: "ms:text-right h-9 text-left hover:cursor-pointer",
     },
   },
   defaultVariants: {
@@ -16,10 +17,17 @@ const buttonStyles = cva("", {
 
 interface ButtonProps extends VariantProps<typeof buttonStyles> {
   children?: ReactNode;
+  action?: () => Promise<void>;
+  type?: "submit";
 }
 
-const Button = ({ intent, children, ...props }: ButtonProps) => (
-  <button className={buttonStyles({ intent })} {...props} type="submit">
+const Button = ({ intent, children, action, type, ...props }: ButtonProps) => (
+  <button
+    className={buttonStyles({ intent })}
+    {...props}
+    onClick={action}
+    type={type}
+  >
     {children}
   </button>
 );

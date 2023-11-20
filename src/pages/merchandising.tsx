@@ -1,9 +1,9 @@
-import Categories from "~/components/Categories";
 import Layout from "~/components/Layout";
+import ServiceScroll from "~/components/ServiceScroll";
 
 const Merchandising = () => (
   <Layout>
-    <Categories category="MERCHANDISING" />
+    <ServiceScroll category="MERCHANDISING" />
   </Layout>
 );
 

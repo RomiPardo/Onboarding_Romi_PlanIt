@@ -1,5 +1,6 @@
 import prisma from "~/server/db";
 import bcrypt from "bcryptjs";
+import { ServiceType } from "@prisma/client";
 
 async function main() {
   const alice = await prisma.user.upsert({
@@ -70,13 +71,6 @@ async function main() {
 }
 
 const createServices = async () => {
-  enum ServiceType {
-    PRESENT = "PRESENT",
-    CATERING = "CATERING",
-    MERCHANDISING = "MERCHANDISING",
-    EVENT = "EVENT",
-  }
-
   const provider = await prisma.provider.upsert({
     where: { name: "Provedor Aux" },
     update: {},

@@ -4,38 +4,40 @@ import SubFilterBar from "./SubFilterBar";
 
 type CategoriesProps = {
   category: "PRESENT" | "MERCHANDISING" | "EVENT" | "CATERING";
+  filter?: string;
+  moreThan: number;
 };
 
-const Categories = ({ category }: CategoriesProps) => {
+const Categories = ({ category, filter, moreThan }: CategoriesProps) => {
   const categorySpanish =
     category === "PRESENT"
-      ? "REGALO"
+      ? "REGALOS"
       : category === "MERCHANDISING"
       ? "MERCHANDISING"
       : category === "EVENT"
-      ? "EVENTO"
+      ? "EVENTOS"
       : "CATERING";
 
-  const length = api.service.getLengthFiltered.useQuery({ category }).data;
-
   return (
-    <main className="bg-light-gray px-5 pb-32 pt-8 font-poppins sm:px-32 sm:pb-28 sm:pt-24">
+    <div>
       <div className="hidden flex-col sm:flex">
         <div>
           <h6 className="text-xl font-normal leading-5">{categorySpanish}</h6>
 
-          <h4 className="pb-4 text-4xl font-medium leading-9">Food Box*</h4>
+          <h4 className="pb-4 text-4xl font-medium leading-9">{filter}</h4>
 
           <p className="text-lg font-normal leading-5">
-            Más de {length} opciones
+            Más de {moreThan} opciones
           </p>
         </div>
 
         <SubFilterBar />
       </div>
 
-      <ServiceScroll category={category} length={length ?? 0} />
-    </main>
+      <p className="flex items-center justify-center pb-12 pt-8 text-sm font-normal leading-normal text-[#7D7D7D] sm:hidden">
+        {moreThan + 1} resultados
+      </p>
+    </div>
   );
 };
 

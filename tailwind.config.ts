@@ -22,6 +22,7 @@ module.exports = {
         xxs: "700px",
         xs: "880px",
         sm: "1050px",
+        ms: "1190px",
         md: "1250px",
         lg: "1430px",
       },
@@ -85,7 +86,7 @@ module.exports = {
         "blue-300": "#0F58B7",
         "light-blue": "#9BC7FF",
         "light-gray": "#FBFBFB",
-        gray: "#EEE",
+        gray: "#7D7D7D",
       },
       borderRadius: {
         lg: "var(--radius)",

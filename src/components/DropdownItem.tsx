@@ -12,9 +12,9 @@ const itemDropdownStyles = cva("", {
       secondary:
         "border-b-2 border-black py-2 text-sm font-light leading-5 w-full text-black hover:text-blue-300",
       tertiary:
-        "border-b border-black py-2 text-[#7D7D7D] text-sm font-light leading-5 w-full hover:text-blue-300",
+        "border-b border-black py-2 text-gray text-sm font-light leading-5 w-full hover:text-blue-300",
       forth:
-        "py-2 text-[#7D7D7D] text-sm font-light leading-5 w-full hover:text-blue-300",
+        "py-2 text-gray text-sm font-light leading-5 w-full hover:text-blue-300",
     },
   },
   defaultVariants: {
