@@ -38,7 +38,6 @@ const Acount: NextPage<AcountProps> = ({ defaultValues }) => {
 
   const updateMutation = api.user.updateUser.useMutation({
     onError(error) {
-      console.log(error.message);
       toast.error(error.message);
     },
     async onSuccess() {
