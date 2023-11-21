@@ -1,44 +1,31 @@
-import { useSession } from "next-auth/react";
 import Image from "next/image";
-import React, { useEffect } from "react";
+import React from "react";
 import { toast } from "react-toastify";
 import { api } from "~/utils/api";
 import Toast from "./Toast";
-import { Service } from "@prisma/client";
+import { Provider, Service } from "@prisma/client";
 
-const ServiceCard = ({ service }: { service: Service }) => {
-  const session = useSession();
+type ServiceFavorite = Service & {
+  isFavorite: boolean;
+  provider: Provider;
+};
 
-  const favorite = api.service.isFavorite.useQuery({
-    id: service.id,
-    userEmail: session.data?.user.email ?? "",
-  }).data;
-
-  const [isFavorite, setIsFavorite] = React.useState(favorite);
-
-  useEffect(() => {
-    if (favorite !== isFavorite) {
-      setIsFavorite(favorite);
-    }
-  }, [favorite]);
+const ServiceCard = ({ service }: { service: ServiceFavorite }) => {
+  const utils = api.useUtils();
 
   const favourtiteMutation = api.service.changeFavoriteBy.useMutation({
-    onError(error, variables, context) {
+    onError() {
       toast.error("Hubo problemas al identificar el usuario o el servicio");
     },
-    onSuccess() {
-      setIsFavorite(!isFavorite);
+    async onSuccess() {
+      await utils.service.getFilteredServices.invalidate();
+      //service.isFavorite = !service.isFavorite;
     },
   });
 
-  const provider = api.provider.getById.useQuery({ id: service.providerId });
-
   const changeFavoriteService = () => {
-    const email = session.data?.user.email ? session.data?.user.email : "";
-
     favourtiteMutation.mutate({
-      isFavorite: !isFavorite,
-      userEmail: email,
+      isFavorite: !service.isFavorite,
       id: service.id,
     });
   };
@@ -59,7 +46,7 @@ const ServiceCard = ({ service }: { service: Service }) => {
           />
 
           <div className="absolute right-0 top-0 pr-3 pt-3 hover:cursor-pointer sm:pt-5">
-            {isFavorite ? (
+            {service.isFavorite ? (
               <Image
                 src="/service/favoriteIconTrue.png"
                 width={13}
@@ -100,7 +87,7 @@ const ServiceCard = ({ service }: { service: Service }) => {
           </div>
 
           <p className="pb-1 text-sm font-normal leading-normal text-[#7D7D7D] sm:pb-2 sm:text-lg sm:font-medium sm:leading-5">
-            {provider.data?.name}
+            {service.provider.name}
           </p>
 
           <p className="bg-gradient-to-br from-blue-300 to-blue-500 bg-clip-text text-sm font-semibold leading-5 text-transparent sm:text-lg sm:font-medium">

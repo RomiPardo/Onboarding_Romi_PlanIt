@@ -1,9 +1,10 @@
 import { api } from "~/utils/api";
 import ServiceScroll from "./ServiceScroll";
 import SubFilterBar from "./SubFilterBar";
+import { ServiceType } from "@prisma/client";
 
 type CategoriesProps = {
-  category: "PRESENT" | "MERCHANDISING" | "EVENT" | "CATERING";
+  category: ServiceType;
   filter?: string;
   moreThan: number;
 };

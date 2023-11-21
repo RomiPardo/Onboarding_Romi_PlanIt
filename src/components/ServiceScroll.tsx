@@ -5,11 +5,12 @@ import Toast from "./Toast";
 import { toast } from "react-toastify";
 import Spinner from "./Spinner";
 import useFilteredServices from "~/hooks/useFilteredServices";
-import { ServiceType } from "@prisma/client";
+import { Provider, ServiceType } from "@prisma/client";
 import Categories from "./Categories";
 
 type ServiceScrollProps = {
   category: ServiceType;
+  provider: Provider;
 };
 
 const ServiceScroll = ({ category }: ServiceScrollProps) => {

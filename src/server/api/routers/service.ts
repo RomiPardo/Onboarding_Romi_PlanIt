@@ -2,7 +2,7 @@ import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "../trpc";
 import {
   favoritedByServiceSchema,
-  isFavoriteServiceSchema,
+  filterServiceSchema,
 } from "~/server/schemas/serviceSchema";
 import { TRPCError } from "@trpc/server";
 
@@ -18,56 +18,26 @@ export const serviceRouter = createTRPCRouter({
 
   changeFavoriteBy: publicProcedure
     .input(favoritedByServiceSchema)
-    .mutation(async ({ ctx, input: { id, userEmail, isFavorite } }) => {
-      const favoriteServices = await ctx.prisma.user.findUnique({
-        where: {
-          email: userEmail,
-        },
-        select: {
-          favoriteServices: true,
-        },
-      });
-
-      const favoritedBy = await ctx.prisma.service.findUnique({
+    .mutation(async ({ ctx, input: { id, isFavorite } }) => {
+      const service = await ctx.prisma.service.findUnique({
         where: {
           id,
         },
-        select: {
+        include: {
           favoritedBy: true,
         },
       });
 
       const user = await ctx.prisma.user.findUnique({
         where: {
-          email: userEmail,
+          email: ctx.session?.user.email,
         },
       });
 
-      const service = await ctx.prisma.service.findUnique({
-        where: {
-          id,
-        },
-      });
-
-      if (user && service && favoriteServices && favoritedBy) {
-        const updatedFavoriteServices = isFavorite
-          ? [...favoriteServices?.favoriteServices, service]
-          : favoriteServices?.favoriteServices.filter(
-              (s) => s.name !== service.name,
-            );
-
+      if (service && user) {
         const updatedFavoritedBy = isFavorite
-          ? [...favoritedBy.favoritedBy, user]
-          : favoritedBy.favoritedBy.filter((u) => u.name !== user.name);
-
-        await ctx.prisma.user.update({
-          where: {
-            email: userEmail,
-          },
-          data: {
-            favoriteServices: { set: updatedFavoriteServices },
-          },
-        });
+          ? [...service.favoritedBy, user]
+          : service.favoritedBy.filter((u) => u.name !== user.name);
 
         await ctx.prisma.service.update({
           where: {
@@ -86,13 +56,7 @@ export const serviceRouter = createTRPCRouter({
     }),
 
   getFilteredServices: publicProcedure
-    .input(
-      z.object({
-        cursor: z.string().nullish(),
-        category: z.enum(["PRESENT", "CATERING", "MERCHANDISING", "EVENT"]),
-        limit: z.number().min(1).max(100).nullish(),
-      }),
-    )
+    .input(filterServiceSchema)
     .query(async ({ ctx, input }) => {
       const limit = input.limit ?? 12;
       const { cursor, category } = input;
@@ -103,6 +67,10 @@ export const serviceRouter = createTRPCRouter({
           type: category,
         },
         cursor: cursor ? { id: cursor } : undefined,
+        include: {
+          favoritedBy: true,
+          provider: true,
+        },
       });
 
       let nextCursor: typeof cursor | undefined = undefined;
@@ -112,39 +80,15 @@ export const serviceRouter = createTRPCRouter({
         nextCursor = nextItem!.id;
       }
 
-      return {
-        data,
-        nextCursor,
-      };
-    }),
+      const userEmail = ctx.session?.user.email;
 
-  isFavorite: publicProcedure
-    .input(isFavoriteServiceSchema)
-    .query(async ({ ctx, input: { id, userEmail } }) => {
-      const favoritedBy = await ctx.prisma.service.findUnique({
-        where: {
-          id,
-        },
-        select: {
-          favoritedBy: true,
-        },
+      const dataFavorite = data.flatMap((service) => {
+        return {
+          ...service,
+          isFavorite: service.favoritedBy.some((u) => u.email === userEmail),
+        };
       });
 
-      if (favoritedBy) {
-        const isFavorite = favoritedBy.favoritedBy.filter(
-          (u) => u.email === userEmail,
-        );
-
-        if (isFavorite.length > 0) {
-          return true;
-        } else {
-          return false;
-        }
-      } else {
-        throw new TRPCError({
-          code: "BAD_REQUEST",
-          message: "Hubo problemas al identificar el usuario o el servicio",
-        });
-      }
+      return { data: dataFavorite, nextCursor };
     }),
 });

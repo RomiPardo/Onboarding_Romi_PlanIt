@@ -11,8 +11,7 @@ const useFilteredServices = (category: ServiceType) => {
     );
 
   const services = data?.pages.flatMap((page) => page.data) ?? [];
-  const moreThan = (services.length > 0) ?
-    services.length - 1 : 0;
+  const moreThan = services.length > 0 ? services.length - 1 : 0;
 
   return { services, error, fetchNextPage, hasNextPage, moreThan };
 };
