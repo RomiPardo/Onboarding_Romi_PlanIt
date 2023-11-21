@@ -19,7 +19,6 @@ const ServiceCard = ({ service }: { service: ServiceFavorite }) => {
     },
     async onSuccess() {
       await utils.service.getFilteredServices.invalidate();
-      //service.isFavorite = !service.isFavorite;
     },
   });
 
