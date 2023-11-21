@@ -10,7 +10,6 @@ import Categories from "./Categories";
 
 type ServiceScrollProps = {
   category: ServiceType;
-  provider: Provider;
 };
 
 const ServiceScroll = ({ category }: ServiceScrollProps) => {
