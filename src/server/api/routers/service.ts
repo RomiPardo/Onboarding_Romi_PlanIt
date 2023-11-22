@@ -19,34 +19,38 @@ export const serviceRouter = createTRPCRouter({
   changeFavoriteBy: publicProcedure
     .input(favoritedByServiceSchema)
     .mutation(async ({ ctx, input: { id, isFavorite } }) => {
-      const service = await ctx.prisma.service.findUnique({
-        where: {
-          id,
-        },
-        include: {
-          favoritedBy: true,
-        },
-      });
-
-      const user = await ctx.prisma.user.findUnique({
+      const currentUser = await ctx.prisma.user.findUnique({
         where: {
           email: ctx.session?.user.email,
         },
       });
 
-      if (service && user) {
-        const updatedFavoritedBy = isFavorite
-          ? [...service.favoritedBy, user]
-          : service.favoritedBy.filter((u) => u.name !== user.name);
-
-        await ctx.prisma.service.update({
-          where: {
-            id,
-          },
-          data: {
-            favoritedBy: { set: updatedFavoritedBy },
-          },
-        });
+      if (currentUser) {
+        if (isFavorite) {
+          await ctx.prisma.service.update({
+            where: {
+              id,
+            },
+            data: {
+              favoritedBy: { connect: [{ id: currentUser.id }] },
+            },
+            include: {
+              favoritedBy: true,
+            },
+          });
+        } else {
+          await ctx.prisma.service.update({
+            where: {
+              id,
+            },
+            data: {
+              favoritedBy: { disconnect: [{ id: currentUser.id }] },
+            },
+            include: {
+              favoritedBy: true,
+            },
+          });
+        }
       } else {
         throw new TRPCError({
           code: "BAD_REQUEST",
@@ -80,12 +84,12 @@ export const serviceRouter = createTRPCRouter({
         nextCursor = nextItem!.id;
       }
 
-      const userEmail = ctx.session?.user.email;
+      const userId = ctx.session?.user.id;
 
       const dataFavorite = data.flatMap((service) => {
         return {
           ...service,
-          isFavorite: service.favoritedBy.some((u) => u.email === userEmail),
+          isFavorite: service.favoritedBy.some((user) => user.id === userId),
         };
       });
 
