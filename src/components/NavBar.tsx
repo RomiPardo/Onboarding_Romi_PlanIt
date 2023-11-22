@@ -36,7 +36,7 @@ const NavBar = () => {
                 {route.label}
               </Link>
 
-              {asPath === route.path && (
+              {asPath.includes(route.path) && (
                 <hr
                   className={
                     "h-[2px] bg-gradient-to-br from-blue-300 to-blue-500 bg-clip-content text-transparent"

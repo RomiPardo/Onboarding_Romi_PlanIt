@@ -12,13 +12,16 @@ const UserAccount = () => {
 
   return (
     <div className="flex h-[44px] items-center gap-x-3">
-      <Image
-        className="rounded-3xl"
-        src={imageLink}
-        alt="user profile photo"
-        width={40}
-        height={40}
-      />
+      <div className="flex h-10 w-10">
+        <Image
+          className="h-full w-full rounded-3xl object-cover"
+          src={imageLink}
+          alt="user profile photo"
+          width="0"
+          height="0"
+          sizes="100vw"
+        />
+      </div>
 
       <div className="flex flex-col">
         <div className="flex gap-x-2 text-lg font-medium leading-5">
