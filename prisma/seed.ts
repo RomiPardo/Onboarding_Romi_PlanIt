@@ -46,7 +46,7 @@ async function main() {
     create: {
       type: "PRESENT",
       name: "Mini Box Salada",
-      image: "/service/filipaMiniBox.png",
+      image: ["/service/filipaMiniBox.png"],
       price: 495,
       qualification: 4.95,
       providerId: filipa.id,
@@ -59,7 +59,7 @@ async function main() {
     create: {
       type: "PRESENT",
       name: "Lunch Box",
-      image: "/service/lunchBox.png",
+      image: ["/service/lunchBox.png"],
       price: 495,
       qualification: 4.84,
       providerId: filipa.id,

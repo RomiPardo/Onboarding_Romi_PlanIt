@@ -17,11 +17,15 @@ const SelectedService: NextPage<SelectedServiceProps> = ({ id }) => {
   const { data: service, isLoading } = api.service.getById.useQuery({ id });
 
   if (!service || isLoading) {
-    return <ServiceInformationShimmer />;
+    return (
+      <Layout intent="goBack">
+        <ServiceInformationShimmer />
+      </Layout>
+    );
   }
 
   return (
-    <Layout>
+    <Layout intent="goBack">
       <ServiceInformation service={service} />
     </Layout>
   );

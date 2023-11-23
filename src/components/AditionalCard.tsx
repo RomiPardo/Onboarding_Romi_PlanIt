@@ -17,7 +17,7 @@ const Aditional = ({ aditional, action }: AditionalTypes) => {
 
   return (
     <div className="flex flex-row gap-x-8">
-      <div>
+      <div className="hover:cursor-pointer">
         {aditionalOn ? (
           <Image
             src="/service/aditionalOn.png"
