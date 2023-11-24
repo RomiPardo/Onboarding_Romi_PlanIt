@@ -45,7 +45,7 @@ const Register = () => {
       <Toast />
 
       <AuthentificationBanner>
-        <div className="flex flex-col md:w-6/12">
+        <div className="flex flex-col bg-white md:w-6/12">
           <div className="flex flex-col p-56 px-5 pt-7 md:px-32 md:pb-34 md:pt-56">
             <div className="flex flex-col pb-12 md:pb-20">
               <h4 className="w-10/12 pb-5 text-4xl font-semibold leading-10 md:w-full md:pb-9 md:font-medium md:leading-9">
@@ -156,18 +156,21 @@ const Register = () => {
                 width={7}
                 height={12}
               />
+
               <Image
                 src="/registerPage/linkedin.png"
                 alt="linkedin"
                 width={13}
                 height={12}
               />
+
               <Image
                 src="/registerPage/twitter.png"
                 alt="twitter"
                 width={14}
                 height={12}
               />
+
               <Image
                 src="/registerPage/instagram.png"
                 alt="instagram"

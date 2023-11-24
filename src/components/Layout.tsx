@@ -6,7 +6,7 @@ const Layout = ({ children }: { children: ReactNode }) => (
   <div className="flex h-screen flex-col">
     <NavBar />
 
-    <div className="flex-grow bg-light-gray">{children}</div>
+    <div className="mt-[152px] flex-grow bg-light-gray">{children}</div>
 
     <Footer />
   </div>

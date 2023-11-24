@@ -47,7 +47,7 @@ const Register = () => {
       <Toast />
 
       <AuthentificationBanner>
-        <div className="flex flex-col md:w-6/12">
+        <div className="flex flex-col bg-white md:w-6/12">
           <div className="flex flex-col px-5 pb-24 pt-7 md:px-32 md:pb-14 md:pt-40">
             <div className="flex flex-col pb-14">
               <h4 className="w-10/12 pb-5 text-4xl font-semibold leading-10 md:w-full md:pb-9 md:font-medium md:leading-9">
