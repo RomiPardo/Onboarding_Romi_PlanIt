@@ -7,6 +7,7 @@ import Link from "next/link";
 import NavBarGoBack from "./NavBarGoBack";
 import FavoriteButton from "./FavoriteButton";
 import ImageCarrusel from "./ImageCarrusel";
+import NumericInput from "./NumericInput";
 
 type ServerInformationProps = {
   service: NonNullable<RouterOutput["service"]["getById"]>;
@@ -24,10 +25,10 @@ const ServiceInformation = ({ service }: ServerInformationProps) => {
   return (
     <main className="flex flex-col gap-x-5 bg-light-gray pb-40 pt-0 font-poppins sm:flex-row sm:px-32 sm:pb-28 sm:pt-24">
       <div className=" flex flex-col sm:w-3/5">
-        <div className="relative flex w-full flex-col pb-14 sm:pb-9">
+        <div className="relative flex w-full flex-col pb-14">
           <ImageCarrusel images={service.image} />
 
-          <div className="absolute h-[190px] w-full bg-gradient-to-b from-black to-transparent object-cover sm:hidden"></div>
+          <div className="absolute h-3/5 w-full bg-gradient-to-b from-black to-transparent object-cover sm:hidden"></div>
 
           <NavBarGoBack service={service} favoriteIcon={true} color="white" />
         </div>
@@ -71,28 +72,8 @@ const ServiceInformation = ({ service }: ServerInformationProps) => {
               </p>
             </div>
 
-            <div className="hidden h-7 w-24 flex-row items-center rounded border border-gray sm:flex">
-              <button
-                className={
-                  amount !== 0
-                    ? "border-r border-gray px-2"
-                    : "border-r border-gray px-2 text-gray"
-                }
-                onClick={() => {
-                  if (amount !== 0) setAmount(amount - 1);
-                }}
-              >
-                -
-              </button>
-
-              <p className="w-12 text-center">{amount}</p>
-
-              <button
-                className="border-l border-gray px-2"
-                onClick={() => setAmount(amount + 1)}
-              >
-                +
-              </button>
+            <div className="hidden sm:flex">
+              <NumericInput action={setAmount} amount={amount} />
             </div>
           </div>
 
@@ -173,28 +154,8 @@ const ServiceInformation = ({ service }: ServerInformationProps) => {
           </div>
 
           <div className="flex flex-row items-center justify-between gap-x-6">
-            <div className="flex h-7 w-24 flex-row items-center rounded border border-gray sm:hidden">
-              <button
-                className={
-                  amount !== 0
-                    ? "border-r border-gray px-2"
-                    : "border-r border-gray px-2 text-gray"
-                }
-                onClick={() => {
-                  if (amount !== 0) setAmount(amount - 1);
-                }}
-              >
-                -
-              </button>
-
-              <p className="w-12 text-center">{amount}</p>
-
-              <button
-                className="border-l border-gray px-2"
-                onClick={() => setAmount(amount + 1)}
-              >
-                +
-              </button>
+            <div className="flex sm:hidden">
+              <NumericInput action={setAmount} amount={amount} />
             </div>
 
             <div className="w-full rounded bg-white">

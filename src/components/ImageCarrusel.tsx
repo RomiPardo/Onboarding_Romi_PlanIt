@@ -23,7 +23,7 @@ const ImageCarrusel = ({ images }: ImageCarruselProps) => {
             key={index}
           >
             <Image
-              className="object-cover sm:rounded-md  sm:opacity-100"
+              className="object-cover sm:rounded-md sm:opacity-100"
               src={item}
               fill
               alt="Imagen del servicio"

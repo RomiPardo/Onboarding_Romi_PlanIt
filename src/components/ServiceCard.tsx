@@ -18,7 +18,7 @@ const ServiceCard = ({ service }: { service: ServiceFavorite }) => {
   const { asPath } = useRouter();
 
   return (
-    <div className="relative ">
+    <div className="relative">
       <Link className="relative" href={`${asPath}/${service.id}`}>
         <div className="flex h-48 w-40 flex-col rounded-md bg-white sm:h-72 sm:w-56">
           <Image

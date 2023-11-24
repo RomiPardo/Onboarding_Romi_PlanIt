@@ -1,13 +1,13 @@
-import { Aditional } from "@prisma/client";
+import { Aditional as AditionalCard } from "@prisma/client";
 import Image from "next/image";
 import { useState } from "react";
 
-type AditionalTypes = {
-  aditional: Aditional;
+type AditionalProps = {
+  aditional: AditionalCard;
   action: (price: number) => void;
 };
 
-const Aditional = ({ aditional, action }: AditionalTypes) => {
+const AditionalCard = ({ aditional, action }: AditionalProps) => {
   const [aditionalOn, setAditionalOn] = useState(false);
 
   const changeSelection = () => {
@@ -52,4 +52,4 @@ const Aditional = ({ aditional, action }: AditionalTypes) => {
   );
 };
 
-export default Aditional;
+export default AditionalCard;

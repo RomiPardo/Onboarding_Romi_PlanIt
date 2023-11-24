@@ -17,7 +17,7 @@ const NavBarGoBack = ({
   const router = useRouter();
 
   return (
-    <nav className="absolute flex w-full  flex-row items-center justify-between gap-x-5 px-5 pt-8 text-sm font-normal leading-normal sm:hidden">
+    <nav className="absolute flex w-full flex-row items-center justify-between gap-x-5 px-5 pt-8 text-sm font-normal leading-normal sm:hidden">
       <div onClick={() => router.back()} className="hover:cursor-pointer">
         <svg
           xmlns="http://www.w3.org/2000/svg"
