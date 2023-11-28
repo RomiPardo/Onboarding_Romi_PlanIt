@@ -58,10 +58,8 @@ const Acount: NextPage<AcountProps> = ({ defaultValues }) => {
 
   return (
     <Layout>
-      <Toast />
-
-      <main className="ms:px-32 ms:pb-24 ms:pt-24 bg-light-gray px-5 pb-36 pt-10 font-poppins">
-        <h4 className="ms:text-4xl ms:leading-9 pb-10 text-lg font-medium leading-normal">
+      <main className="bg-light-gray px-5 pb-36 pt-10 font-poppins ms:px-32 ms:pb-24 ms:pt-24">
+        <h4 className="pb-10 text-lg font-medium leading-normal ms:text-4xl ms:leading-9">
           Información personal
         </h4>
 
@@ -69,8 +67,8 @@ const Acount: NextPage<AcountProps> = ({ defaultValues }) => {
           <div className="ms:bg-white">
             <FormProvider {...methods}>
               <form onSubmit={handleSubmit(editUser)}>
-                <div className="ms:flex-row ms:px-32 ms:py-20 flex flex-col justify-between">
-                  <div className="ms:w-[467px] w-full pb-6 text-gray">
+                <div className="flex flex-col justify-between ms:flex-row ms:px-32 ms:py-20">
+                  <div className="w-full pb-6 text-gray ms:w-[467px]">
                     <InputWithLabel
                       label="Email"
                       type="email"
@@ -113,7 +111,7 @@ const Acount: NextPage<AcountProps> = ({ defaultValues }) => {
                     />
                   </div>
 
-                  <div className="ms:text-xl ms:leading-5 flex flex-col text-sm font-normal leading-normal text-blue-300">
+                  <div className="flex flex-col text-sm font-normal leading-normal text-blue-300 ms:text-xl ms:leading-5">
                     <Button intent="edition" type="submit">
                       Editar información
                     </Button>

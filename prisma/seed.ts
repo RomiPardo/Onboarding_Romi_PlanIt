@@ -15,6 +15,14 @@ async function main() {
       image: "/userImage/example.png",
       hashedPassword: await bcrypt.hash("Contra1234", 10),
       points: 202,
+      cards: {
+        createMany: {
+          data: [
+            { number: "1234-5647-8933-9876", cvv: 123 },
+            { number: "1834-5897-8930-9876", cvv: 123 },
+          ],
+        },
+      },
     },
   });
 

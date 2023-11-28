@@ -38,3 +38,8 @@ export const NewUserSchema = z.object({
   contactNumber: z.string(),
   password: z.string(),
 });
+
+export const cardSchema = z.object({
+  number: z.string().min(1, "Debe completar este campo"),
+  cvv: z.string().min(1, "Debe completar este campo"),
+});

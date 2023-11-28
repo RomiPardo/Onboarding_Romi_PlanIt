@@ -7,7 +7,9 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { routesMenu } from "./routes";
 
-const NavBar = () => {
+type NavBarProps = { action?: (() => Promise<void>) | (() => void) };
+
+const NavBar = ({ action }: NavBarProps) => {
   const { asPath } = useRouter();
 
   return (
@@ -32,6 +34,7 @@ const NavBar = () => {
               <Link
                 href={route.path}
                 className="bg-gradient-to-br from-blue-300 to-blue-500 bg-clip-text text-transparent"
+                onClick={action}
               >
                 {route.label}
               </Link>

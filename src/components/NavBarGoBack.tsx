@@ -1,5 +1,4 @@
 import { RouterOutput } from "~/types/common";
-import Toast from "./Toast";
 import { useRouter } from "next/router";
 import FavoriteButton from "./FavoriteButton";
 
@@ -7,12 +6,14 @@ type GoBackHeaderProps = {
   favoriteIcon?: boolean;
   service: NonNullable<RouterOutput["service"]["getById"]>;
   color?: string;
+  action?: () => Promise<void>;
 };
 
 const NavBarGoBack = ({
   favoriteIcon = false,
   service,
   color = "black",
+  action,
 }: GoBackHeaderProps) => {
   const router = useRouter();
 
@@ -32,7 +33,10 @@ const NavBarGoBack = ({
 
       <p
         className={`text-${color} flex flex-grow hover:cursor-pointer`}
-        onClick={() => router.back()}
+        onClick={async () => {
+          if (action) await action();
+          router.back();
+        }}
       >
         Volver
       </p>

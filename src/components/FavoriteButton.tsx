@@ -39,9 +39,6 @@ const FavoriteButton = ({
   };
 
   return (
-    <>
-      <Toast />
-
       <div className="flex items-end">
         {isFavorite ? (
           <Image
@@ -61,7 +58,6 @@ const FavoriteButton = ({
           />
         )}
       </div>
-    </>
   );
 };
 

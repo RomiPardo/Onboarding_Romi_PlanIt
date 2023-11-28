@@ -1,41 +1,25 @@
 import { Aditional as AditionalCard } from "@prisma/client";
-import Image from "next/image";
 import { useState } from "react";
+import OptionSelector from "./OptionSelector";
 
 type AditionalProps = {
   aditional: AditionalCard;
-  action: (price: number) => void;
+  action: (price: number, id: string) => void;
 };
 
 const AditionalCard = ({ aditional, action }: AditionalProps) => {
   const [aditionalOn, setAditionalOn] = useState(false);
 
   const changeSelection = () => {
-    !aditionalOn ? action(aditional.price) : action(aditional.price * -1);
+    !aditionalOn
+      ? action(aditional.price, aditional.id)
+      : action(aditional.price * -1, aditional.id);
     setAditionalOn(!aditionalOn);
   };
 
   return (
     <div className="flex flex-row gap-x-8">
-      <div className="hover:cursor-pointer">
-        {aditionalOn ? (
-          <Image
-            src="/service/aditionalOn.png"
-            width={42}
-            height={19}
-            alt="Adicional seleccionado"
-            onClick={changeSelection}
-          />
-        ) : (
-          <Image
-            src="/service/aditionalOff.png"
-            width={42}
-            height={19}
-            alt="Adicional no seleccionado"
-            onClick={changeSelection}
-          />
-        )}
-      </div>
+      <OptionSelector action={changeSelection} on={aditionalOn} />
 
       <div className="flex flex-col gap-y-1">
         <p className="text-base font-normal leading-4">{aditional.name}</p>

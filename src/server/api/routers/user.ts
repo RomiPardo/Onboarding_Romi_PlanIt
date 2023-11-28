@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "../trpc";
 import { protectedProcedure } from "../trpc";
-import { RegisterUserSchema } from "~/server/schemas/userSchema";
+import { RegisterUserSchema, cardSchema } from "~/server/schemas/userSchema";
 import { EditUserSchema } from "~/server/schemas/userSchema";
 import bcrypt from "bcryptjs";
 import { TRPCError } from "@trpc/server";
@@ -121,4 +121,21 @@ export const userRouter = createTRPCRouter({
         };
       },
     ),
+
+  addCard: publicProcedure
+    .input(cardSchema)
+    .mutation(async ({ ctx, input: { number, cvv } }) => {
+      const userId = ctx.session?.user.id;
+
+      if (!userId) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "Hubo problemas al identificar el usuario",
+        });
+      }
+
+      await ctx.prisma.creditCard.create({
+        data: { number, cvv: parseInt(cvv), userId },
+      });
+    }),
 });

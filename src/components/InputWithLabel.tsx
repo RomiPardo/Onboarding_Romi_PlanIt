@@ -11,7 +11,7 @@ const InputWithLabel = forwardRef<HTMLInputElement, InputWithLabelProps>(
     <div className="flex flex-col gap-y-3 pb-8 md:w-full md:pb-10">
       {label && <label className="text-xs font-normal">{label}</label>}
 
-      <div className="flex flex-col gap-y-2.5 pb-8 md:w-full md:pb-6">
+      <div className="flex flex-col gap-y-2.5 md:w-full">
         <Input {...props} ref={ref} />
 
         {errorMessage && (

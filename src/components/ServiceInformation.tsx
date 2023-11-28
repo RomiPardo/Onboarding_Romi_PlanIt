@@ -8,6 +8,10 @@ import NavBarGoBack from "./NavBarGoBack";
 import FavoriteButton from "./FavoriteButton";
 import ImageCarrusel from "./ImageCarrusel";
 import NumericInput from "./NumericInput";
+import { useRouter } from "next/router";
+import { api } from "~/utils/api";
+import { toast } from "react-toastify";
+import Toast from "./Toast";
 
 type ServerInformationProps = {
   service: NonNullable<RouterOutput["service"]["getById"]>;
@@ -16,11 +20,33 @@ type ServerInformationProps = {
 const ServiceInformation = ({ service }: ServerInformationProps) => {
   const [amount, setAmount] = useState(1);
   const [totalAditionals, setTotalAditionals] = useState(0);
+  const [aditionalsSelected, setAditionalsSelected] = useState<string[]>([]);
+  const { asPath } = useRouter();
+  const router = useRouter();
+
+  const createPreOrderMutation = api.order.createPreOrder.useMutation({
+    onError() {
+      toast.error("Hubo problemas al identificar el usuario o el servicio");
+    },
+    async onSuccess(id: string) {
+      await router.replace(`${asPath}/${id}`);
+    },
+  });
 
   const matchLineBreak = /\u000A|\u000D|\u000D\u000A/;
 
-  const changeTotalAditional = (price: number) =>
+  const changeTotalAditional = (price: number, id: string) => {
     setTotalAditionals(totalAditionals + price);
+    setAditionalsSelected([...aditionalsSelected, id]);
+  };
+
+  const createPreOrder = () => {
+    createPreOrderMutation.mutate({
+      serviceId: service.id,
+      aditionalsIds: aditionalsSelected,
+      amount,
+    });
+  };
 
   return (
     <main className="flex flex-col gap-x-5 bg-light-gray pb-40 pt-0 font-poppins sm:flex-row sm:px-32 sm:pb-28 sm:pt-24">
@@ -159,7 +185,7 @@ const ServiceInformation = ({ service }: ServerInformationProps) => {
             </div>
 
             <div className="w-full rounded bg-white">
-              <Button intent="primary">
+              <Button intent="primary" action={createPreOrder}>
                 <p>
                   COMPRAR <span className="sm:hidden">AHORA</span>
                 </p>
@@ -170,6 +196,7 @@ const ServiceInformation = ({ service }: ServerInformationProps) => {
           <Link
             href={"/print"}
             className="hidden pt-4 text-center text-base font-light leading-5 text-blue-300 sm:block"
+            onClick={createPreOrder}
           >
             Imprimir presupuesto
           </Link>
