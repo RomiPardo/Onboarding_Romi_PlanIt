@@ -1,13 +1,13 @@
-import { Aditional as AditionalCard } from "@prisma/client";
-import Image from "next/image";
+import { Aditional as PurchaseAdditional } from "@prisma/client";
+import { Switch } from "./ui/switch";
 import { useState } from "react";
 
 type AditionalProps = {
-  aditional: AditionalCard;
+  aditional: PurchaseAdditional;
   action: (price: number) => void;
 };
 
-const AditionalCard = ({ aditional, action }: AditionalProps) => {
+const PurchaseAdditional = ({ aditional, action }: AditionalProps) => {
   const [aditionalOn, setAditionalOn] = useState(false);
 
   const changeSelection = () => {
@@ -18,23 +18,7 @@ const AditionalCard = ({ aditional, action }: AditionalProps) => {
   return (
     <div className="flex flex-row gap-x-8">
       <div className="hover:cursor-pointer">
-        {aditionalOn ? (
-          <Image
-            src="/service/aditionalOn.png"
-            width={42}
-            height={19}
-            alt="Adicional seleccionado"
-            onClick={changeSelection}
-          />
-        ) : (
-          <Image
-            src="/service/aditionalOff.png"
-            width={42}
-            height={19}
-            alt="Adicional no seleccionado"
-            onClick={changeSelection}
-          />
-        )}
+        <Switch checked={aditionalOn} onCheckedChange={changeSelection} />
       </div>
 
       <div className="flex flex-col gap-y-1">
@@ -52,4 +36,4 @@ const AditionalCard = ({ aditional, action }: AditionalProps) => {
   );
 };
 
-export default AditionalCard;
+export default PurchaseAdditional;

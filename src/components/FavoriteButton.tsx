@@ -21,7 +21,7 @@ const FavoriteButton = ({
 }: FavoriteButtonProps) => {
   const utils = api.useUtils();
 
-  const favourtiteMutation = api.service.changeFavoriteBy.useMutation({
+  const favoriteMutation = api.service.changeFavoriteBy.useMutation({
     onError() {
       toast.error("Hubo problemas al identificar el usuario o el servicio");
     },
@@ -32,7 +32,7 @@ const FavoriteButton = ({
   });
 
   const changeFavoriteService = () => {
-    favourtiteMutation.mutate({
+    favoriteMutation.mutate({
       isFavorite: !isFavorite,
       id: serviceId,
     });

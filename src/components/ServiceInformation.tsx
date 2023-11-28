@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import Image from "next/image";
-import AditionalCard from "./AditionalCard";
+import PurchaseAdditional from "./PurchaseAdditional";
 import Button from "./Button";
 import { RouterOutput } from "~/types/common";
 import Link from "next/link";
-import NavBarGoBack from "./NavBarGoBack";
+import GoBack from "./GoBack";
 import FavoriteButton from "./FavoriteButton";
 import ImageCarrusel from "./ImageCarrusel";
 import NumericInput from "./NumericInput";
@@ -30,7 +30,7 @@ const ServiceInformation = ({ service }: ServerInformationProps) => {
 
           <div className="absolute h-3/5 w-full bg-gradient-to-b from-black to-transparent object-cover sm:hidden"></div>
 
-          <NavBarGoBack service={service} favoriteIcon={true} color="white" />
+          <GoBack service={service} favoriteIcon={true} color="white" />
         </div>
 
         <div className="hidden flex-col gap-y-11 sm:flex">
@@ -73,7 +73,7 @@ const ServiceInformation = ({ service }: ServerInformationProps) => {
             </div>
 
             <div className="hidden sm:flex">
-              <NumericInput action={setAmount} amount={amount} />
+              <NumericInput onClick={setAmount} amount={amount} />
             </div>
           </div>
 
@@ -115,7 +115,7 @@ const ServiceInformation = ({ service }: ServerInformationProps) => {
               <div className="flex flex-col gap-y-3">
                 {service.aditionals.map((aditional, index) => (
                   <div key={index} className="flex w-full">
-                    <AditionalCard
+                    <PurchaseAdditional
                       aditional={aditional}
                       action={changeTotalAditional}
                     />
@@ -155,7 +155,7 @@ const ServiceInformation = ({ service }: ServerInformationProps) => {
 
           <div className="flex flex-row items-center justify-between gap-x-6">
             <div className="flex sm:hidden">
-              <NumericInput action={setAmount} amount={amount} />
+              <NumericInput onClick={setAmount} amount={amount} />
             </div>
 
             <div className="w-full rounded bg-white">

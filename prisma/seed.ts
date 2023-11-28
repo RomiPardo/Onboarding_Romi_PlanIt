@@ -1,7 +1,6 @@
 import prisma from "~/server/db";
 import bcrypt from "bcryptjs";
 import { ServiceType } from "@prisma/client";
-import { create } from "domain";
 
 async function main() {
   const alice = await prisma.user.upsert({

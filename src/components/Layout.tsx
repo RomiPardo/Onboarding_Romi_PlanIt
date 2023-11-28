@@ -25,11 +25,15 @@ const Layout = ({ intent, children, ...props }: LayoutProps) => (
       <NavBar />
     </div>
 
-    {navBarStyles({ intent }) === "" ? (
-      <div className="mt-[152px] flex-grow bg-light-gray">{children}</div>
-    ) : (
-      <div className="flex-grow bg-light-gray sm:mt-[152px]">{children}</div>
-    )}
+    <div
+      className={
+        intent === "primary"
+          ? "mt-[152px] flex-grow bg-light-gray"
+          : "flex-grow bg-light-gray sm:mt-[152px]"
+      }
+    >
+      {children}
+    </div>
 
     <Footer />
   </div>

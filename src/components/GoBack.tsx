@@ -9,7 +9,7 @@ type GoBackHeaderProps = {
   color?: string;
 };
 
-const NavBarGoBack = ({
+const GoBack = ({
   favoriteIcon = false,
   service,
   color = "black",
@@ -49,4 +49,4 @@ const NavBarGoBack = ({
   );
 };
 
-export default NavBarGoBack;
+export default GoBack;
