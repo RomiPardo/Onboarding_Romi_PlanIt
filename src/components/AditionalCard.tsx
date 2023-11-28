@@ -1,10 +1,10 @@
-import { Aditional as AditionalCard } from "@prisma/client";
+import { Aditional, Aditional as AditionalCard } from "@prisma/client";
 import { useState } from "react";
 import OptionSelector from "./OptionSelector";
 
 type AditionalProps = {
   aditional: AditionalCard;
-  action: (price: number, id: string) => void;
+  action: (add: boolean, aditional: Aditional) => void;
 };
 
 const AditionalCard = ({ aditional, action }: AditionalProps) => {
@@ -12,8 +12,8 @@ const AditionalCard = ({ aditional, action }: AditionalProps) => {
 
   const changeSelection = () => {
     !aditionalOn
-      ? action(aditional.price, aditional.id)
-      : action(aditional.price * -1, aditional.id);
+      ? action(!aditionalOn, aditional)
+      : action(!aditionalOn, aditional);
     setAditionalOn(!aditionalOn);
   };
 

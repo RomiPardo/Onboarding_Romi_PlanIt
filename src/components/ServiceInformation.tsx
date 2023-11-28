@@ -12,6 +12,7 @@ import { useRouter } from "next/router";
 import { api } from "~/utils/api";
 import { toast } from "react-toastify";
 import Toast from "./Toast";
+import { Aditional } from "@prisma/client";
 
 type ServerInformationProps = {
   service: NonNullable<RouterOutput["service"]["getById"]>;
@@ -19,8 +20,7 @@ type ServerInformationProps = {
 
 const ServiceInformation = ({ service }: ServerInformationProps) => {
   const [amount, setAmount] = useState(1);
-  const [totalAditionals, setTotalAditionals] = useState(0);
-  const [aditionalsSelected, setAditionalsSelected] = useState<string[]>([]);
+  const [aditionalsSelected, setAditionalsSelected] = useState<Aditional[]>([]);
   const { asPath } = useRouter();
   const router = useRouter();
 
@@ -35,15 +35,22 @@ const ServiceInformation = ({ service }: ServerInformationProps) => {
 
   const matchLineBreak = /\u000A|\u000D|\u000D\u000A/;
 
-  const changeTotalAditional = (price: number, id: string) => {
-    setTotalAditionals(totalAditionals + price);
-    setAditionalsSelected([...aditionalsSelected, id]);
+  const changeTotalAditional = (add: boolean, aditional: Aditional) => {
+    if (add) {
+      setAditionalsSelected([...aditionalsSelected, aditional]);
+    } else {
+      setAditionalsSelected(
+        aditionalsSelected.filter(
+          (aditionals) => aditionals.id !== aditional.id,
+        ),
+      );
+    }
   };
 
   const createPreOrder = () => {
     createPreOrderMutation.mutate({
       serviceId: service.id,
-      aditionalsIds: aditionalsSelected,
+      aditionalsIds: aditionalsSelected.map((aditional) => aditional.id),
       amount,
     });
   };
@@ -170,7 +177,14 @@ const ServiceInformation = ({ service }: ServerInformationProps) => {
             <h5 className="hidden sm:block">TOTAL</h5>
 
             <h6 className="hidden sm:block">
-              ${amount * service.price + totalAditionals}
+              $
+              {(service.price +
+                (aditionalsSelected.length !== 0
+                  ? aditionalsSelected
+                      .map((aditional) => aditional.price)
+                      .reduce((a, b) => a + b)
+                  : 0)) *
+                amount}
               <span className="text-xl font-normal leading-5"> + IVA</span>
             </h6>
 
