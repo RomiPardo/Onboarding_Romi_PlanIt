@@ -171,28 +171,4 @@ export const orderRouter = createTRPCRouter({
         return createdOrder;
       },
     ),
-
-  changeConfirmed: publicProcedure
-    .input(IdSchema)
-    .mutation(async ({ ctx, input }) => {
-      const order = await ctx.prisma.order.findFirst({
-        where: {
-          id: input.id,
-        },
-      });
-
-      if (!order) {
-        throw new TRPCError({
-          code: "BAD_REQUEST",
-          message: "La orden no fue encontrada",
-        });
-      }
-
-      await ctx.prisma.order.update({
-        where: { id: input.id },
-        data: {
-          confirmed: true,
-        },
-      });
-    }),
 });
