@@ -25,8 +25,8 @@ const ServiceInformation = ({ service }: ServerInformationProps) => {
   const router = useRouter();
 
   const createPreOrderMutation = api.order.createPreOrder.useMutation({
-    onError() {
-      toast.error("Hubo problemas al identificar el usuario o el servicio");
+    onError(error) {
+      toast.error(error.message);
     },
     async onSuccess(id: string) {
       await router.replace(`${asPath}/${id}`);
@@ -63,7 +63,7 @@ const ServiceInformation = ({ service }: ServerInformationProps) => {
 
           <div className="absolute h-3/5 w-full bg-gradient-to-b from-black to-transparent object-cover sm:hidden"></div>
 
-          <NavBarGoBack service={service} favoriteIcon={true} color="white" />
+          <NavBarGoBack service={service} color="white" />
         </div>
 
         <div className="hidden flex-col gap-y-11 sm:flex">

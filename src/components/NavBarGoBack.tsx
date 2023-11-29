@@ -3,22 +3,28 @@ import { useRouter } from "next/router";
 import FavoriteButton from "./FavoriteButton";
 
 type GoBackHeaderProps = {
-  favoriteIcon?: boolean;
-  service: NonNullable<RouterOutput["service"]["getById"]>;
+  service?: NonNullable<RouterOutput["service"]["getById"]>;
   color?: string;
   action?: () => Promise<void>;
+  absolute?: boolean;
 };
 
 const NavBarGoBack = ({
-  favoriteIcon = false,
   service,
   color = "black",
   action,
+  absolute = true,
 }: GoBackHeaderProps) => {
   const router = useRouter();
 
   return (
-    <nav className="absolute flex w-full flex-row items-center justify-between gap-x-5 px-5 pt-8 text-sm font-normal leading-normal sm:hidden">
+    <nav
+      className={
+        absolute
+          ? "absolute flex w-full flex-row items-center justify-between gap-x-5 px-5 pt-8 text-sm font-normal leading-normal sm:hidden"
+          : "flex w-full flex-row items-center justify-between gap-x-5 px-5 py-8 pt-8 text-sm font-normal leading-normal sm:hidden"
+      }
+    >
       <div onClick={() => router.back()} className="hover:cursor-pointer">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -41,7 +47,7 @@ const NavBarGoBack = ({
         Volver
       </p>
 
-      {favoriteIcon && (
+      {service && (
         <FavoriteButton
           serviceId={service.id}
           isFavorite={service.isFavorite}

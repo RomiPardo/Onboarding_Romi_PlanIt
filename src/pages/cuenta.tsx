@@ -150,7 +150,7 @@ export const getServerSideProps = async (
         email: session?.user.email,
         name: session?.user.name,
         lastName: session?.user.lastName,
-        contactNumber: session?.user.contactNumber,
+        contactNumber: session?.user.contactNumber ?? "",
       },
     },
   };

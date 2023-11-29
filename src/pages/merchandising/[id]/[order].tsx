@@ -14,12 +14,14 @@ import { OrderSchema as orderSchema } from "~/server/schemas/orderSchema";
 import { useEffect, useState } from "react";
 import DetailOrder from "~/components/DetailOrder";
 import { toast } from "react-toastify";
+import NavBarGoBack from "~/components/NavBarGoBack";
+import router from "next/router";
 
 type OrderSchemaType = z.infer<typeof orderSchema>;
 
 type OrderProps = InferGetServerSidePropsType<typeof getServerSideProps>;
 
-const Order: NextPage<OrderProps> = ({ id, defaultValues }) => {
+const Order: NextPage<OrderProps> = async ({ id, defaultValues }) => {
   const { data: order, isLoading } = api.order.preOderGetById.useQuery({ id });
 
   const [sorprise, setSorprise] = useState(false);
@@ -39,17 +41,17 @@ const Order: NextPage<OrderProps> = ({ id, defaultValues }) => {
   } = methods;
 
   const deletePreOrderMutation = api.order.deletePreOrder.useMutation({
-    onError() {
-      toast.error("Hubo problemas al identificar el usuario o el servicio");
+    onError(error) {
+      toast.error(error.message);
     },
   });
   const createOrderMutation = api.order.createOrder.useMutation({
-    onError() {
-      toast.error("Hubo problemas al identificar el usuario o el servicio");
+    onError(error) {
+      toast.error(error.message);
     },
     onSuccess() {
       deletePreOrderMutation.mutate({
-        preOrderId: id,
+        id,
       });
     },
   });
@@ -66,42 +68,41 @@ const Order: NextPage<OrderProps> = ({ id, defaultValues }) => {
 
   const deletePreOrder = () => {
     deletePreOrderMutation.mutate({
-      preOrderId: id,
+      id,
     });
   };
 
   useEffect(() => {
     const handlePopState = () => {
       deletePreOrderMutation.mutate({
-        preOrderId: id,
+        id,
       });
     };
 
     const handleUnload = () => {
       deletePreOrderMutation.mutate({
-        preOrderId: id,
+        id,
       });
     };
 
     window.addEventListener("popstate", handlePopState);
-    window.addEventListener("unload", handleUnload);
+    window.addEventListener("beforeunload", handleUnload);
 
     return () => {
       window.removeEventListener("popstate", handlePopState);
-      window.removeEventListener("unload", handleUnload);
+      window.removeEventListener("beforeunload", handleUnload);
     };
   }, []);
 
   if (!order || isLoading) {
-    return (
-      <Layout intent="goBack">
-        <></>
-      </Layout>
-    );
+    await router.replace("/merchandising");
+    return;
   }
 
   return (
     <Layout intent="goBack" action={deletePreOrder}>
+      <NavBarGoBack color="black" absolute={false} />
+
       <main className="flex flex-col px-3 pb-40 pt-0 font-poppins sm:px-32 sm:pb-28 sm:pt-24">
         <FormProvider {...methods}>
           <form
@@ -112,7 +113,7 @@ const Order: NextPage<OrderProps> = ({ id, defaultValues }) => {
           >
             <DetailOrder
               userData={order.user}
-              action={changeSorprise}
+              onClickSorprise={changeSorprise}
               register={register}
               errors={errors}
               sorprise={sorprise}

@@ -29,3 +29,13 @@ export const OrderSchema = z.object({
   aditionalsId: z.array(z.string()),
   sorprise: z.boolean().default(false),
 });
+
+export const PreOrderSchema = z.object({
+  serviceId: z.string(),
+  aditionalsIds: z.array(z.string()),
+  amount: z.number(),
+});
+
+export const IdSchema = z.object({
+  id: z.string(),
+});

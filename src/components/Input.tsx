@@ -9,7 +9,7 @@ const inputStyles = cva("", {
       secondary:
         "focus:!important border-b bordr-l-0 border-r-0 border-t-0 border-solid border-gray pb-2 focus:outline-none ms:pb-3 text-gray leading-normal text-base font-medium bg-transparent",
       textarea:
-        "focus:!important focus:outline-none text-gray leading-normal text-base font-medium bg-[#EEEEEE] text-sm font-light leading-4 pl-3 h-16",
+        "focus:!important focus:outline-none text-gray leading-normal text-base font-medium bg-white text-sm font-light leading-4 pl-3 h-16 rounded",
       noStyle: "",
     },
     defaultVariants: {

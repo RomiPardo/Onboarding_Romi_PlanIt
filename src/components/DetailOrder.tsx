@@ -5,13 +5,16 @@ import { OrderSchema as deliverySchema } from "~/server/schemas/orderSchema";
 import { z } from "zod";
 import { CreditCard } from "@prisma/client";
 import NewCardForm from "./NewCardForm";
+import Button from "./Button";
+import Link from "next/link";
+import { useRouter } from "next/router";
 
 type DeliverySchemaType = z.infer<typeof deliverySchema>;
 
 type DetailOrderProps = {
   errors: FieldErrors<DeliverySchemaType>;
   register: UseFormRegister<DeliverySchemaType>;
-  action: () => void;
+  onClickSorprise: () => void;
   sorprise: boolean;
   userData: {
     name: string;
@@ -24,21 +27,23 @@ type DetailOrderProps = {
 const DetailOrder = ({
   register,
   errors,
-  action,
+  onClickSorprise,
   userData,
   sorprise,
 }: DetailOrderProps) => (
   <div className="flex w-full flex-grow flex-col gap-y-12 sm:w-1/2">
-    <h4 className="bg-gradient-to-br from-blue-300 to-blue-500 bg-clip-text pb-5 text-4xl font-medium leading-9 text-transparent">
+    <h4 className="bg-gradient-to-br from-blue-300 to-blue-500 bg-clip-text pb-5 text-base font-medium leading-normal text-transparent sm:text-4xl sm:leading-9">
       Detalles de la entrega
     </h4>
 
     <div className="flex flex-col gap-y-2">
-      <h5 className="pb-2 text-3xl font-medium leading-8">Método de Pago</h5>
+      <h5 className="pb-1 text-base font-medium leading-normal sm:pb-2 sm:text-3xl sm:leading-8">
+        Método de Pago
+      </h5>
 
       <select
         {...register("cardNumber")}
-        className="bg-light-gray focus:outline-none"
+        className="bg-transparent text-base font-medium leading-normal text-gray focus:outline-none"
       >
         {userData.cards.map((card, index) => (
           <option key={index} value={card.number}>
@@ -54,7 +59,7 @@ const DetailOrder = ({
     </div>
 
     <div className="flex flex-col gap-y-2">
-      <h5 className="pb-2 text-3xl font-medium leading-8">
+      <h5 className="pb-1 text-base font-medium leading-normal sm:pb-2 sm:text-3xl sm:leading-8">
         Información de facturación
       </h5>
 
@@ -77,9 +82,11 @@ const DetailOrder = ({
 
     <div className="flex flex-col">
       <div className="pb-5">
-        <h5 className="pb-2 text-3xl font-medium leading-8">Destinatario</h5>
+        <h5 className="pb-1 text-base font-medium leading-normal sm:pb-2 sm:text-3xl sm:leading-8">
+          Destinatario
+        </h5>
 
-        <p className="text-lg font-normal leading-5">
+        <p className="text-sm font-normal leading-normal sm:text-lg sm:leading-5">
           Complete la información del destinatario de su regalo.
         </p>
       </div>
@@ -131,12 +138,14 @@ const DetailOrder = ({
       </div>
 
       <div className="flex flex-row gap-x-8">
-        <OptionSelector action={action} on={sorprise} />
+        <OptionSelector action={onClickSorprise} on={sorprise} />
 
         <div className="flex flex-col">
-          <p>Entrega sorpresa</p>
+          <p className="text-xs font-normal leading-normal sm:text-base sm:leading-4">
+            Entrega sorpresa
+          </p>
 
-          <p>
+          <p className="text-xs font-normal leading-normal text-gray sm:text-sm sm:font-light sm:leading-5">
             Si el envío no es sorpresa, podríamos contactar al destinatario de
             la entrega.
           </p>
@@ -146,9 +155,11 @@ const DetailOrder = ({
 
     <div className="flex flex-col">
       <div className="pb-5">
-        <h5 className="pb-2 text-3xl font-medium leading-8">Personalización</h5>
+        <h5 className="pb-1 text-base font-medium leading-normal sm:pb-2 sm:text-3xl sm:leading-8">
+          Personalización
+        </h5>
 
-        <p className="text-lg font-normal leading-5">
+        <p className="text-sm font-normal leading-normal sm:text-lg sm:leading-5">
           Seleccionó la opción de agregar una tarjeta personal. Por favor, deje
           el mensaje que desea que acompañe el obsequio.
         </p>
@@ -181,11 +192,11 @@ const DetailOrder = ({
     </div>
 
     <div className="flex flex-col gap-y-2">
-      <h5 className="pb-2 text-3xl font-medium leading-8">
+      <h5 className="pb-1 text-base font-medium leading-normal sm:pb-2 sm:text-3xl sm:leading-8">
         Si el envío rebota
       </h5>
 
-      <p className="text-lg font-normal leading-5">
+      <p className="text-sm font-normal leading-normal sm:text-lg sm:leading-5">
         Cada re-entrega se considera un envío extra y el horario será coordinado
         por nuestro equipo con el destinatario.
       </p>
@@ -202,6 +213,10 @@ const DetailOrder = ({
 
         <p className="pb-8 md:pb-10">Intentar reenvío a la misma dirección</p>
       </div>
+    </div>
+
+    <div className="block sm:hidden">
+      <Button intent="primary">VALIDAR COMPRA</Button>
     </div>
   </div>
 );

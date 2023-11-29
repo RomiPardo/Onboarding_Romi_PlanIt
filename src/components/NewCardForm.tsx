@@ -11,8 +11,8 @@ const NewCardForm = () => {
   const { asPath } = useRouter();
 
   const addCardMutation = api.user.addCard.useMutation({
-    onError() {
-      toast.error("Hubo problemas al identificar el usuario o el servicio");
+    onError(error) {
+      toast.error(error.message);
     },
     async onSuccess() {
       await router.replace(asPath);

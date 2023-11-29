@@ -1,11 +1,15 @@
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "../trpc";
 import { TRPCError } from "@trpc/server";
-import { OrderSchema } from "~/server/schemas/orderSchema";
+import {
+  IdSchema,
+  OrderSchema,
+  PreOrderSchema,
+} from "~/server/schemas/orderSchema";
 
 export const orderRouter = createTRPCRouter({
   preOderGetById: publicProcedure
-    .input(z.object({ id: z.string() }))
+    .input(IdSchema)
     .query(async ({ ctx, input }) => {
       const preOrder = await ctx.prisma.preOrder.findFirst({
         where: {
@@ -29,23 +33,41 @@ export const orderRouter = createTRPCRouter({
         return null;
       }
 
-      const subtotal = preOrder.service.price * preOrder.amount;
-      preOrder.aditionals.reduce((sum, aditional) => sum + aditional.price, 0);
+      const subtotal =
+        (preOrder.service.price +
+          preOrder.aditionals.reduce(
+            (sum, aditional) => sum + aditional.price,
+            0,
+          )) *
+        preOrder.amount;
 
       return { ...preOrder, subtotal };
     }),
 
+  oderGetById: publicProcedure.input(IdSchema).query(async ({ ctx, input }) => {
+    const order = await ctx.prisma.order.findFirst({
+      where: {
+        id: input.id,
+      },
+    });
+
+    if (!order) {
+      return null;
+    }
+
+    return { ...order };
+  }),
+
   createPreOrder: publicProcedure
-    .input(
-      z.object({
-        serviceId: z.string(),
-        aditionalsIds: z.array(z.string()),
-        amount: z
-          .number()
-          .min(0, "No se puede comprar un articulo con cantidad 0"),
-      }),
-    )
+    .input(PreOrderSchema)
     .mutation(async ({ ctx, input: { serviceId, aditionalsIds, amount } }) => {
+      if (amount <= 0) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "La cantidad seleccionada debe ser mayor a 0",
+        });
+      }
+
       const userId = ctx.session?.user.id;
 
       if (!userId) {
@@ -74,14 +96,18 @@ export const orderRouter = createTRPCRouter({
     }),
 
   deletePreOrder: publicProcedure
-    .input(
-      z.object({
-        preOrderId: z.string(),
-      }),
-    )
-    .mutation(async ({ ctx, input: { preOrderId } }) => {
+    .input(IdSchema)
+    .mutation(async ({ ctx, input: { id } }) => {
       await ctx.prisma.preOrder.delete({
-        where: { id: preOrderId },
+        where: { id },
+      });
+    }),
+
+  deleteOrder: publicProcedure
+    .input(IdSchema)
+    .mutation(async ({ ctx, input: { id } }) => {
+      await ctx.prisma.order.delete({
+        where: { id },
       });
     }),
 
@@ -145,4 +171,28 @@ export const orderRouter = createTRPCRouter({
         return createdOrder;
       },
     ),
+
+  changeConfirmed: publicProcedure
+    .input(IdSchema)
+    .mutation(async ({ ctx, input }) => {
+      const order = await ctx.prisma.order.findFirst({
+        where: {
+          id: input.id,
+        },
+      });
+
+      if (!order) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "La orden no fue encontrada",
+        });
+      }
+
+      await ctx.prisma.order.update({
+        where: { id: input.id },
+        data: {
+          confirmed: true,
+        },
+      });
+    }),
 });

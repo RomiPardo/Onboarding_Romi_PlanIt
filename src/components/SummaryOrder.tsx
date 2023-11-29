@@ -1,5 +1,3 @@
-import { api } from "~/utils/api";
-import Layout from "./Layout";
 import Image from "next/image";
 import { Aditional, Service } from "@prisma/client";
 import Button from "./Button";
@@ -11,7 +9,7 @@ type SummaryOrderProps = {
 };
 
 const SummaryOrder = ({ service, aditionals, subtotal }: SummaryOrderProps) => (
-  <div className="relative bottom-7 left-0 hidden w-[466px] sm:flex">
+  <div className="relative bottom-7 left-0 flex w-[466px]">
     <div className="fixed flex w-[466px] flex-col gap-y-10 bg-white px-14 py-20">
       <h5 className="text-center text-4xl font-medium leading-8">
         Resumen de compra
@@ -60,14 +58,18 @@ const SummaryOrder = ({ service, aditionals, subtotal }: SummaryOrderProps) => (
         <div className="flex flex-row justify-between">
           <p className="text-gray">IVA</p>
 
-          <p>{(service.price + service.deliveryPrice) * 0.22}</p>
+          <p>{(subtotal + service.deliveryPrice) * 0.22}</p>
         </div>
       </div>
 
       <div className="flex flex-row justify-between text-lg font-medium leading-5">
         <p>TOTAL</p>
 
-        <p>{service.price + service.deliveryPrice + service.price * 0.22}</p>
+        <p>
+          {subtotal +
+            service.deliveryPrice +
+            (subtotal + service.deliveryPrice) * 0.22}
+        </p>
       </div>
 
       <div className="w-full rounded bg-white">
