@@ -1,17 +1,19 @@
-import { Aditional as PurchaseAdditional } from "@prisma/client";
+import { Aditional } from "@prisma/client";
 import { Switch } from "./ui/switch";
 import { useState } from "react";
 
 type AditionalProps = {
-  aditional: PurchaseAdditional;
-  action: (price: number) => void;
+  aditional: Aditional;
+  action: (add: boolean, aditional: Aditional) => void;
 };
 
 const PurchaseAdditional = ({ aditional, action }: AditionalProps) => {
   const [aditionalOn, setAditionalOn] = useState(false);
 
   const changeSelection = () => {
-    !aditionalOn ? action(aditional.price) : action(aditional.price * -1);
+    !aditionalOn
+      ? action(!aditionalOn, aditional)
+      : action(!aditionalOn, aditional);
     setAditionalOn(!aditionalOn);
   };
 

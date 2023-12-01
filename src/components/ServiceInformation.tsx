@@ -8,6 +8,7 @@ import GoBack from "./GoBack";
 import FavoriteButton from "./FavoriteButton";
 import ImageCarrusel from "./ImageCarrusel";
 import NumericInput from "./NumericInput";
+import { Aditional } from "@prisma/client";
 
 type ServerInformationProps = {
   service: NonNullable<RouterOutput["service"]["getById"]>;
@@ -15,12 +16,21 @@ type ServerInformationProps = {
 
 const ServiceInformation = ({ service }: ServerInformationProps) => {
   const [amount, setAmount] = useState(1);
-  const [totalAditionals, setTotalAditionals] = useState(0);
+  const [aditionalsSelected, setAditionalsSelected] = useState<Aditional[]>([]);
 
   const matchLineBreak = /\u000A|\u000D|\u000D\u000A/;
 
-  const changeTotalAditional = (price: number) =>
-    setTotalAditionals(totalAditionals + price);
+  const changeTotalAditional = (add: boolean, aditional: Aditional) => {
+    if (add) {
+      setAditionalsSelected([...aditionalsSelected, aditional]);
+    } else {
+      setAditionalsSelected(
+        aditionalsSelected.filter(
+          (aditionals) => aditionals.id !== aditional.id,
+        ),
+      );
+    }
+  };
 
   return (
     <main className="flex flex-col gap-x-5 bg-light-gray pb-40 pt-0 font-poppins sm:flex-row sm:px-32 sm:pb-28 sm:pt-24">
@@ -144,7 +154,14 @@ const ServiceInformation = ({ service }: ServerInformationProps) => {
             <h5 className="hidden sm:block">TOTAL</h5>
 
             <h6 className="hidden sm:block">
-              ${amount * service.price + totalAditionals}
+              $
+              {(service.price +
+                (aditionalsSelected.length !== 0
+                  ? aditionalsSelected
+                      .map((aditional) => aditional.price)
+                      .reduce((a, b) => a + b)
+                  : 0)) *
+                amount}
               <span className="text-xl font-normal leading-5"> + IVA</span>
             </h6>
 
