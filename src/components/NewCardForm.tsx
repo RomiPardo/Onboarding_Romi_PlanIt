@@ -14,8 +14,8 @@ const NewCardForm = () => {
     onError(error) {
       toast.error(error.message);
     },
-    async onSuccess() {
-      await router.replace(asPath);
+    onSuccess() {
+      router.reload();
     },
   });
 
@@ -39,7 +39,7 @@ const NewCardForm = () => {
         onChange={(e) => setCvv(e.target.value)}
       />
 
-      <Button type="submit" action={addCard}>
+      <Button action={addCard} type="button">
         Agregar Tarjeta
       </Button>
     </div>

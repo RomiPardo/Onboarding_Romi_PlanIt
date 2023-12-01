@@ -20,10 +20,16 @@ const buttonStyles = cva("", {
 type ButtonProps = VariantProps<typeof buttonStyles> & {
   children?: ReactNode;
   action?: (() => Promise<void>) | (() => void);
-  type?: "submit";
+  type?: "button" | "submit";
 };
 
-const Button = ({ intent, children, action, type, ...props }: ButtonProps) => (
+const Button = ({
+  intent,
+  children,
+  action,
+  type = "submit",
+  ...props
+}: ButtonProps) => (
   <button
     className={buttonStyles({ intent })}
     {...props}

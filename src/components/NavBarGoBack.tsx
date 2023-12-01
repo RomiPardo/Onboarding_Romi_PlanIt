@@ -5,7 +5,7 @@ import FavoriteButton from "./FavoriteButton";
 type GoBackHeaderProps = {
   service?: NonNullable<RouterOutput["service"]["getById"]>;
   color?: string;
-  action?: () => Promise<void>;
+  action?: () => void;
   absolute?: boolean;
 };
 
@@ -25,7 +25,16 @@ const NavBarGoBack = ({
           : "flex w-full flex-row items-center justify-between gap-x-5 px-5 py-8 pt-8 text-sm font-normal leading-normal sm:hidden"
       }
     >
-      <div onClick={() => router.back()} className="hover:cursor-pointer">
+      <div
+        onClick={() => {
+          if (action) {
+            action();
+          } else {
+            router.back();
+          }
+        }}
+        className="hover:cursor-pointer"
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="7"
@@ -39,9 +48,12 @@ const NavBarGoBack = ({
 
       <p
         className={`text-${color} flex flex-grow hover:cursor-pointer`}
-        onClick={async () => {
-          if (action) await action();
-          router.back();
+        onClick={() => {
+          if (action) {
+            action();
+          } else {
+            router.back();
+          }
         }}
       >
         Volver

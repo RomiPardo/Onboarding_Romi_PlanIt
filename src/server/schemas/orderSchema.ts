@@ -9,16 +9,7 @@ export const OrderSchema = z.object({
   direction: z.string().min(1, "Debe completar este campo"),
   contactNumber: z.string().min(1, "Debe completar este campo"),
   mensage: z.string(),
-  image: z.object({
-    files: z.array(
-      z.object({
-        name: z.string(),
-        size: z.number(),
-        type: z.string(),
-      }),
-    ),
-    value: z.number(),
-  }),
+  image: z.custom<File[]>(),
   rut: z.string(),
   socialReason: z.string(),
   cardNumber: z.string().min(1, "Debe completar este campo"),
@@ -28,12 +19,6 @@ export const OrderSchema = z.object({
   amount: z.number(),
   aditionalsId: z.array(z.string()),
   sorprise: z.boolean().default(false),
-});
-
-export const PreOrderSchema = z.object({
-  serviceId: z.string(),
-  aditionalsIds: z.array(z.string()),
-  amount: z.number(),
 });
 
 export const IdSchema = z.object({

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useReducer, useState } from "react";
 import Image from "next/image";
 import AditionalCard from "./AditionalCard";
 import Button from "./Button";
@@ -9,9 +9,6 @@ import FavoriteButton from "./FavoriteButton";
 import ImageCarrusel from "./ImageCarrusel";
 import NumericInput from "./NumericInput";
 import { useRouter } from "next/router";
-import { api } from "~/utils/api";
-import { toast } from "react-toastify";
-import Toast from "./Toast";
 import { Aditional } from "@prisma/client";
 
 type ServerInformationProps = {
@@ -21,18 +18,8 @@ type ServerInformationProps = {
 const ServiceInformation = ({ service }: ServerInformationProps) => {
   const [amount, setAmount] = useState(1);
   const [aditionalsSelected, setAditionalsSelected] = useState<Aditional[]>([]);
-  const { asPath } = useRouter();
+
   const router = useRouter();
-
-  const createPreOrderMutation = api.order.createPreOrder.useMutation({
-    onError(error) {
-      toast.error(error.message);
-    },
-    async onSuccess(id: string) {
-      await router.replace(`${asPath}/${id}`);
-    },
-  });
-
   const matchLineBreak = /\u000A|\u000D|\u000D\u000A/;
 
   const changeTotalAditional = (add: boolean, aditional: Aditional) => {
@@ -47,12 +34,34 @@ const ServiceInformation = ({ service }: ServerInformationProps) => {
     }
   };
 
-  const createPreOrder = () => {
-    createPreOrderMutation.mutate({
-      serviceId: service.id,
-      aditionalsIds: aditionalsSelected.map((aditional) => aditional.id),
-      amount,
-    });
+  const changeAmount = (sum: number) => {
+    setAmount(amount + sum);
+  };
+
+  const createPreOrder = async () => {
+    const preOrder = {
+      service: {
+        deliveryPrice: service.deliveryPrice,
+        image: service.image,
+        name: service.name,
+        provider: { name: service.provider.name },
+        id: service.id,
+      },
+      aditionals: aditionalsSelected,
+      subtotal:
+        (service.price +
+          (aditionalsSelected.length !== 0
+            ? aditionalsSelected
+                .map((aditional) => aditional.price)
+                .reduce((a, b) => a + b)
+            : 0)) *
+        amount,
+      amount: amount,
+    };
+
+    localStorage.setItem("preOrder", JSON.stringify(preOrder));
+
+    await router.replace("/comprar");
   };
 
   return (
@@ -106,7 +115,7 @@ const ServiceInformation = ({ service }: ServerInformationProps) => {
             </div>
 
             <div className="hidden sm:flex">
-              <NumericInput action={setAmount} amount={amount} />
+              <NumericInput action={changeAmount} amount={amount} />
             </div>
           </div>
 
@@ -195,11 +204,11 @@ const ServiceInformation = ({ service }: ServerInformationProps) => {
 
           <div className="flex flex-row items-center justify-between gap-x-6">
             <div className="flex sm:hidden">
-              <NumericInput action={setAmount} amount={amount} />
+              <NumericInput action={changeAmount} amount={amount} />
             </div>
 
             <div className="w-full rounded bg-white">
-              <Button intent="primary" action={createPreOrder}>
+              <Button intent="primary" type="button" action={createPreOrder}>
                 <p>
                   COMPRAR <span className="sm:hidden">AHORA</span>
                 </p>

@@ -40,8 +40,8 @@ model User {
     favoriteServices Service[]
     contactNumber    String?
     cards            CreditCard[]
-    Order            Order[]
-    preOrder         preOrder[]
+
+    Order Order[]
 
     @@map("users")
 }
@@ -52,7 +52,8 @@ model CreditCard {
     cvv    Int
     User   User?   @relation(fields: [userId], references: [id])
     userId String?
-    Order  Order[]
+
+    Order Order[]
 
     @@map("cards")
 }
@@ -77,64 +78,45 @@ model Service {
     provider      Provider    @relation(fields: [providerId], references: [id])
     providerId    String
     favoritedBy   User[]
-    Order         Order[]
-    preOrder      preOrder[]
     deliveryPrice Int         @default(100)
+
+    Order Order[]
 
     @@map("services")
 }
 
 model Aditional {
-    id         String    @id @default(cuid())
-    name       String    @unique
-    price      Int
-    Service    Service?  @relation(fields: [serviceId], references: [id])
-    serviceId  String?
-    Order      Order?    @relation(fields: [orderId], references: [id])
-    orderId    String?
-    preOrder   preOrder? @relation(fields: [preOrderId], references: [id])
-    preOrderId String?
+    id        String   @id @default(cuid())
+    name      String   @unique
+    price     Int
+    Service   Service? @relation(fields: [serviceId], references: [id])
+    serviceId String?
+
+    Order   Order?  @relation(fields: [orderId], references: [id])
+    orderId String?
 
     @@map("aditionals")
 }
 
 model Order {
-    id String @id @default(cuid())
-
-    service    Service     @relation(fields: [serviceId], references: [id])
-    aditionals Aditional[]
-    serviceId  String
-    amount     Int
-
-    user         User       @relation(fields: [userId], references: [id])
-    payment      CreditCard @relation(fields: [creditCardId], references: [id])
-    creditCardId String
-    userId       String
-
+    id            String      @id @default(cuid())
+    service       Service     @relation(fields: [serviceId], references: [id])
+    aditionals    Aditional[]
+    amount        Int
+    payment       CreditCard  @relation(fields: [creditCardId], references: [id])
     contactNumber String
     rut           String?
     socialReason  String?
     deliveryDate  DateTime
     direction     String
-    sorprise      Boolean  @default(false)
+    sorprise      Boolean     @default(false)
     message       String?
     logo          String?
-    tryAgain      Boolean  @default(false)
+    tryAgain      Boolean     @default(false)
+    User          User?       @relation(fields: [userId], references: [id])
+    userId        String?
+    serviceId     String
+    creditCardId  String
 
     @@map("orders")
-}
-
-model preOrder {
-    id String @id @default(cuid())
-
-    service    Service     @relation(fields: [serviceId], references: [id])
-    aditionals Aditional[]
-    serviceId  String
-
-    user   User   @relation(fields: [userId], references: [id])
-    userId String
-
-    amount Int
-
-    @@map("preOrders")
 }

@@ -99,7 +99,7 @@ const Register = () => {
           </div>
 
           <div className="hidden flex-row items-center justify-end gap-5 pb-6 pr-6 md:flex">
-            <Button intent="help">
+            <Button intent="help" type="button">
               ¿Necesitás ayuda?
               <span>
                 <svg

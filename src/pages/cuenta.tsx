@@ -16,6 +16,7 @@ import {
 } from "next";
 import { getServerSession } from "next-auth";
 import { authOptions } from "~/server/auth";
+import { error } from "console";
 
 type UserSchema = z.infer<typeof userShema>;
 
@@ -112,9 +113,7 @@ const Acount: NextPage<AcountProps> = ({ defaultValues }) => {
                   </div>
 
                   <div className="flex flex-col text-sm font-normal leading-normal text-blue-300 ms:text-xl ms:leading-5">
-                    <Button intent="edition" type="submit">
-                      Editar información
-                    </Button>
+                    <Button intent="edition">Editar información</Button>
 
                     <Button intent="edition" action={logOut}>
                       Cerrar cuenta

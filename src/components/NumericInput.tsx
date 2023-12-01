@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 type NumericInputProps = {
-  action: React.Dispatch<React.SetStateAction<number>>;
+  action: (sum: number) => void;
   amount: number;
 };
 
@@ -16,7 +16,7 @@ const NumericInput = ({ action, amount }: NumericInputProps) => {
         }
         onClick={() => {
           if (amount !== 0) {
-            action(amount - 1);
+            action(-1);
           }
         }}
       >
@@ -28,7 +28,7 @@ const NumericInput = ({ action, amount }: NumericInputProps) => {
       <button
         className="border-l border-gray px-2"
         onClick={() => {
-          action(amount + 1);
+          action(1);
         }}
       >
         +
