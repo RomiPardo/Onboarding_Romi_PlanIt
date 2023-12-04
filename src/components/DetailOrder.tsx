@@ -6,6 +6,8 @@ import { z } from "zod";
 import { CreditCard } from "@prisma/client";
 import NewCardForm from "./NewCardForm";
 import Button from "./Button";
+import SummaryOrder from "./SummaryOrder";
+import { useState } from "react";
 
 type DeliverySchemaType = z.infer<typeof deliverySchema>;
 
@@ -20,15 +22,15 @@ type DetailOrderProps = {
     contactNumber: string | null;
     cards: CreditCard[];
   };
-  onClick?: () => void;
+  onClick: () => void;
 };
 
 const DetailOrder = ({
   register,
   errors,
   onClickSorprise,
-  userData,
   sorprise,
+  userData,
   onClick,
 }: DetailOrderProps) => (
   <div className="flex w-full flex-grow flex-col gap-y-5 sm:w-1/2 sm:gap-y-16">
@@ -147,7 +149,7 @@ const DetailOrder = ({
         </div>
 
         <div className="flex flex-row gap-x-8">
-          <OptionSelector action={onClickSorprise} on={sorprise} />
+          <OptionSelector onClick={onClickSorprise} on={sorprise} />
 
           <div className="flex flex-col">
             <p className="text-xs font-normal leading-normal sm:text-base sm:leading-4">
@@ -224,7 +226,7 @@ const DetailOrder = ({
       </div>
 
       <div className="block sm:hidden">
-        <Button type="button" intent="primary" action={onClick}>
+        <Button type="button" intent="primary" onClick={onClick}>
           VALIDAR COMPRA
         </Button>
       </div>

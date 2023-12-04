@@ -115,7 +115,7 @@ const ServiceInformation = ({ service }: ServerInformationProps) => {
             </div>
 
             <div className="hidden sm:flex">
-              <NumericInput action={changeAmount} amount={amount} />
+              <NumericInput onClick={changeAmount} amount={amount} />
             </div>
           </div>
 
@@ -159,7 +159,7 @@ const ServiceInformation = ({ service }: ServerInformationProps) => {
                   <div key={index} className="flex w-full">
                     <AditionalCard
                       aditional={aditional}
-                      action={changeTotalAditional}
+                      onClick={changeTotalAditional}
                     />
                   </div>
                 ))}
@@ -204,11 +204,11 @@ const ServiceInformation = ({ service }: ServerInformationProps) => {
 
           <div className="flex flex-row items-center justify-between gap-x-6">
             <div className="flex sm:hidden">
-              <NumericInput action={changeAmount} amount={amount} />
+              <NumericInput onClick={changeAmount} amount={amount} />
             </div>
 
             <div className="w-full rounded bg-white">
-              <Button intent="primary" type="button" action={createPreOrder}>
+              <Button intent="primary" type="button" onClick={createPreOrder}>
                 <p>
                   COMPRAR <span className="sm:hidden">AHORA</span>
                 </p>

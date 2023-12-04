@@ -18,15 +18,15 @@ const navBarStyles = cva("", {
 
 type LayoutProps = VariantProps<typeof navBarStyles> & {
   children: ReactNode;
-  action?: (() => Promise<void>) | (() => void);
+  onClick?: (() => Promise<void>) | (() => void);
 };
 
-const Layout = ({ intent, children, action, ...props }: LayoutProps) => (
+const Layout = ({ intent, children, onClick, ...props }: LayoutProps) => (
   <div className="flex h-screen flex-col">
     <Toast />
 
     <div className={navBarStyles({ intent })}>
-      <NavBar action={action} />
+      <NavBar onClick={onClick} />
     </div>
 
     {navBarStyles({ intent }) === "" ? (

@@ -1,11 +1,11 @@
 import Image from "next/image";
 
 type OptionSelectorProps = {
-  action: () => void;
+  onClick: () => void;
   on: boolean;
 };
 
-const OptionSelector = ({ action, on }: OptionSelectorProps) => (
+const OptionSelector = ({ onClick, on }: OptionSelectorProps) => (
   <div className="hover:cursor-pointer">
     {on ? (
       <Image
@@ -13,7 +13,7 @@ const OptionSelector = ({ action, on }: OptionSelectorProps) => (
         width={42}
         height={19}
         alt="Adicional seleccionado"
-        onClick={action}
+        onClick={onClick}
       />
     ) : (
       <Image
@@ -21,7 +21,7 @@ const OptionSelector = ({ action, on }: OptionSelectorProps) => (
         width={42}
         height={19}
         alt="Adicional no seleccionado"
-        onClick={action}
+        onClick={onClick}
       />
     )}
   </div>

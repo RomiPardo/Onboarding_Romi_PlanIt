@@ -115,7 +115,7 @@ const Acount: NextPage<AcountProps> = ({ defaultValues }) => {
                   <div className="flex flex-col text-sm font-normal leading-normal text-blue-300 ms:text-xl ms:leading-5">
                     <Button intent="edition">Editar información</Button>
 
-                    <Button intent="edition" action={logOut}>
+                    <Button intent="edition" onClick={logOut}>
                       Cerrar cuenta
                     </Button>
                   </div>

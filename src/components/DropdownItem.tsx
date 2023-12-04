@@ -26,7 +26,7 @@ type ItemDropdownProps = VariantProps<typeof itemDropdownStyles> & {
   route: string;
   linkText: string;
   children?: ReactNode;
-  action?: () => Promise<void>;
+  onClick?: () => Promise<void>;
 };
 
 const ItemDropdown = ({
@@ -34,7 +34,7 @@ const ItemDropdown = ({
   route,
   linkText,
   children,
-  action,
+  onClick,
   ...props
 }: ItemDropdownProps) => {
   const { asPath } = useRouter();
@@ -44,7 +44,7 @@ const ItemDropdown = ({
     <Menu.Item>
       {children ? (
         <div
-          onClick={action}
+          onClick={onClick}
           className={`${active ? "text-blue-300" : ""} ${itemDropdownStyles({
             intent,
           })}`}
@@ -55,7 +55,7 @@ const ItemDropdown = ({
         <div className={itemDropdownStyles({ intent })}>
           <Link
             href={route}
-            onClick={action}
+            onClick={onClick}
             className={`${active ? "text-blue-300" : ""}`}
           >
             {linkText}

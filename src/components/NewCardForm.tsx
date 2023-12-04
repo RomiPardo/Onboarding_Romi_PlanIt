@@ -39,7 +39,7 @@ const NewCardForm = () => {
         onChange={(e) => setCvv(e.target.value)}
       />
 
-      <Button action={addCard} type="button">
+      <Button onClick={addCard} type="button">
         Agregar Tarjeta
       </Button>
     </div>

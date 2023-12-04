@@ -18,10 +18,8 @@ import { authOptions } from "~/server/auth";
 import router from "next/router";
 import { getTrpcHelpers } from "~/server/helper";
 import { Aditional } from "@prisma/client";
+import { PreOrderContext } from "~/contexts/PreOrderContext";
 import DetailOrder from "~/components/DetailOrder";
-import Button from "~/components/Button";
-
-type OrderSchemaType = z.infer<typeof orderSchema>;
 
 type LocalDataType = {
   service: {
@@ -36,6 +34,8 @@ type LocalDataType = {
   amount: number;
 };
 
+type OrderSchemaType = z.infer<typeof orderSchema>;
+
 type OrderProps = InferGetServerSidePropsType<typeof getServerSideProps>;
 
 const Order: NextPage<OrderProps> = ({ data, defaultValues }) => {
@@ -49,8 +49,9 @@ const Order: NextPage<OrderProps> = ({ data, defaultValues }) => {
     onError(error) {
       toast.error(error.message);
     },
-    onSuccess() {
+    async onSuccess() {
       deleteLocalStorage();
+      await router.replace("/confirmada");
     },
   });
 
@@ -104,7 +105,9 @@ const Order: NextPage<OrderProps> = ({ data, defaultValues }) => {
       amount: preOrder.amount,
       userId: data.user.id,
       sorprise,
-      aditionalsId: preOrder.aditionals.map((aditional) => aditional.id),
+      aditionalsId: preOrder.aditionals.map(
+        (aditional: Aditional) => aditional.id,
+      ),
       image: orderData.image,
     });
   };
@@ -123,55 +126,41 @@ const Order: NextPage<OrderProps> = ({ data, defaultValues }) => {
   };
 
   return (
-    <Layout intent="goBack" action={() => localStorage.removeItem("preOrder")}>
-      <NavBarGoBack color="black" absolute={false} action={changePage} />
+    <PreOrderContext.Provider value={preOrder}>
+      <Layout
+        intent="goBack"
+        onClick={() => localStorage.removeItem("preOrder")}
+      >
+        <NavBarGoBack color="black" absolute={false} onClick={changePage} />
 
-      <main className="flex flex-col px-5 pb-40 pt-0 font-poppins sm:px-32 sm:pb-28 sm:pt-24">
-        <FormProvider {...methods}>
-          <form
-            // onSubmit={handleSubmit(buy)}
-            onSubmit={(e) => {
-              buy(methods.getValues());
-            }}
-          >
-            <div className="hidden w-full flex-row gap-x-36 sm:flex">
-              <DetailOrder
-                userData={{ ...data.user, cards }}
-                onClickSorprise={changeSorprise}
-                register={register}
-                errors={errors}
-                sorprise={sorprise}
-              />
+        <main className="flex flex-col px-5 pb-40 pt-0 font-poppins sm:px-32 sm:pb-28 sm:pt-24">
+          <FormProvider {...methods}>
+            <form onSubmit={handleSubmit(buy)}>
+              <div className="flex w-full flex-row gap-x-36">
+                {!verify ? (
+                  <>
+                    <DetailOrder
+                      onClick={changeVerify}
+                      userData={{ ...data.user, cards }}
+                      sorprise={sorprise}
+                      onClickSorprise={changeSorprise}
+                      register={register}
+                      errors={errors}
+                    />
 
-              <SummaryOrder
-                service={preOrder.service}
-                aditionals={preOrder.aditionals}
-                subtotal={preOrder.subtotal}
-              />
-            </div>
-
-            {/* <div className="flex w-full sm:hidden">
-              {!verify ? (
-                <DetailOrder
-                  userData={{ ...data.user, cards }}
-                  onClickSorprise={changeSorprise}
-                  register={register}
-                  errors={errors}
-                  sorprise={sorprise}
-                  onClick={changeVerify}
-                />
-              ) : (
-                <SummaryOrder
-                  service={preOrder.service}
-                  aditionals={preOrder.aditionals}
-                  subtotal={preOrder.subtotal}
-                />
-              )}
-            </div> */}
-          </form>
-        </FormProvider>
-      </main>
-    </Layout>
+                    <div className="hidden sm:flex">
+                      <SummaryOrder />
+                    </div>
+                  </>
+                ) : (
+                  <SummaryOrder />
+                )}
+              </div>
+            </form>
+          </FormProvider>
+        </main>
+      </Layout>
+    </PreOrderContext.Provider>
   );
 };
 

@@ -1,11 +1,11 @@
 import { useState } from "react";
 
 type NumericInputProps = {
-  action: (sum: number) => void;
+  onClick: (sum: number) => void;
   amount: number;
 };
 
-const NumericInput = ({ action, amount }: NumericInputProps) => {
+const NumericInput = ({ onClick, amount }: NumericInputProps) => {
   return (
     <div className="flex h-7 w-24 flex-row items-center rounded border border-gray">
       <button
@@ -16,7 +16,7 @@ const NumericInput = ({ action, amount }: NumericInputProps) => {
         }
         onClick={() => {
           if (amount !== 0) {
-            action(-1);
+            onClick(-1);
           }
         }}
       >
@@ -28,7 +28,7 @@ const NumericInput = ({ action, amount }: NumericInputProps) => {
       <button
         className="border-l border-gray px-2"
         onClick={() => {
-          action(1);
+          onClick(1);
         }}
       >
         +

@@ -5,14 +5,14 @@ import FavoriteButton from "./FavoriteButton";
 type GoBackHeaderProps = {
   service?: NonNullable<RouterOutput["service"]["getById"]>;
   color?: string;
-  action?: () => void;
+  onClick?: () => void;
   absolute?: boolean;
 };
 
 const NavBarGoBack = ({
   service,
   color = "black",
-  action,
+  onClick,
   absolute = true,
 }: GoBackHeaderProps) => {
   const router = useRouter();
@@ -27,8 +27,8 @@ const NavBarGoBack = ({
     >
       <div
         onClick={() => {
-          if (action) {
-            action();
+          if (onClick) {
+            onClick();
           } else {
             router.back();
           }
@@ -49,8 +49,8 @@ const NavBarGoBack = ({
       <p
         className={`text-${color} flex flex-grow hover:cursor-pointer`}
         onClick={() => {
-          if (action) {
-            action();
+          if (onClick) {
+            onClick();
           } else {
             router.back();
           }

@@ -4,22 +4,22 @@ import OptionSelector from "./OptionSelector";
 
 type AditionalProps = {
   aditional: AditionalCard;
-  action: (add: boolean, aditional: Aditional) => void;
+  onClick: (add: boolean, aditional: Aditional) => void;
 };
 
-const AditionalCard = ({ aditional, action }: AditionalProps) => {
+const AditionalCard = ({ aditional, onClick }: AditionalProps) => {
   const [aditionalOn, setAditionalOn] = useState(false);
 
   const changeSelection = () => {
     !aditionalOn
-      ? action(!aditionalOn, aditional)
-      : action(!aditionalOn, aditional);
+      ? onClick(!aditionalOn, aditional)
+      : onClick(!aditionalOn, aditional);
     setAditionalOn(!aditionalOn);
   };
 
   return (
     <div className="flex flex-row gap-x-8">
-      <OptionSelector action={changeSelection} on={aditionalOn} />
+      <OptionSelector onClick={changeSelection} on={aditionalOn} />
 
       <div className="flex flex-col gap-y-1">
         <p className="text-base font-normal leading-4">{aditional.name}</p>
