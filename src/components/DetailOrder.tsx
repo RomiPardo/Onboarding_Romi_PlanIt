@@ -1,13 +1,11 @@
 import { FieldErrors, UseFormRegister } from "react-hook-form";
 import InputWithLabel from "./InputWithLabel";
 import OptionSelector from "./OptionSelector";
-import { OrderSchema as deliverySchema } from "~/server/schemas/orderSchema";
+import { OrderFormSchema as deliverySchema } from "~/server/schemas/orderSchema";
 import { z } from "zod";
 import { CreditCard } from "@prisma/client";
 import NewCardForm from "./NewCardForm";
 import Button from "./Button";
-import SummaryOrder from "./SummaryOrder";
-import { useState } from "react";
 
 type DeliverySchemaType = z.infer<typeof deliverySchema>;
 

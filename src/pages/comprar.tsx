@@ -9,7 +9,7 @@ import { api } from "~/utils/api";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormProvider, useForm } from "react-hook-form";
 import { z } from "zod";
-import { OrderSchema as orderSchema } from "~/server/schemas/orderSchema";
+import { OrderFormSchema as orderSchema } from "~/server/schemas/orderSchema";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import NavBarGoBack from "~/components/NavBarGoBack";
@@ -50,7 +50,7 @@ const Order: NextPage<OrderProps> = ({ data, defaultValues }) => {
       toast.error(error.message);
     },
     async onSuccess() {
-      deleteLocalStorage();
+      localStorage.removeItem("preOrder");
       await router.replace("/confirmada");
     },
   });
@@ -116,13 +116,9 @@ const Order: NextPage<OrderProps> = ({ data, defaultValues }) => {
     if (verify) {
       changeVerify();
     } else {
-      deleteLocalStorage();
+      localStorage.removeItem("preOrder");
+      router.back();
     }
-  };
-
-  const deleteLocalStorage = () => {
-    localStorage.removeItem("preOrder");
-    router.back();
   };
 
   return (

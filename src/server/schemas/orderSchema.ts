@@ -21,6 +21,21 @@ export const OrderSchema = z.object({
   sorprise: z.boolean().default(false),
 });
 
+export const OrderFormSchema = z.object({
+  completeName: z.string().min(1, "Debe completar este campo"),
+  deliveryDate: z.string().min(1, "Debe completar este campo"),
+  deliveryHours: z.string().min(1, "Debe completar este campo"),
+  direction: z.string().min(1, "Debe completar este campo"),
+  contactNumber: z.string().min(1, "Debe completar este campo"),
+  mensage: z.string(),
+  image: z.custom<File[]>(),
+  rut: z.string(),
+  socialReason: z.string(),
+  cardNumber: z.string().min(1, "Debe completar este campo"),
+  tryAgain: z.boolean().default(false),
+  sorprise: z.boolean().default(false),
+});
+
 export const IdSchema = z.object({
   id: z.string(),
 });
