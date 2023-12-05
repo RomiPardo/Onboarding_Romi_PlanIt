@@ -2,6 +2,7 @@ import { RouterOutput } from "~/types/common";
 import Toast from "./Toast";
 import { useRouter } from "next/router";
 import FavoriteButton from "./FavoriteButton";
+import ArrowToLeft from "./ArrowToLeft";
 
 type GoBackHeaderProps = {
   favoriteIcon?: boolean;
@@ -19,15 +20,7 @@ const GoBack = ({
   return (
     <nav className="absolute flex w-full flex-row items-center justify-between gap-x-5 px-5 pt-8 text-sm font-normal leading-normal sm:hidden">
       <div onClick={() => router.back()} className="hover:cursor-pointer">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="7"
-          height="11"
-          viewBox="0 0 7 11"
-          fill="none"
-        >
-          <path d="M6 0.5L1 5.5L6 10.5" stroke={color} strokeLinecap="round" />
-        </svg>
+        <ArrowToLeft color={color}/>
       </div>
 
       <p

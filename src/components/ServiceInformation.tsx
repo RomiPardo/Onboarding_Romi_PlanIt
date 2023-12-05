@@ -127,7 +127,7 @@ const ServiceInformation = ({ service }: ServerInformationProps) => {
                   <div key={index} className="flex w-full">
                     <PurchaseAdditional
                       aditional={aditional}
-                      action={changeTotalAditional}
+                      onAdd={changeTotalAditional}
                     />
                   </div>
                 ))}

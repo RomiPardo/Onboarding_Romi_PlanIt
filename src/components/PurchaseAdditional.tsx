@@ -4,16 +4,14 @@ import { useState } from "react";
 
 type AditionalProps = {
   aditional: Aditional;
-  action: (add: boolean, aditional: Aditional) => void;
+  onAdd: (add: boolean, aditional: Aditional) => void;
 };
 
-const PurchaseAdditional = ({ aditional, action }: AditionalProps) => {
+const PurchaseAdditional = ({ aditional, onAdd }: AditionalProps) => {
   const [aditionalOn, setAditionalOn] = useState(false);
 
   const changeSelection = () => {
-    !aditionalOn
-      ? action(!aditionalOn, aditional)
-      : action(!aditionalOn, aditional);
+    onAdd(!aditionalOn, aditional);
     setAditionalOn(!aditionalOn);
   };
 

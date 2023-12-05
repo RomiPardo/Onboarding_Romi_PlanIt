@@ -15,10 +15,9 @@ const NumericInput = ({ onClick, amount }: NumericInputProps) => {
             : "border-r border-gray px-2 text-gray"
         }
         onClick={() => {
-          if (amount !== 0) {
-            onClick(amount - 1);
-          }
+          onClick(amount - 1);
         }}
+        disabled={amount === 0}
       >
         -
       </button>
