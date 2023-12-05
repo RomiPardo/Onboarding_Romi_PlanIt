@@ -7,22 +7,46 @@ import Spinner from "./Spinner";
 import useFilteredServices from "~/hooks/useFilteredServices";
 import { Provider, ServiceType } from "@prisma/client";
 import Categories from "./Categories";
+import { useState } from "react";
+import { api } from "~/utils/api";
 
 type ServiceScrollProps = {
   category: ServiceType;
 };
 
 const ServiceScroll = ({ category }: ServiceScrollProps) => {
-  const { services, error, fetchNextPage, hasNextPage, moreThan } =
-    useFilteredServices(category);
+  const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
+  const [selectedOrder, setSelectedOrder] = useState<string>("");
 
-  if (error) {
+  const {
+    services,
+    error: error1,
+    fetchNextPage,
+    hasNextPage,
+    moreThan,
+  } = useFilteredServices(category, selectedOrder, selectedFilters);
+
+  const { error: error2, data } = api.service.getAllAssetsFromCategory.useQuery(
+    {
+      category,
+    },
+  );
+
+  if (error1 ?? error2) {
     toast.error("Sucedio un error inesperado al obtener los servicios");
   }
 
   return (
     <main className="bg-light-gray px-5 pb-32 pt-8 font-poppins sm:px-32 sm:pb-28 sm:pt-24">
-      <Categories category={category} moreThan={moreThan} />
+      <Categories
+        category={category}
+        moreThan={moreThan}
+        subFilters={data?.filters ?? []}
+        selectedFilters={selectedFilters}
+        changeFilters={setSelectedFilters}
+        selectedOrder={selectedOrder}
+        changeOrder={setSelectedOrder}
+      />
 
       <InfiniteScroll
         dataLength={services.length}

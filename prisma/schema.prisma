@@ -40,8 +40,7 @@ model User {
     favoriteServices Service[]
     contactNumber    String?
     cards            CreditCard[]
-
-    Order Order[]
+    Order            Order[]
 
     @@map("users")
 }
@@ -52,8 +51,7 @@ model CreditCard {
     cvv    Int
     User   User?   @relation(fields: [userId], references: [id])
     userId String?
-
-    Order Order[]
+    Order  Order[]
 
     @@map("cards")
 }
@@ -67,20 +65,20 @@ model Provider {
 }
 
 model Service {
-    id            String      @id @default(cuid())
+    id            String         @id @default(cuid())
     type          ServiceType
     image         String[]
-    name          String      @unique
-    description   String      @default("No hay descripción")
+    name          String         @unique
+    description   String         @default("No hay descripción")
     price         Int
     qualification Float
     aditionals    Aditional[]
-    provider      Provider    @relation(fields: [providerId], references: [id])
+    provider      Provider       @relation(fields: [providerId], references: [id])
     providerId    String
     favoritedBy   User[]
-    deliveryPrice Int         @default(100)
-
-    Order Order[]
+    deliveryPrice Int            @default(100)
+    assets        AssetsLabels[]
+    Order         Order[]
 
     @@map("services")
 }
@@ -91,11 +89,17 @@ model Aditional {
     price     Int
     Service   Service? @relation(fields: [serviceId], references: [id])
     serviceId String?
-
-    Order   Order?  @relation(fields: [orderId], references: [id])
-    orderId String?
+    Order     Order?   @relation(fields: [orderId], references: [id])
+    orderId   String?
 
     @@map("aditionals")
+}
+
+model AssetsLabels {
+    id        String   @id @default(cuid())
+    name      String   @unique
+    Service   Service? @relation(fields: [serviceId], references: [id])
+    serviceId String?
 }
 
 model Order {

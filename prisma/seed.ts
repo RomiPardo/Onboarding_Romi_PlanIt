@@ -48,6 +48,30 @@ async function main() {
     },
   });
 
+  const assetShare = await prisma.assetsLabels.upsert({
+    where: { name: "Para compartir" },
+    update: {},
+    create: {
+      name: "Para compartir",
+    },
+  });
+
+  const assetVegi = await prisma.assetsLabels.upsert({
+    where: { name: "Veganos/Vegetarianos" },
+    update: {},
+    create: {
+      name: "Veganos/Vegetarianos",
+    },
+  });
+
+  const assetDip = await prisma.assetsLabels.upsert({
+    where: { name: "Picadas" },
+    update: {},
+    create: {
+      name: "Picadas",
+    },
+  });
+
   const filipaMiniBox = await prisma.service.upsert({
     where: { name: "Mini Box Salada" },
     update: {},
@@ -58,6 +82,7 @@ async function main() {
       price: 495,
       qualification: 4.95,
       providerId: filipa.id,
+      assets: { connect: [{ id: assetVegi.id }, { id: assetShare.id }] },
     },
   });
 
@@ -83,6 +108,7 @@ async function main() {
           ],
         },
       },
+      assets: { connect: [{ id: assetShare.id }, { id: assetDip.id }] },
     },
   });
 

@@ -5,7 +5,7 @@ import { Menu } from "@headlessui/react";
 import DropdownUser from "./DropdownUser";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { routesMenu } from "./routes";
+import { routesMenu } from "./listsOfValues";
 
 type NavBarProps = { onClick?: (() => Promise<void>) | (() => void) };
 

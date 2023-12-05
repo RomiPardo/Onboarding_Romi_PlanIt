@@ -76,37 +76,88 @@ export const serviceRouter = createTRPCRouter({
     .input(filterServiceSchema)
     .query(async ({ ctx, input }) => {
       const limit = input.limit ?? 12;
-      const { cursor, category } = input;
+      const { cursor, category, order, filters } = input;
 
-      const data = await ctx.prisma.service.findMany({
-        take: limit + 1,
-        where: {
-          type: category,
-        },
-        cursor: cursor ? { id: cursor } : undefined,
-        include: {
-          favoritedBy: true,
-          provider: true,
-          aditionals: true,
-        },
-      });
+      const [field = "", direction] = order.split("-");
+      const orderBy = field ? { [field]: direction } : {};
 
-      let nextCursor: typeof cursor | undefined = undefined;
+      try {
+        const data = await ctx.prisma.service.findMany({
+          take: limit + 1,
+          where: {
+            type: category,
+            ...(filters.length > 0 && {
+              assets: {
+                every: {
+                  name: {
+                    in: filters,
+                  },
+                },
+              },
+            }),
+          },
+          orderBy,
+          cursor: cursor ? { id: cursor } : undefined,
+          include: {
+            favoritedBy: true,
+            provider: true,
+            aditionals: true,
+            assets: true,
+          },
+        });
 
-      if (data.length > limit) {
-        const nextItem = data.pop();
-        nextCursor = nextItem!.id;
+        let nextCursor: typeof cursor | undefined = undefined;
+
+        if (data.length > limit) {
+          const nextItem = data.pop();
+          nextCursor = nextItem!.id;
+        }
+
+        const userEmail = ctx.session?.user.email;
+
+        const dataFavorite = data.flatMap((service) => {
+          return {
+            ...service,
+            isFavorite: service.favoritedBy.some((u) => u.email === userEmail),
+          };
+        });
+
+        return { data: dataFavorite, nextCursor };
+      } catch (error) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "Hubo problemas por parte del servidor",
+        });
       }
+    }),
 
-      const userEmail = ctx.session?.user.email;
+  getAllAssetsFromCategory: publicProcedure
+    .input(
+      z.object({
+        category: z.enum(["PRESENT", "CATERING", "MERCHANDISING", "EVENT"]),
+      }),
+    )
+    .query(async ({ ctx, input: { category } }) => {
+      try {
+        const data = await ctx.prisma.service.findMany({
+          where: {
+            type: category,
+          },
+          include: {
+            assets: true,
+          },
+        });
 
-      const dataFavorite = data.flatMap((service) => {
-        return {
-          ...service,
-          isFavorite: service.favoritedBy.some((u) => u.email === userEmail),
-        };
-      });
+        const uniqueAssets = data
+          ? [...new Set(data.flatMap((service) => service.assets))]
+          : [];
 
-      return { data: dataFavorite, nextCursor };
+        return { filters: uniqueAssets };
+      } catch (error) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "Hubo problemas por parte del servidor",
+        });
+      }
     }),
 });

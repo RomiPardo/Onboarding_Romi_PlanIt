@@ -1,15 +1,30 @@
 import { api } from "~/utils/api";
 import ServiceScroll from "./ServiceScroll";
 import SubFilterBar from "./SubFilterBar";
-import { ServiceType } from "@prisma/client";
+import { AssetsLabels, ServiceType } from "@prisma/client";
+import { Dispatch, SetStateAction } from "react";
 
 type CategoriesProps = {
   category: ServiceType;
   filter?: string;
   moreThan: number;
+  subFilters: AssetsLabels[];
+  selectedFilters: string[];
+  changeFilters: Dispatch<SetStateAction<string[]>>;
+  selectedOrder: string;
+  changeOrder: Dispatch<SetStateAction<string>>;
 };
 
-const Categories = ({ category, filter, moreThan }: CategoriesProps) => {
+const Categories = ({
+  category,
+  filter,
+  moreThan,
+  subFilters,
+  selectedFilters,
+  changeFilters,
+  selectedOrder,
+  changeOrder,
+}: CategoriesProps) => {
   const categorySpanish =
     category === "PRESENT"
       ? "REGALOS"
@@ -32,7 +47,13 @@ const Categories = ({ category, filter, moreThan }: CategoriesProps) => {
           </p>
         </div>
 
-        <SubFilterBar />
+        <SubFilterBar
+          subFilters={subFilters}
+          selectedFilters={selectedFilters}
+          changeFilters={changeFilters}
+          selectedOrder={selectedOrder}
+          changeOrder={changeOrder}
+        />
       </div>
 
       <p className="flex items-center justify-center pb-12 pt-8 text-sm font-normal leading-normal text-[#7D7D7D] sm:hidden">
