@@ -99,24 +99,26 @@ model Aditional {
 }
 
 model Order {
-    id            String      @id @default(cuid())
-    service       Service     @relation(fields: [serviceId], references: [id])
-    aditionals    Aditional[]
-    amount        Int
-    payment       CreditCard  @relation(fields: [creditCardId], references: [id])
-    contactNumber String
-    rut           String?
-    socialReason  String?
-    deliveryDate  DateTime
-    direction     String
-    sorprise      Boolean     @default(false)
-    message       String?
-    logo          String?
-    tryAgain      Boolean     @default(false)
-    User          User?       @relation(fields: [userId], references: [id])
-    userId        String?
-    serviceId     String
-    creditCardId  String
+    id              String      @id @default(cuid())
+    service         Service     @relation(fields: [serviceId], references: [id])
+    aditionals      Aditional[]
+    amount          Int
+    payment         CreditCard  @relation(fields: [creditCardId], references: [id])
+    contactNumber   String
+    rut             String?
+    socialReason    String?
+    deliveryDate    DateTime
+    direction       String
+    surprise        Boolean     @default(false)
+    message         String?
+    logo            String?
+    tryAgain        Boolean     @default(false)
+    User            User?       @relation(fields: [userId], references: [id])
+    userId          String?
+    serviceId       String
+    creditCardId    String
+    firstNameClient String
+    lastNameClient  String
 
     @@map("orders")
 }

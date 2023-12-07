@@ -18,26 +18,17 @@ export const orderRouter = createTRPCRouter({
           image,
           rut,
           socialReason,
-          cardNumber,
+          creditCardId,
           tryAgain,
           serviceId,
           userId,
           amount,
           aditionalsId,
-          sorprise,
+          surprise,
+          firstName,
+          lastName,
         },
       }) => {
-        const payment = await ctx.prisma.creditCard.findUnique({
-          where: { number: cardNumber },
-        });
-
-        if (!payment) {
-          throw new TRPCError({
-            code: "BAD_REQUEST",
-            message: "Hubo problemas al identificar el metodo de pago",
-          });
-        }
-
         const deliveryDateHours = new Date(`${deliveryDate} ${deliveryHours}`);
 
         const logo = image[0] ? btoa(image[0].name) : "";
@@ -50,16 +41,18 @@ export const orderRouter = createTRPCRouter({
             },
             amount: amount,
             userId: userId,
-            creditCardId: payment.id,
+            creditCardId,
             contactNumber,
             rut,
             socialReason,
             deliveryDate: deliveryDateHours,
             direction,
-            sorprise,
+            surprise,
             message: mensage,
             logo,
             tryAgain,
+            firstNameClient: firstName,
+            lastNameClient: lastName,
           },
         });
 

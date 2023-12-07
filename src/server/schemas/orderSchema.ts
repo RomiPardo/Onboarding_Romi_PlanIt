@@ -1,9 +1,8 @@
 import { z } from "zod";
 
-const now = new Date();
-
 export const OrderSchema = z.object({
-  completeName: z.string().min(1, "Debe completar este campo"),
+  firstName: z.string().min(1, "Debe completar este campo"),
+  lastName: z.string().min(1, "Debe completar este campo"),
   deliveryDate: z.string().min(1, "Debe completar este campo"),
   deliveryHours: z.string().min(1, "Debe completar este campo"),
   direction: z.string().min(1, "Debe completar este campo"),
@@ -12,17 +11,18 @@ export const OrderSchema = z.object({
   image: z.custom<File[]>(),
   rut: z.string(),
   socialReason: z.string(),
-  cardNumber: z.string().min(1, "Debe completar este campo"),
+  creditCardId: z.string(),
   tryAgain: z.boolean().default(false),
   serviceId: z.string(),
   userId: z.string(),
   amount: z.number(),
   aditionalsId: z.array(z.string()),
-  sorprise: z.boolean().default(false),
+  surprise: z.boolean().default(false),
 });
 
 export const OrderFormSchema = z.object({
-  completeName: z.string().min(1, "Debe completar este campo"),
+  firstName: z.string().min(1, "Debe completar este campo"),
+  lastName: z.string().min(1, "Debe completar este campo"),
   deliveryDate: z.string().min(1, "Debe completar este campo"),
   deliveryHours: z.string().min(1, "Debe completar este campo"),
   direction: z.string().min(1, "Debe completar este campo"),
@@ -31,9 +31,12 @@ export const OrderFormSchema = z.object({
   image: z.custom<File[]>(),
   rut: z.string(),
   socialReason: z.string(),
-  cardNumber: z.string().min(1, "Debe completar este campo"),
+  creditCardId: z.string().min(1, "Debe completar este campo"),
   tryAgain: z.boolean().default(false),
-  sorprise: z.boolean().default(false),
+  surprise: z.boolean().default(false),
+  serviceId: z.string(),
+  userId: z.string(),
+  amount: z.number(),
 });
 
 export const IdSchema = z.object({

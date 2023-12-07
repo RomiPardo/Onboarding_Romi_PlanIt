@@ -1,6 +1,5 @@
 import React, { useEffect, useReducer, useState } from "react";
 import Image from "next/image";
-import AditionalCard from "./AditionalCard";
 import Button from "./Button";
 import { RouterOutput } from "~/types/common";
 import Link from "next/link";
@@ -10,6 +9,8 @@ import ImageCarrusel from "./ImageCarrusel";
 import NumericInput from "./NumericInput";
 import { useRouter } from "next/router";
 import { Aditional } from "@prisma/client";
+import PurchaseAdditional from "./PurchaseAdditional";
+import { usePreOrderContext } from "~/contexts/PreOrderContext";
 
 type ServerInformationProps = {
   service: NonNullable<RouterOutput["service"]["getById"]>;
@@ -21,6 +22,8 @@ const ServiceInformation = ({ service }: ServerInformationProps) => {
 
   const router = useRouter();
   const matchLineBreak = /\u000A|\u000D|\u000D\u000A/;
+
+  const context = usePreOrderContext("preOrder");
 
   const changeTotalAditional = (add: boolean, aditional: Aditional) => {
     if (add) {
@@ -59,7 +62,7 @@ const ServiceInformation = ({ service }: ServerInformationProps) => {
       amount: amount,
     };
 
-    localStorage.setItem("preOrder", JSON.stringify(preOrder));
+    context.setPreOrder(preOrder);
 
     await router.replace("/comprar");
   };
@@ -157,9 +160,9 @@ const ServiceInformation = ({ service }: ServerInformationProps) => {
               <div className="flex flex-col gap-y-3">
                 {service.aditionals.map((aditional, index) => (
                   <div key={index} className="flex w-full">
-                    <AditionalCard
+                    <PurchaseAdditional
                       aditional={aditional}
-                      onClick={changeTotalAditional}
+                      action={changeTotalAditional}
                     />
                   </div>
                 ))}

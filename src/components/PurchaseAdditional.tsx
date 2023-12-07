@@ -1,25 +1,27 @@
-import { Aditional, Aditional as AditionalCard } from "@prisma/client";
+import { Aditional } from "@prisma/client";
+import { Switch } from "./ui/switch";
 import { useState } from "react";
-import OptionSelector from "./OptionSelector";
 
 type AditionalProps = {
-  aditional: AditionalCard;
-  onClick: (add: boolean, aditional: Aditional) => void;
+  aditional: Aditional;
+  action: (add: boolean, aditional: Aditional) => void;
 };
 
-const AditionalCard = ({ aditional, onClick }: AditionalProps) => {
+const PurchaseAdditional = ({ aditional, action }: AditionalProps) => {
   const [aditionalOn, setAditionalOn] = useState(false);
 
   const changeSelection = () => {
     !aditionalOn
-      ? onClick(!aditionalOn, aditional)
-      : onClick(!aditionalOn, aditional);
+      ? action(!aditionalOn, aditional)
+      : action(!aditionalOn, aditional);
     setAditionalOn(!aditionalOn);
   };
 
   return (
     <div className="flex flex-row gap-x-8">
-      <OptionSelector onClick={changeSelection} on={aditionalOn} />
+      <div className="hover:cursor-pointer">
+        <Switch checked={aditionalOn} onCheckedChange={changeSelection} />
+      </div>
 
       <div className="flex flex-col gap-y-1">
         <p className="text-base font-normal leading-4">{aditional.name}</p>
@@ -36,4 +38,4 @@ const AditionalCard = ({ aditional, onClick }: AditionalProps) => {
   );
 };
 
-export default AditionalCard;
+export default PurchaseAdditional;
