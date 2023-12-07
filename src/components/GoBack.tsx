@@ -19,16 +19,15 @@ const GoBack = ({
 
   return (
     <nav className="absolute flex w-full flex-row items-center justify-between gap-x-5 px-5 pt-8 text-sm font-normal leading-normal sm:hidden">
-      <div onClick={() => router.back()} className="hover:cursor-pointer">
-        <ArrowToLeft color={color}/>
-      </div>
+      <div onClick={() => router.back()}>
+        <div className="hover:cursor-pointer">
+          <ArrowToLeft color={color} />
+        </div>
 
-      <p
-        className={`text-${color} flex flex-grow hover:cursor-pointer`}
-        onClick={() => router.back()}
-      >
-        Volver
-      </p>
+        <p className={`text-${color} flex flex-grow hover:cursor-pointer`}>
+          Volver
+        </p>
+      </div>
 
       {favoriteIcon && (
         <FavoriteButton

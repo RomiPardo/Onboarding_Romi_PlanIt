@@ -4,7 +4,7 @@ type ImageCarruselProps = {
   images: string[];
 };
 
-const ImageCarrusel = ({ images }: ImageCarruselProps) => {
+const ImageCarousel = ({ images }: ImageCarruselProps) => {
   return (
     <div className="flex w-full flex-row overflow-x-scroll">
       {images.length === 0 ? (
@@ -34,4 +34,4 @@ const ImageCarrusel = ({ images }: ImageCarruselProps) => {
     </div>
   );
 };
-export default ImageCarrusel;
+export default ImageCarousel;

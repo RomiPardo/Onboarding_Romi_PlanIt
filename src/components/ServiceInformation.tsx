@@ -6,7 +6,7 @@ import { RouterOutput } from "~/types/common";
 import Link from "next/link";
 import GoBack from "./GoBack";
 import FavoriteButton from "./FavoriteButton";
-import ImageCarrusel from "./ImageCarrusel";
+import ImageCarousel from "./ImageCarousel";
 import NumericInput from "./NumericInput";
 import { Aditional } from "@prisma/client";
 
@@ -36,7 +36,7 @@ const ServiceInformation = ({ service }: ServerInformationProps) => {
     <main className="flex flex-col gap-x-5 bg-light-gray pb-40 pt-0 font-poppins sm:flex-row sm:px-32 sm:pb-28 sm:pt-24">
       <div className=" flex flex-col sm:w-3/5">
         <div className="relative flex w-full flex-col pb-14">
-          <ImageCarrusel images={service.image} />
+          <ImageCarousel images={service.image} />
 
           <div className="absolute h-3/5 w-full bg-gradient-to-b from-black to-transparent object-cover sm:hidden"></div>
 
