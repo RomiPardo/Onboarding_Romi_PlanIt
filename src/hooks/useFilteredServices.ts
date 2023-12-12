@@ -4,12 +4,12 @@ import { api } from "~/utils/api";
 const useFilteredServices = (
   category: ServiceType,
   order: string,
-  filters: string[],
+  assetFilter: string[],
   searchFilter: string,
 ) => {
   const { data, error, fetchNextPage, hasNextPage } =
     api.service.getFilteredServices.useInfiniteQuery(
-      { category, order, filters, searchFilter },
+      { category, order, assetFilter, searchFilter },
       {
         getNextPageParam: (lastPage) => lastPage.nextCursor,
       },

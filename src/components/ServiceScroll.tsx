@@ -16,7 +16,9 @@ type ServiceScrollProps = {
 };
 
 const ServiceScroll = ({ category, searchFilter }: ServiceScrollProps) => {
-  const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
+  const [selectedAssetFilters, setSelectedAssetFilters] = useState<string[]>(
+    [],
+  );
   const [selectedOrder, setSelectedOrder] = useState<string>("");
 
   const {
@@ -28,7 +30,7 @@ const ServiceScroll = ({ category, searchFilter }: ServiceScrollProps) => {
   } = useFilteredServices(
     category,
     selectedOrder,
-    selectedFilters,
+    selectedAssetFilters,
     searchFilter ?? "",
   );
 
@@ -48,8 +50,8 @@ const ServiceScroll = ({ category, searchFilter }: ServiceScrollProps) => {
         category={category}
         moreThan={moreThan}
         subFilters={data?.filters ?? []}
-        selectedFilters={selectedFilters}
-        changeFilters={setSelectedFilters}
+        selectedFilters={selectedAssetFilters}
+        changeFilters={setSelectedAssetFilters}
         selectedOrder={selectedOrder}
         changeOrder={setSelectedOrder}
       />

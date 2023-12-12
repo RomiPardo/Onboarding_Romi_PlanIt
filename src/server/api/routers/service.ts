@@ -76,10 +76,23 @@ export const serviceRouter = createTRPCRouter({
     .input(filterServiceSchema)
     .query(async ({ ctx, input }) => {
       const limit = input.limit ?? 12;
-      const { cursor, category, order, filters, searchFilter } = input;
+      const { cursor, category, order, assetFilter, searchFilter } = input;
 
       const [field = "", direction] = order.split("-");
       const orderBy = field ? { [field]: direction } : {};
+
+      const assetsFiltered =
+        assetFilter.length !== 0
+          ? {
+              assets: {
+                some: {
+                  name: {
+                    in: assetFilter,
+                  },
+                },
+              },
+            }
+          : {};
 
       try {
         const data = await ctx.prisma.service.findMany({
@@ -108,6 +121,7 @@ export const serviceRouter = createTRPCRouter({
                 },
               },
             ],
+            ...assetsFiltered,
           },
           orderBy,
           cursor: cursor ? { id: cursor } : undefined,
@@ -119,23 +133,16 @@ export const serviceRouter = createTRPCRouter({
           },
         });
 
-        const filteredData = data.filter(
-          (service) =>
-            service.assets.filter((asset) => !filters.includes(asset.name))
-              .length ===
-            service.assets.length - filters.length,
-        );
-
         let nextCursor: typeof cursor | undefined = undefined;
 
-        if (filteredData.length > limit) {
-          const nextItem = filteredData.pop();
+        if (data.length > limit) {
+          const nextItem = data.pop();
           nextCursor = nextItem!.id;
         }
 
         const userEmail = ctx.session?.user.email;
 
-        const dataFavorite = filteredData.flatMap((service) => {
+        const dataFavorite = data.flatMap((service) => {
           return {
             ...service,
             isFavorite: service.favoritedBy.some((u) => u.email === userEmail),
