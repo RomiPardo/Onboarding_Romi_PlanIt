@@ -1,11 +1,20 @@
 import Image from "next/image";
-import { Aditional, Service } from "@prisma/client";
 import Button from "./Button";
-import { useContext } from "react";
-import { PreOrderContext } from "~/contexts/PreOrderContext";
+import { usePreOrderContext } from "~/contexts/PreOrderContext";
 
 const SummaryOrder = () => {
-  const preOrder = useContext(PreOrderContext);
+  const context = usePreOrderContext("preOrder");
+  const preOrder = context.preOrder;
+
+  if (!preOrder) {
+    return (
+      <div className="relative flex w-full sm:bottom-7 sm:left-0 sm:w-[466px]">
+        <div className="flex w-full flex-col gap-y-5 sm:fixed sm:w-[466px] sm:gap-y-10 sm:bg-white sm:px-14 sm:py-20">
+          <p>Cargando información...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="relative flex w-full sm:bottom-7 sm:left-0 sm:w-[466px]">

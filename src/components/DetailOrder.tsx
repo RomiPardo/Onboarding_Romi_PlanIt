@@ -1,19 +1,23 @@
-import { FieldErrors, UseFormRegister } from "react-hook-form";
+import {
+  Control,
+  Controller,
+  FieldErrors,
+  UseFormRegister,
+} from "react-hook-form";
 import InputWithLabel from "./InputWithLabel";
-import OptionSelector from "./OptionSelector";
 import { OrderFormSchema as deliverySchema } from "~/server/schemas/orderSchema";
 import { z } from "zod";
 import { CreditCard } from "@prisma/client";
 import NewCardForm from "./NewCardForm";
 import Button from "./Button";
+import SelectCard from "./SelectCard";
+import { Switch } from "./ui/switch";
 
 type DeliverySchemaType = z.infer<typeof deliverySchema>;
 
 type DetailOrderProps = {
   errors: FieldErrors<DeliverySchemaType>;
   register: UseFormRegister<DeliverySchemaType>;
-  onClickSorprise: () => void;
-  sorprise: boolean;
   userData: {
     name: string;
     lastName: string;
@@ -21,15 +25,15 @@ type DetailOrderProps = {
     cards: CreditCard[];
   };
   onClick: () => void;
+  control: Control<DeliverySchemaType>;
 };
 
 const DetailOrder = ({
   register,
   errors,
-  onClickSorprise,
-  sorprise,
   userData,
   onClick,
+  control,
 }: DetailOrderProps) => (
   <div className="flex w-full flex-grow flex-col gap-y-5 sm:w-1/2 sm:gap-y-16">
     <h4 className="bg-gradient-to-br from-blue-300 to-blue-500 bg-clip-text text-lg font-medium leading-normal text-transparent sm:text-4xl sm:leading-9">
@@ -42,27 +46,11 @@ const DetailOrder = ({
           Método de Pago
         </h5>
 
-        <select
-          {...register("cardNumber")}
-          className="bg-transparent text-base font-medium leading-normal text-gray focus:outline-none"
-        >
-          {userData.cards.map((card, index) => (
-            <option
-              key={index}
-              value={card.number}
-              label={
-                card.number.slice(0, -4).replace(/\d/g, "*") +
-                card.number.slice(-4)
-              }
-            />
-          ))}
-        </select>
-
-        {errors.cardNumber && (
-          <p className="block text-sm text-red-600 md:text-base">
-            {errors.cardNumber.message}
-          </p>
-        )}
+        <SelectCard
+          control={control}
+          cards={userData.cards}
+          errorMessage={errors.creditCardId?.message}
+        />
 
         <NewCardForm />
       </div>
@@ -100,16 +88,26 @@ const DetailOrder = ({
           </p>
         </div>
 
-        <div className="flex w-full flex-col gap-x-6 sm:flex-row sm:justify-between sm:pb-12">
-          <div className="flex w-full flex-col">
+        <div className="flex w-full flex-col sm:justify-between sm:pb-12">
+          <div className="flex w-full flex-col gap-x-6 sm:flex-row sm:justify-between">
             <InputWithLabel
               type="text"
-              placeholder="Nombre y apellido"
-              errorMessage={errors.completeName?.message}
+              placeholder="Nombre"
+              errorMessage={errors.firstName?.message}
               intent="secondary"
-              {...register("completeName")}
+              {...register("firstName")}
             />
 
+            <InputWithLabel
+              type="text"
+              placeholder="Apellido"
+              errorMessage={errors.lastName?.message}
+              intent="secondary"
+              {...register("lastName")}
+            />
+          </div>
+
+          <div className="flex w-full flex-col gap-x-6 sm:flex-row sm:justify-between">
             <InputWithLabel
               type="date"
               placeholder="Fecha de entrega"
@@ -119,21 +117,21 @@ const DetailOrder = ({
             />
 
             <InputWithLabel
-              type="text"
-              placeholder="Dirección de entrega"
-              errorMessage={errors.direction?.message}
-              intent="secondary"
-              {...register("direction")}
-            />
-          </div>
-
-          <div className="flex w-full flex-col">
-            <InputWithLabel
               type="tel"
               placeholder="Número de contacto"
               errorMessage={errors.contactNumber?.message}
               intent="secondary"
               {...register("contactNumber")}
+            />
+          </div>
+
+          <div className="flex w-full flex-col gap-x-6 sm:flex-row sm:justify-between">
+            <InputWithLabel
+              type="text"
+              placeholder="Dirección de entrega"
+              errorMessage={errors.direction?.message}
+              intent="secondary"
+              {...register("direction")}
             />
 
             <InputWithLabel
@@ -147,7 +145,13 @@ const DetailOrder = ({
         </div>
 
         <div className="flex flex-row gap-x-8">
-          <OptionSelector onClick={onClickSorprise} on={sorprise} />
+          <Controller
+            control={control}
+            name="surprise"
+            render={({ field: { onChange, value } }) => (
+              <Switch checked={value} onCheckedChange={onChange} />
+            )}
+          />
 
           <div className="flex flex-col">
             <p className="text-xs font-normal leading-normal sm:text-base sm:leading-4">

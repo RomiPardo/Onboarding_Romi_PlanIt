@@ -16,7 +16,6 @@ import {
 } from "next";
 import { getServerSession } from "next-auth";
 import { authOptions } from "~/server/auth";
-import { error } from "console";
 
 type UserSchema = z.infer<typeof userShema>;
 
