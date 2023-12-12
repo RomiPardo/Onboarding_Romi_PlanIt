@@ -82,7 +82,7 @@ async function main() {
       price: 495,
       qualification: 4.95,
       providerId: filipa.id,
-      assets: { connect: [{ id: assetVegi.id }, { id: assetShare.id }] },
+      assets: { connect: [{ id: assetShare.id }, { id: assetVegi.id }] },
     },
   });
 
@@ -108,7 +108,7 @@ async function main() {
           ],
         },
       },
-      assets: { connect: [{ id: assetShare.id }, { id: assetDip.id }] },
+      assets: { connect: [{ id: assetDip.id }, { id: assetShare.id }] },
     },
   });
 

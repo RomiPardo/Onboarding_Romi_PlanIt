@@ -7,17 +7,20 @@ import { api } from "~/utils/api";
 
 import "~/styles/globals.css";
 import { PreOrderWrapper } from "~/contexts/PreOrderContext";
+import { SearchFilterWrapper } from "~/contexts/SearchFilterContext";
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
   pageProps: { session, ...pageProps },
 }) => {
   return (
-    <PreOrderWrapper>
-      <SessionProvider session={session}>
-        <Component {...pageProps} />
-      </SessionProvider>
-    </PreOrderWrapper>
+    <SearchFilterWrapper>
+      <PreOrderWrapper>
+        <SessionProvider session={session}>
+          <Component {...pageProps} />
+        </SessionProvider>
+      </PreOrderWrapper>
+    </SearchFilterWrapper>
   );
 };
 

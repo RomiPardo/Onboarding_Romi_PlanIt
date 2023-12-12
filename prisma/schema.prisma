@@ -96,10 +96,9 @@ model Aditional {
 }
 
 model AssetsLabels {
-    id        String   @id @default(cuid())
-    name      String   @unique
-    Service   Service? @relation(fields: [serviceId], references: [id])
-    serviceId String?
+    id       String    @id @default(cuid())
+    name     String    @unique
+    services Service[]
 }
 
 model Order {

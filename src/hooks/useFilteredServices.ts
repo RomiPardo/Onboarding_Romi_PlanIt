@@ -5,12 +5,11 @@ const useFilteredServices = (
   category: ServiceType,
   order: string,
   filters: string[],
+  searchFilter: string,
 ) => {
-  console.log(order, filters);
-
   const { data, error, fetchNextPage, hasNextPage } =
     api.service.getFilteredServices.useInfiniteQuery(
-      { category, order, filters },
+      { category, order, filters, searchFilter },
       {
         getNextPageParam: (lastPage) => lastPage.nextCursor,
       },

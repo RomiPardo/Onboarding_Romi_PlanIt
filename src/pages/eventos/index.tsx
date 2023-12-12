@@ -1,10 +1,16 @@
 import Layout from "~/components/Layout";
 import ServiceScroll from "~/components/ServiceScroll";
+import { useSearchFilterContext } from "~/contexts/SearchFilterContext";
 
-const Events = () => (
-  <Layout>
-    <ServiceScroll category="EVENT" />
-  </Layout>
-);
+const Events = () => {
+  const { searchFilter, setSearchFilter } =
+    useSearchFilterContext("searchFilter");
+
+  return (
+    <Layout onClick={() => setSearchFilter(undefined)}>
+      <ServiceScroll category="EVENT" searchFilter={searchFilter ?? ""} />
+    </Layout>
+  );
+};
 
 export default Events;

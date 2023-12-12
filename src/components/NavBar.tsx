@@ -6,11 +6,13 @@ import DropdownUser from "./DropdownUser";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { routesMenu } from "./listsOfValues";
+import { useState } from "react";
 
 type NavBarProps = { onClick?: (() => Promise<void>) | (() => void) };
 
 const NavBar = ({ onClick }: NavBarProps) => {
   const { asPath } = useRouter();
+  const [filter, setFilter] = useState("");
 
   return (
     <nav className="fixed z-10 flex w-full flex-col gap-y-5 rounded-b-md bg-white px-5 pb-5 pt-14 shadow-md sm:rounded-none sm:px-28 sm:py-8 sm:shadow-none">
@@ -51,7 +53,7 @@ const NavBar = ({ onClick }: NavBarProps) => {
         </div>
 
         <div className="col-start-2 row-start-2 hidden justify-center sm:flex">
-          <SearchBar />
+          <SearchBar filter={filter} setFilter={setFilter} />
         </div>
 
         <div className="col-start-3 row-start-2">
@@ -86,7 +88,7 @@ const NavBar = ({ onClick }: NavBarProps) => {
       </div>
 
       <div className="flex sm:hidden">
-        <SearchBar />
+        <SearchBar filter={filter} setFilter={setFilter} />
       </div>
     </nav>
   );

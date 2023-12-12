@@ -12,9 +12,10 @@ import { api } from "~/utils/api";
 
 type ServiceScrollProps = {
   category: ServiceType;
+  searchFilter: string;
 };
 
-const ServiceScroll = ({ category }: ServiceScrollProps) => {
+const ServiceScroll = ({ category, searchFilter }: ServiceScrollProps) => {
   const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
   const [selectedOrder, setSelectedOrder] = useState<string>("");
 
@@ -24,7 +25,12 @@ const ServiceScroll = ({ category }: ServiceScrollProps) => {
     fetchNextPage,
     hasNextPage,
     moreThan,
-  } = useFilteredServices(category, selectedOrder, selectedFilters);
+  } = useFilteredServices(
+    category,
+    selectedOrder,
+    selectedFilters,
+    searchFilter ?? "",
+  );
 
   const { error: error2, data } = api.service.getAllAssetsFromCategory.useQuery(
     {

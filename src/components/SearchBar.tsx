@@ -1,7 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
+import { useSearchFilterContext } from "~/contexts/SearchFilterContext";
 
-const SearchBar = () => {
+type SearchBar = {
+  filter: string;
+  setFilter: (filter: string) => void;
+};
+
+const SearchBar = ({ filter, setFilter }: SearchBar) => {
+  const { setSearchFilter } = useSearchFilterContext("searchFilter");
+
+  const changeSetFilter = () => {
+    setSearchFilter(filter);
+  };
+
   return (
     <div className="flex h-9 w-full items-center justify-between rounded-full border border-[#EEEEEE] bg-light-gray sm:w-[460px] md:w-[587px]">
       <Image
@@ -15,6 +27,8 @@ const SearchBar = () => {
       <input
         type="text"
         className="flex-grow rounded-full bg-light-gray text-center focus:outline-none sm:m-2"
+        onChange={(e) => setFilter(e.target.value)}
+        value={filter}
       />
 
       <Image
@@ -23,6 +37,7 @@ const SearchBar = () => {
         alt="search button"
         width={28}
         height={28}
+        onClick={changeSetFilter}
       />
 
       <Image

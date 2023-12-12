@@ -20,5 +20,5 @@ export const orderOptions = [
   { label: "Mayor precio", value: "price-desc" },
   { label: "Menor precio", value: "price-asc" },
   { label: "Mayor calificación", value: "qualification-desc" },
-  { label: "Menor calificación", value: "qualification-desc" },
+  { label: "Menor calificación", value: "qualification-asc" },
 ];

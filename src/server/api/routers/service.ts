@@ -76,7 +76,7 @@ export const serviceRouter = createTRPCRouter({
     .input(filterServiceSchema)
     .query(async ({ ctx, input }) => {
       const limit = input.limit ?? 12;
-      const { cursor, category, order, filters } = input;
+      const { cursor, category, order, filters, searchFilter } = input;
 
       const [field = "", direction] = order.split("-");
       const orderBy = field ? { [field]: direction } : {};
@@ -86,15 +86,28 @@ export const serviceRouter = createTRPCRouter({
           take: limit + 1,
           where: {
             type: category,
-            ...(filters.length > 0 && {
-              assets: {
-                every: {
+            OR: [
+              {
+                name: {
+                  contains: searchFilter,
+                  mode: "insensitive",
+                },
+              },
+              {
+                description: {
+                  contains: searchFilter,
+                  mode: "insensitive",
+                },
+              },
+              {
+                provider: {
                   name: {
-                    in: filters,
+                    contains: searchFilter,
+                    mode: "insensitive",
                   },
                 },
               },
-            }),
+            ],
           },
           orderBy,
           cursor: cursor ? { id: cursor } : undefined,
@@ -106,16 +119,23 @@ export const serviceRouter = createTRPCRouter({
           },
         });
 
+        const filteredData = data.filter(
+          (service) =>
+            service.assets.filter((asset) => !filters.includes(asset.name))
+              .length ===
+            service.assets.length - filters.length,
+        );
+
         let nextCursor: typeof cursor | undefined = undefined;
 
-        if (data.length > limit) {
-          const nextItem = data.pop();
+        if (filteredData.length > limit) {
+          const nextItem = filteredData.pop();
           nextCursor = nextItem!.id;
         }
 
         const userEmail = ctx.session?.user.email;
 
-        const dataFavorite = data.flatMap((service) => {
+        const dataFavorite = filteredData.flatMap((service) => {
           return {
             ...service,
             isFavorite: service.favoritedBy.some((u) => u.email === userEmail),
@@ -149,7 +169,13 @@ export const serviceRouter = createTRPCRouter({
         });
 
         const uniqueAssets = data
-          ? [...new Set(data.flatMap((service) => service.assets))]
+          ? [
+              ...new Set(
+                data.flatMap((service) =>
+                  service.assets.map((asset) => asset.name),
+                ),
+              ),
+            ]
           : [];
 
         return { filters: uniqueAssets };

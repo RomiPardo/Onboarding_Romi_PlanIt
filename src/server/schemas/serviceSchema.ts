@@ -11,4 +11,5 @@ export const filterServiceSchema = z.object({
   filters: z.array(z.string()),
   order: z.string(),
   limit: z.number().min(1).max(100).nullish(),
+  searchFilter: z.string(),
 });
