@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import Image from "next/image";
-import { useSearchFilterContext } from "~/contexts/SearchFilterContext";
 import { api } from "~/utils/api";
 import { Menu } from "@headlessui/react";
 import ItemDropdown from "./DropdownItem";
 import { orderOptions } from "./listsOfValues";
+import { useSearchFilterContext } from "~/hooks/useSearchFilterContext";
 
 type SearchBar = {
   selectedAssetFilters: string[];

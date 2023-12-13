@@ -3,8 +3,8 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import Layout from "~/components/Layout";
 import ServiceScroll from "~/components/ServiceScroll";
-import { useSearchFilterContext } from "~/contexts/SearchFilterContext";
 import useFilteredServices from "~/hooks/useFilteredServices";
+import { useSearchFilterContext } from "~/hooks/useSearchFilterContext";
 import { api } from "~/utils/api";
 
 type PageFormatProps = {
