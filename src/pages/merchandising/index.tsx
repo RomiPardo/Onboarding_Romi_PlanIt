@@ -1,19 +1,5 @@
-import Layout from "~/components/Layout";
-import ServiceScroll from "~/components/ServiceScroll";
-import { useSearchFilterContext } from "~/contexts/SearchFilterContext";
+import PageFormat from "~/components/PageFormat";
 
-const Merchandising = () => {
-  const { searchFilter, setSearchFilter } =
-    useSearchFilterContext("searchFilter");
-
-  return (
-    <Layout onClick={() => setSearchFilter(undefined)}>
-      <ServiceScroll
-        category="MERCHANDISING"
-        searchFilter={searchFilter ?? ""}
-      />
-    </Layout>
-  );
-};
+const Merchandising = () => <PageFormat category="MERCHANDISING" />;
 
 export default Merchandising;

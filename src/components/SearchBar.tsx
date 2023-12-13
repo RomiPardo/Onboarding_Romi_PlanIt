@@ -1,17 +1,43 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { useSearchFilterContext } from "~/contexts/SearchFilterContext";
+import { api } from "~/utils/api";
+import { Menu } from "@headlessui/react";
+import ItemDropdown from "./DropdownItem";
+import { orderOptions } from "./listsOfValues";
 
 type SearchBar = {
-  filter: string;
-  setFilter: (filter: string) => void;
+  selectedAssetFilters: string[];
+  setSelectedAssetFilters: (assetsSelected: string[]) => void;
+  selectedOrder: string;
+  setSelectedOrder: (newOrderBy: string) => void;
+  assets: string[];
 };
 
-const SearchBar = ({ filter, setFilter }: SearchBar) => {
-  const { setSearchFilter } = useSearchFilterContext("searchFilter");
+const SearchBar = ({
+  selectedAssetFilters,
+  setSelectedAssetFilters,
+  selectedOrder,
+  setSelectedOrder,
+  assets,
+}: SearchBar) => {
+  const { searchFilter, setSearchFilter } =
+    useSearchFilterContext("searchFilter");
 
-  const changeSetFilter = () => {
-    setSearchFilter(filter);
+  const utils = api.useUtils();
+
+  const callFilterByAsset = async (asset: string) => {
+    const assetsSelected = selectedAssetFilters.includes(asset)
+      ? selectedAssetFilters.filter((assetList) => assetList !== asset)
+      : [...selectedAssetFilters, asset];
+    console.log(assetsSelected);
+    setSelectedAssetFilters(assetsSelected);
+    await utils.service.getFilteredServices.invalidate();
+  };
+
+  const callFilterByOrder = async (newOrderBy: string) => {
+    setSelectedOrder(newOrderBy);
+    await utils.service.getFilteredServices.invalidate();
   };
 
   return (
@@ -27,8 +53,8 @@ const SearchBar = ({ filter, setFilter }: SearchBar) => {
       <input
         type="text"
         className="flex-grow rounded-full bg-light-gray text-center focus:outline-none sm:m-2"
-        onChange={(e) => setFilter(e.target.value)}
-        value={filter}
+        onChange={(e) => setSearchFilter(e.target.value)}
+        value={searchFilter}
       />
 
       <Image
@@ -37,16 +63,62 @@ const SearchBar = ({ filter, setFilter }: SearchBar) => {
         alt="search button"
         width={28}
         height={28}
-        onClick={changeSetFilter}
       />
 
-      <Image
-        className="my-2 mr-1 hover:cursor-pointer sm:hidden"
-        src="/navbar/filters.png"
-        alt="filters button"
-        width={28}
-        height={28}
-      />
+      <Menu
+        as="div"
+        className="my-2 mr-1 text-sm font-light leading-5 sm:hidden"
+      >
+        <Menu.Button>
+          <Image
+            className=" mt-[6px] hover:cursor-pointer"
+            src="/navbar/filters.png"
+            alt="filters button"
+            width={28}
+            height={28}
+          />
+        </Menu.Button>
+
+        <Menu.Items className="absolute right-0 mr-6 w-56 rounded-md bg-white p-5 shadow-xs">
+          <Menu.Items>
+            <div className="px-1 py-1 ">
+              <h5 className="font-normal">Filtrar por sub-categoria</h5>
+
+              {assets.map((asset, index) => (
+                <Menu.Item key={index}>
+                  <div
+                    onClick={() => callFilterByAsset(asset)}
+                    className={`${
+                      selectedAssetFilters.includes(asset)
+                        ? "text-blue-300"
+                        : ""
+                    } ml-4 w-full py-2 text-sm font-light leading-5 text-black hover:text-blue-300`}
+                  >
+                    {asset}
+                  </div>
+                </Menu.Item>
+              ))}
+            </div>
+
+            <div className="px-1 py-1 ">
+              <h5 className="font-normal">Ordenar</h5>
+
+              {orderOptions.map((order, index) => (
+                <Menu.Item key={index}>
+                  <div
+                    onClick={() => callFilterByOrder(order.value)}
+                    className={`${
+                      order.value === selectedOrder ? "text-blue-300" : ""
+                    } ml-4 w-full py-2 text-sm font-light leading-5 text-black hover:text-blue-300`}
+                  >
+                    {order.label}
+                  </div>
+                </Menu.Item>
+              ))}
+            </div>
+          </Menu.Items>
+        </Menu.Items>
+      </Menu>
     </div>
   );
 };

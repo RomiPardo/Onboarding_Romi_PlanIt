@@ -43,11 +43,11 @@ const Categories = ({
           <h4 className="pb-4 text-4xl font-medium leading-9">{filter}</h4>
 
           <p className="text-lg font-normal leading-5">
-            {moreThan > 2 ? (
+            {moreThan >= 2 ? (
               <span>Más de {moreThan} opciones</span>
-            ) : moreThan === 2 ? (
-              <span>Se encontraron {moreThan + 1} resultados</span>
             ) : moreThan === 1 ? (
+              <span>Se encontraron {moreThan + 1} resultados</span>
+            ) : moreThan === 0 ? (
               <span>Se encontró {moreThan + 1} resultado</span>
             ) : (
               <span>No se encontraron resultados</span>
@@ -65,8 +65,10 @@ const Categories = ({
       </div>
 
       <p className="flex items-center justify-center pb-12 pt-8 text-sm font-normal leading-normal text-[#7D7D7D] sm:hidden">
-        {moreThan !== 0 ? (
+        {moreThan + 1 > 1 ? (
           <span>{moreThan + 1} resultados</span>
+        ) : moreThan + 1 === 1 ? (
+          <span>{moreThan + 1} resultado</span>
         ) : (
           <span>No se encontraron resultados</span>
         )}

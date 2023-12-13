@@ -8,11 +8,19 @@ import { useRouter } from "next/router";
 import { routesMenu } from "./listsOfValues";
 import { useState } from "react";
 
-type NavBarProps = { onClick?: (() => Promise<void>) | (() => void) };
+type NavBarProps = {
+  onClick?: (() => Promise<void>) | (() => void);
+  assetFilteringInfo?: {
+    selectedAssetFilters: string[];
+    setSelectedAssetFilters: (assetsSelected: string[]) => void;
+    selectedOrder: string;
+    setSelectedOrder: (newOrderBy: string) => void;
+    assets: string[];
+  };
+};
 
-const NavBar = ({ onClick }: NavBarProps) => {
+const NavBar = ({ onClick, assetFilteringInfo }: NavBarProps) => {
   const { asPath } = useRouter();
-  const [filter, setFilter] = useState("");
 
   return (
     <nav className="fixed z-10 flex w-full flex-col gap-y-5 rounded-b-md bg-white px-5 pb-5 pt-14 shadow-md sm:rounded-none sm:px-28 sm:py-8 sm:shadow-none">
@@ -52,9 +60,11 @@ const NavBar = ({ onClick }: NavBarProps) => {
           ))}
         </div>
 
-        <div className="col-start-2 row-start-2 hidden justify-center sm:flex">
-          <SearchBar filter={filter} setFilter={setFilter} />
-        </div>
+        {assetFilteringInfo && (
+          <div className="col-start-2 row-start-2 hidden justify-center sm:flex">
+            <SearchBar {...assetFilteringInfo} />
+          </div>
+        )}
 
         <div className="col-start-3 row-start-2">
           <div className="hidden items-center justify-end gap-x-5 sm:flex">
@@ -87,9 +97,11 @@ const NavBar = ({ onClick }: NavBarProps) => {
         </div>
       </div>
 
-      <div className="flex sm:hidden">
-        <SearchBar filter={filter} setFilter={setFilter} />
-      </div>
+      {assetFilteringInfo && (
+        <div className="flex sm:hidden">
+          <SearchBar {...assetFilteringInfo} />
+        </div>
+      )}
     </nav>
   );
 };

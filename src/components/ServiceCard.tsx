@@ -5,13 +5,15 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import FavoriteButton from "./FavoriteButton";
 
-type ServiceFavorite = Service & {
-  isFavorite: boolean;
-  provider: Provider;
-  aditionals: Aditional[];
+type ServiceProps = {
+  service: Service & {
+    isFavorite: boolean;
+    provider: Provider;
+    aditionals: Aditional[];
+  };
 };
 
-const ServiceCard = ({ service }: { service: ServiceFavorite }) => {
+const ServiceCard = ({ service }: ServiceProps) => {
   const { asPath } = useRouter();
 
   return (

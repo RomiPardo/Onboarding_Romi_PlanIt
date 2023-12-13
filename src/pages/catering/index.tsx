@@ -1,16 +1,5 @@
-import Layout from "~/components/Layout";
-import ServiceScroll from "~/components/ServiceScroll";
-import { useSearchFilterContext } from "~/contexts/SearchFilterContext";
+import PageFormat from "~/components/PageFormat";
 
-const Catering = () => {
-  const { searchFilter, setSearchFilter } =
-    useSearchFilterContext("searchFilter");
-
-  return (
-    <Layout onClick={() => setSearchFilter(undefined)}>
-      <ServiceScroll category="CATERING" searchFilter={searchFilter ?? ""} />
-    </Layout>
-  );
-};
+const Catering = () => <PageFormat category="CATERING" />
 
 export default Catering;
