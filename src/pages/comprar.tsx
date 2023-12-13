@@ -18,8 +18,8 @@ import { authOptions } from "~/server/auth";
 import router from "next/router";
 import { getTrpcHelpers } from "~/server/helper";
 import { Aditional } from "@prisma/client";
-import { usePreOrderContext } from "~/contexts/PreOrderContext";
 import DetailOrder from "~/components/DetailOrder";
+import { usePreOrderContext } from "~/hooks/usePreOrderContext";
 
 type OrderSchemaType = z.infer<typeof orderSchema>;
 
@@ -62,7 +62,7 @@ const Order: NextPage<OrderProps> = ({ user, defaultValues }) => {
     },
     async onSuccess() {
       setPreOrder(undefined);
-      await router.replace("/confirmada");
+      await router.push("/confirmada");
     },
   });
 

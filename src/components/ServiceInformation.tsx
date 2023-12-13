@@ -10,7 +10,7 @@ import NumericInput from "./NumericInput";
 import { useRouter } from "next/router";
 import { Aditional } from "@prisma/client";
 import PurchaseAdditional from "./PurchaseAdditional";
-import { usePreOrderContext } from "~/contexts/PreOrderContext";
+import { usePreOrderContext } from "~/hooks/usePreOrderContext";
 
 type ServerInformationProps = {
   service: NonNullable<RouterOutput["service"]["getById"]>;
@@ -23,7 +23,7 @@ const ServiceInformation = ({ service }: ServerInformationProps) => {
   const router = useRouter();
   const matchLineBreak = /\u000A|\u000D|\u000D\u000A/;
 
-  const context = usePreOrderContext("preOrder");
+  const { setPreOrder } = usePreOrderContext("preOrder");
 
   const changeTotalAditional = (add: boolean, aditional: Aditional) => {
     if (add) {
@@ -62,7 +62,7 @@ const ServiceInformation = ({ service }: ServerInformationProps) => {
       amount: amount,
     };
 
-    context.setPreOrder(preOrder);
+    setPreOrder(preOrder);
 
     await router.replace("/comprar");
   };

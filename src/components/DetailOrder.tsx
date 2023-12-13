@@ -129,9 +129,9 @@ const DetailOrder = ({
             <InputWithLabel
               type="text"
               placeholder="Dirección de entrega"
-              errorMessage={errors.direction?.message}
+              errorMessage={errors.address?.message}
               intent="secondary"
-              {...register("direction")}
+              {...register("address")}
             />
 
             <InputWithLabel
@@ -183,9 +183,9 @@ const DetailOrder = ({
         <InputWithLabel
           type="textarea"
           placeholder="Escriba su mensaje..."
-          errorMessage={errors.mensage?.message}
+          errorMessage={errors.message?.message}
           intent="textarea"
-          {...register("mensage")}
+          {...register("message")}
         />
 
         <div className="hidden flex-row justify-between sm:flex">

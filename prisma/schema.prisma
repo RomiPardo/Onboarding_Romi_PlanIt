@@ -108,7 +108,7 @@ model Order {
     rut             String?
     socialReason    String?
     deliveryDate    DateTime
-    direction       String
+    address         String
     surprise        Boolean     @default(false)
     message         String?
     logo            String?

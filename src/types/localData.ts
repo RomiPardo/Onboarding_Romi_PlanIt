@@ -1,6 +1,6 @@
 import { Aditional } from "@prisma/client";
 
-export type LocalDataType = {
+export type LocalPreOrderType = {
   service: {
     deliveryPrice: number;
     image: string[];

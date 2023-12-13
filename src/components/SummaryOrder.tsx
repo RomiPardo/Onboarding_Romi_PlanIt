@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Button from "./Button";
-import { usePreOrderContext } from "~/contexts/PreOrderContext";
+import { usePreOrderContext } from "~/hooks/usePreOrderContext";
 
 const SummaryOrder = () => {
   const context = usePreOrderContext("preOrder");
