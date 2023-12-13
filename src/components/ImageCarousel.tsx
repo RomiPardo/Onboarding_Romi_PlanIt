@@ -1,10 +1,10 @@
 import Image from "next/image";
 
-type ImageCarruselProps = {
+type ImageCarouselProps = {
   images: string[];
 };
 
-const ImageCarousel = ({ images }: ImageCarruselProps) => {
+const ImageCarousel = ({ images }: ImageCarouselProps) => {
   return (
     <div className="flex w-full flex-row overflow-x-scroll">
       {images.length === 0 ? (
