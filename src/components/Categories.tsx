@@ -6,24 +6,20 @@ import { Dispatch, SetStateAction } from "react";
 
 type CategoriesProps = {
   category: ServiceType;
-  filter?: string;
   moreThan: number;
-  subFilters: string[];
-  selectedFilters: string[];
-  changeFilters: Dispatch<SetStateAction<string[]>>;
-  selectedOrder: string;
-  changeOrder: Dispatch<SetStateAction<string>>;
+  assetFilteringInfo: {
+    selectedAssetFilters: string[];
+    setSelectedAssetFilters: Dispatch<SetStateAction<string[]>>;
+    selectedOrder: string;
+    setSelectedOrder: Dispatch<SetStateAction<string>>;
+    assets: string[];
+  };
 };
 
 const Categories = ({
   category,
-  filter,
   moreThan,
-  subFilters,
-  selectedFilters,
-  changeFilters,
-  selectedOrder,
-  changeOrder,
+  assetFilteringInfo,
 }: CategoriesProps) => {
   const categorySpanish =
     category === "PRESENT"
@@ -40,8 +36,6 @@ const Categories = ({
         <div>
           <h6 className="text-xl font-normal leading-5">{categorySpanish}</h6>
 
-          <h4 className="pb-4 text-4xl font-medium leading-9">{filter}</h4>
-
           <p className="text-lg font-normal leading-5">
             {moreThan >= 2 ? (
               <span>Más de {moreThan} opciones</span>
@@ -55,13 +49,7 @@ const Categories = ({
           </p>
         </div>
 
-        <SubFilterBar
-          subFilters={subFilters}
-          selectedFilters={selectedFilters}
-          changeFilters={changeFilters}
-          selectedOrder={selectedOrder}
-          changeOrder={changeOrder}
-        />
+        <SubFilterBar {...assetFilteringInfo} />
       </div>
 
       <p className="flex items-center justify-center pb-12 pt-8 text-sm font-normal leading-normal text-[#7D7D7D] sm:hidden">

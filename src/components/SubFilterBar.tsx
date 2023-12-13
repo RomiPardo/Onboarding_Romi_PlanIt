@@ -5,38 +5,38 @@ import { api } from "~/utils/api";
 import DropdownArrow from "./DropdownArrow";
 
 type subFiltersBarProps = {
-  subFilters: string[];
-  selectedFilters: string[];
-  changeFilters: Dispatch<SetStateAction<string[]>>;
+  assets: string[];
+  selectedAssetFilters: string[];
+  setSelectedAssetFilters: Dispatch<SetStateAction<string[]>>;
   selectedOrder: string;
-  changeOrder: Dispatch<SetStateAction<string>>;
+  setSelectedOrder: Dispatch<SetStateAction<string>>;
 };
 
 const SubFilterBar = ({
-  subFilters,
-  selectedFilters,
-  changeFilters,
+  assets,
+  selectedAssetFilters,
+  setSelectedAssetFilters,
   selectedOrder,
-  changeOrder,
+  setSelectedOrder,
 }: subFiltersBarProps) => {
   const utils = api.useUtils();
 
   const callFilterByAsset = async (filters: string[]) => {
-    changeFilters(filters);
+    setSelectedAssetFilters(filters);
     await utils.service.getFilteredServices.invalidate();
   };
 
   const callFilterByOrder = async (order: string) => {
-    changeOrder(order);
+    setSelectedOrder(order);
     await utils.service.getFilteredServices.invalidate();
   };
 
   return (
     <div className="hidden flex-col gap-y-4 pb-14 pt-10 sm:flex">
       <div className="flex flex-row text-sm font-light leading-5">
-        {subFilters.length !== 0 && (
+        {assets.length !== 0 && (
           <Listbox
-            value={selectedFilters}
+            value={selectedAssetFilters}
             onChange={callFilterByAsset}
             multiple
           >
@@ -46,7 +46,7 @@ const SubFilterBar = ({
               <DropdownArrow />
             </Listbox.Button>
             <Listbox.Options className="absolute top-96 z-50 w-44 overflow-auto rounded-b-md bg-white">
-              {subFilters.map((asset) => (
+              {assets.map((asset) => (
                 <Listbox.Option
                   key={asset}
                   value={asset}
@@ -64,7 +64,7 @@ const SubFilterBar = ({
         )}
 
         <div className="flex flex-row gap-x-2 pl-3">
-          {selectedFilters.map((asset, index) => (
+          {selectedAssetFilters.map((asset, index) => (
             <div
               key={index}
               className="relative flex flex-row items-center justify-between gap-x-3 rounded-lg border bg-white px-3 py-2 text-left"
@@ -75,7 +75,9 @@ const SubFilterBar = ({
                 className="flex h-5 w-5 items-center justify-center rounded-full border border-gray hover:cursor-pointer"
                 onClick={() =>
                   callFilterByAsset(
-                    selectedFilters.filter((assetList) => assetList !== asset),
+                    selectedAssetFilters.filter(
+                      (assetList) => assetList !== asset,
+                    ),
                   )
                 }
               >

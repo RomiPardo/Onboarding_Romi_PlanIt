@@ -44,11 +44,13 @@ const ServiceScroll = <T,>({
     <Categories
       category={category}
       moreThan={moreThan}
-      subFilters={assets}
-      selectedFilters={selectedAssetFilters}
-      changeFilters={setSelectedAssetFilters}
-      selectedOrder={selectedOrder}
-      changeOrder={setSelectedOrder}
+      assetFilteringInfo={{
+        assets,
+        selectedAssetFilters,
+        setSelectedAssetFilters,
+        selectedOrder,
+        setSelectedOrder,
+      }}
     />
 
     <InfiniteScroll

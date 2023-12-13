@@ -39,8 +39,6 @@ const PageFormat = ({ category }: PageFormatProps) => {
     searchFilter ?? "",
   );
 
-  console.log(typeof fetchNextPage);
-
   if (error1 ?? error2) {
     toast.error("Sucedio un error inesperado al obtener los servicios");
     return (
