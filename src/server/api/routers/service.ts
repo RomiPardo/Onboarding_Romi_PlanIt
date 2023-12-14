@@ -7,14 +7,31 @@ import {
 import { TRPCError } from "@trpc/server";
 
 export const serviceRouter = createTRPCRouter({
-  getById: publicProcedure.input(z.object({ id: z.string() })).query(
-    async ({ ctx, input }) =>
-      await ctx.prisma.service.findFirst({
+  getById: publicProcedure
+    .input(z.object({ id: z.string() }))
+    .query(async ({ ctx, input }) => {
+      const data = await ctx.prisma.service.findFirst({
         where: {
           id: input.id,
         },
-      }),
-  ),
+        include: {
+          aditionals: true,
+          provider: { select: { name: true } },
+          favoritedBy: true,
+        },
+      });
+
+      if (!data) {
+        return null;
+      }
+
+      return {
+        ...data,
+        isFavorite: data?.favoritedBy.some(
+          (user) => user.id === ctx.session?.user.id,
+        ),
+      };
+    }),
 
   changeFavoriteBy: publicProcedure
     .input(favoritedByServiceSchema)
@@ -62,6 +79,7 @@ export const serviceRouter = createTRPCRouter({
         include: {
           favoritedBy: true,
           provider: true,
+          aditionals: true,
         },
       });
 

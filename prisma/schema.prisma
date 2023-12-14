@@ -54,9 +54,9 @@ model Provider {
 model Service {
     id            String      @id @default(cuid())
     type          ServiceType
-    image         String?
+    image         String[]
     name          String      @unique
-    description   String      @default("No se ha ingresado una descripción")
+    description   String      @default("No hay descripción")
     price         Int
     qualification Float
     aditionals    Aditional[]
