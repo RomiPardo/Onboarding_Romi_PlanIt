@@ -27,11 +27,13 @@ export const useFilteringContext = () => {
   };
 
   const setNewAssets = (newAssets: string[] | undefined) => {
-    newAssets
-      ? localStorage.setItem("assets", JSON.stringify(newAssets))
-      : localStorage.removeItem("assets");
+    if (typeof window !== "undefined") {
+      newAssets
+        ? localStorage.setItem("assets", JSON.stringify(newAssets))
+        : localStorage.removeItem("assets");
 
-    context.setAssets(newAssets);
+      context.setAssets(newAssets);
+    }
   };
 
   const setNewSelectedAssets = (newSelectedAssets: string[] | undefined) => {
