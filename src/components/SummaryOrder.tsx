@@ -3,7 +3,7 @@ import Button from "./Button";
 import { usePreOrderContext } from "~/hooks/usePreOrderContext";
 
 const SummaryOrder = () => {
-  const context = usePreOrderContext("preOrder");
+  const context = usePreOrderContext();
   const preOrder = context.preOrder;
 
   if (!preOrder) {

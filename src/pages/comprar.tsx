@@ -30,7 +30,7 @@ const Order: NextPage<OrderProps> = ({ user, defaultValues }) => {
 
   const changeVerify = () => setVerify(!verify);
 
-  const { preOrder, setPreOrder } = usePreOrderContext("preOrder");
+  const { preOrder, setPreOrder } = usePreOrderContext();
 
   const methods = useForm<OrderSchemaType>({
     resolver: zodResolver(orderSchema),
