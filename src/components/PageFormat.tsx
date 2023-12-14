@@ -1,10 +1,8 @@
 import { ServiceType } from "@prisma/client";
-import { useState } from "react";
 import { toast } from "react-toastify";
 import Layout from "~/components/Layout";
 import ServiceScroll from "~/components/ServiceScroll";
-import useFilteredServices from "~/hooks/useFilteredServices";
-import { useSearchFilterContext } from "~/hooks/useSearchFilterContext";
+import { useFilteringContext } from "~/hooks/useFilteringContext";
 import { api } from "~/utils/api";
 
 type PageFormatProps = {
@@ -12,34 +10,13 @@ type PageFormatProps = {
 };
 
 const PageFormat = ({ category }: PageFormatProps) => {
-  const { searchFilter, setSearchFilter } =
-    useSearchFilterContext("searchFilter");
+  const { setAssets, clearAll } = useFilteringContext();
 
-  const [selectedAssetFilters, setSelectedAssetFilters] = useState<string[]>(
-    [],
-  );
-  const [selectedOrder, setSelectedOrder] = useState<string>("");
-
-  const { error: error1, data } = api.service.getAllAssetsFromCategory.useQuery(
-    {
-      category,
-    },
-  );
-
-  const {
-    services,
-    error: error2,
-    fetchNextPage,
-    hasNextPage,
-    moreThan,
-  } = useFilteredServices(
+  const { error, data } = api.service.getAllAssetsFromCategory.useQuery({
     category,
-    selectedOrder,
-    selectedAssetFilters,
-    searchFilter ?? "",
-  );
+  });
 
-  if (error1 ?? error2) {
+  if (error) {
     toast.error("Sucedio un error inesperado al obtener los servicios");
     return (
       <Layout>
@@ -48,28 +25,11 @@ const PageFormat = ({ category }: PageFormatProps) => {
     );
   }
 
+  setAssets(data?.filters ?? undefined);
+
   return (
-    <Layout
-      onClick={() => setSearchFilter(undefined)}
-      assetFilteringInfo={{
-        selectedAssetFilters,
-        setSelectedAssetFilters,
-        selectedOrder,
-        setSelectedOrder,
-        assets: data?.filters ?? [],
-      }}
-    >
-      <ServiceScroll
-        category={category}
-        assetFilteringInfo={{
-          selectedAssetFilters,
-          setSelectedAssetFilters,
-          selectedOrder,
-          setSelectedOrder,
-          assets: data?.filters ?? [],
-        }}
-        scrollData={{ services, moreThan, hasNextPage, fetchNextPage }}
-      />
+    <Layout onClick={() => clearAll()}>
+      <ServiceScroll category={category} />
     </Layout>
   );
 };

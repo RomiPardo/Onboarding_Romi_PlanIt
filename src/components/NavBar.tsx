@@ -10,16 +10,9 @@ import { useState } from "react";
 
 type NavBarProps = {
   onClick?: (() => Promise<void>) | (() => void);
-  assetFilteringInfo?: {
-    selectedAssetFilters: string[];
-    setSelectedAssetFilters: (assetsSelected: string[]) => void;
-    selectedOrder: string;
-    setSelectedOrder: (newOrderBy: string) => void;
-    assets: string[];
-  };
 };
 
-const NavBar = ({ onClick, assetFilteringInfo }: NavBarProps) => {
+const NavBar = ({ onClick }: NavBarProps) => {
   const { asPath } = useRouter();
 
   return (
@@ -60,11 +53,9 @@ const NavBar = ({ onClick, assetFilteringInfo }: NavBarProps) => {
           ))}
         </div>
 
-        {assetFilteringInfo && (
-          <div className="col-start-2 row-start-2 hidden justify-center sm:flex">
-            <SearchBar {...assetFilteringInfo} />
-          </div>
-        )}
+        <div className="col-start-2 row-start-2 hidden justify-center sm:flex">
+          <SearchBar />
+        </div>
 
         <div className="col-start-3 row-start-2">
           <div className="hidden items-center justify-end gap-x-5 sm:flex">
@@ -97,11 +88,9 @@ const NavBar = ({ onClick, assetFilteringInfo }: NavBarProps) => {
         </div>
       </div>
 
-      {assetFilteringInfo && (
-        <div className="flex sm:hidden">
-          <SearchBar {...assetFilteringInfo} />
-        </div>
-      )}
+      <div className="flex sm:hidden">
+        <SearchBar />
+      </div>
     </nav>
   );
 };

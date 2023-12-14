@@ -3,22 +3,17 @@ import { Listbox } from "@headlessui/react";
 import { Dispatch, SetStateAction } from "react";
 import { api } from "~/utils/api";
 import DropdownArrow from "./DropdownArrow";
+import { useFilteringContext } from "~/hooks/useFilteringContext";
 
-type subFiltersBarProps = {
-  assets: string[];
-  selectedAssetFilters: string[];
-  setSelectedAssetFilters: Dispatch<SetStateAction<string[]>>;
-  selectedOrder: string;
-  setSelectedOrder: Dispatch<SetStateAction<string>>;
-};
+const SubFilterBar = () => {
+  const {
+    selectedOrder = "",
+    selectedAssetFilters = [],
+    assets = [],
+    setSelectedAssetFilters,
+    setSelectedOrder,
+  } = useFilteringContext();
 
-const SubFilterBar = ({
-  assets,
-  selectedAssetFilters,
-  setSelectedAssetFilters,
-  selectedOrder,
-  setSelectedOrder,
-}: subFiltersBarProps) => {
   const utils = api.useUtils();
 
   const callFilterByAsset = async (filters: string[]) => {
@@ -63,29 +58,31 @@ const SubFilterBar = ({
           </Listbox>
         )}
 
-        <div className="flex flex-row gap-x-2 pl-3">
-          {selectedAssetFilters.map((asset, index) => (
-            <div
-              key={index}
-              className="relative flex flex-row items-center justify-between gap-x-3 rounded-lg border bg-white px-3 py-2 text-left"
-            >
-              {asset}
-
+        {selectedAssetFilters.length !== 0 && (
+          <div className="flex flex-row gap-x-2 pl-3">
+            {selectedAssetFilters.map((asset, index) => (
               <div
-                className="flex h-5 w-5 items-center justify-center rounded-full border border-gray hover:cursor-pointer"
-                onClick={() =>
-                  callFilterByAsset(
-                    selectedAssetFilters.filter(
-                      (assetList) => assetList !== asset,
-                    ),
-                  )
-                }
+                key={index}
+                className="relative flex flex-row items-center justify-between gap-x-3 rounded-lg border bg-white px-3 py-2 text-left"
               >
-                <p>X</p>
+                {asset}
+
+                <div
+                  className="flex h-5 w-5 items-center justify-center rounded-full border border-gray hover:cursor-pointer"
+                  onClick={() =>
+                    callFilterByAsset(
+                      selectedAssetFilters.filter(
+                        (assetList) => assetList !== asset,
+                      ),
+                    )
+                  }
+                >
+                  <p>X</p>
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
 
         <div className="flex flex-grow justify-end">
           <Listbox value={selectedOrder} onChange={callFilterByOrder}>

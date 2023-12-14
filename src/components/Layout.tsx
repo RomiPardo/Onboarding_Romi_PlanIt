@@ -19,27 +19,14 @@ const navBarStyles = cva("", {
 type LayoutProps = VariantProps<typeof navBarStyles> & {
   children: ReactNode;
   onClick?: (() => Promise<void>) | (() => void);
-  assetFilteringInfo?: {
-    selectedAssetFilters: string[];
-    setSelectedAssetFilters: (assetsSelected: string[]) => void;
-    selectedOrder: string;
-    setSelectedOrder: (newOrderBy: string) => void;
-    assets: string[];
-  };
 };
 
-const Layout = ({
-  intent,
-  children,
-  assetFilteringInfo,
-  onClick,
-  ...props
-}: LayoutProps) => (
+const Layout = ({ intent, children, onClick, ...props }: LayoutProps) => (
   <div className="flex h-screen flex-col">
     <Toast />
 
     <div className={navBarStyles({ intent })}>
-      <NavBar onClick={onClick} assetFilteringInfo={assetFilteringInfo} />
+      <NavBar onClick={onClick} />
     </div>
 
     {navBarStyles({ intent }) === "" ? (

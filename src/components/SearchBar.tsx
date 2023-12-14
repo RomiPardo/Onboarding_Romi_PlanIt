@@ -4,25 +4,18 @@ import { api } from "~/utils/api";
 import { Menu } from "@headlessui/react";
 import ItemDropdown from "./DropdownItem";
 import { orderOptions } from "./listsOfValues";
-import { useSearchFilterContext } from "~/hooks/useSearchFilterContext";
+import { useFilteringContext } from "~/hooks/useFilteringContext";
 
-type SearchBar = {
-  selectedAssetFilters: string[];
-  setSelectedAssetFilters: (assetsSelected: string[]) => void;
-  selectedOrder: string;
-  setSelectedOrder: (newOrderBy: string) => void;
-  assets: string[];
-};
-
-const SearchBar = ({
-  selectedAssetFilters,
-  setSelectedAssetFilters,
-  selectedOrder,
-  setSelectedOrder,
-  assets,
-}: SearchBar) => {
-  const { searchFilter, setSearchFilter } =
-    useSearchFilterContext("searchFilter");
+const SearchBar = () => {
+  const {
+    selectedOrder = "",
+    selectedAssetFilters = [],
+    assets = [],
+    searchFilter = "",
+    setSelectedAssetFilters,
+    setSelectedOrder,
+    setSearchFilter,
+  } = useFilteringContext();
 
   const utils = api.useUtils();
 
@@ -81,24 +74,26 @@ const SearchBar = ({
 
         <Menu.Items className="absolute right-0 mr-6 w-56 rounded-md bg-white p-5 shadow-xs">
           <Menu.Items>
-            <div className="px-1 py-1 ">
-              <h5 className="font-normal">Filtrar por sub-categoria</h5>
+            {assets.length !== 0 && (
+              <div className="px-1 py-1 ">
+                <h5 className="font-normal">Filtrar por sub-categoria</h5>
 
-              {assets.map((asset, index) => (
-                <Menu.Item key={index}>
-                  <div
-                    onClick={() => callFilterByAsset(asset)}
-                    className={`${
-                      selectedAssetFilters.includes(asset)
-                        ? "text-blue-300"
-                        : ""
-                    } ml-4 w-full py-2 text-sm font-light leading-5 text-black hover:text-blue-300`}
-                  >
-                    {asset}
-                  </div>
-                </Menu.Item>
-              ))}
-            </div>
+                {assets.map((asset, index) => (
+                  <Menu.Item key={index}>
+                    <div
+                      onClick={() => callFilterByAsset(asset)}
+                      className={`${
+                        selectedAssetFilters.includes(asset)
+                          ? "text-blue-300"
+                          : ""
+                      } ml-4 w-full py-2 text-sm font-light leading-5 text-black hover:text-blue-300`}
+                    >
+                      {asset}
+                    </div>
+                  </Menu.Item>
+                ))}
+              </div>
+            )}
 
             <div className="px-1 py-1 ">
               <h5 className="font-normal">Ordenar</h5>

@@ -7,20 +7,9 @@ import { Dispatch, SetStateAction } from "react";
 type CategoriesProps = {
   category: ServiceType;
   moreThan: number;
-  assetFilteringInfo: {
-    selectedAssetFilters: string[];
-    setSelectedAssetFilters: Dispatch<SetStateAction<string[]>>;
-    selectedOrder: string;
-    setSelectedOrder: Dispatch<SetStateAction<string>>;
-    assets: string[];
-  };
 };
 
-const Categories = ({
-  category,
-  moreThan,
-  assetFilteringInfo,
-}: CategoriesProps) => {
+const Categories = ({ category, moreThan }: CategoriesProps) => {
   const categorySpanish =
     category === "PRESENT"
       ? "REGALOS"
@@ -34,7 +23,9 @@ const Categories = ({
     <div>
       <div className="hidden flex-col sm:flex">
         <div>
-          <h6 className="text-xl font-normal leading-5">{categorySpanish}</h6>
+          <h6 className="pb-4 text-xl font-normal leading-5">
+            {categorySpanish}
+          </h6>
 
           <p className="text-lg font-normal leading-5">
             {moreThan >= 2 ? (
@@ -49,7 +40,7 @@ const Categories = ({
           </p>
         </div>
 
-        <SubFilterBar {...assetFilteringInfo} />
+        <SubFilterBar />
       </div>
 
       <p className="flex items-center justify-center pb-12 pt-8 text-sm font-normal leading-normal text-[#7D7D7D] sm:hidden">
