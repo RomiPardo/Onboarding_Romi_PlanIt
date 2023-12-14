@@ -67,25 +67,25 @@ model Provider {
 }
 
 model Service {
-    id            String      @id @default(cuid())
+    id            String       @id @default(cuid())
     type          ServiceType
     image         String[]
-    name          String      @unique
-    description   String      @default("No hay descripción")
+    name          String       @unique
+    description   String       @default("No hay descripción")
     price         Int
     qualification Float
-    aditionals    Aditional[]
-    provider      Provider    @relation(fields: [providerId], references: [id])
+    additionals   Additional[]
+    provider      Provider     @relation(fields: [providerId], references: [id])
     providerId    String
     favoritedBy   User[]
-    deliveryPrice Int         @default(100)
+    deliveryPrice Int          @default(100)
 
     Order Order[]
 
     @@map("services")
 }
 
-model Aditional {
+model Additional {
     id        String   @id @default(cuid())
     name      String   @unique
     price     Int
@@ -95,25 +95,25 @@ model Aditional {
     Order   Order?  @relation(fields: [orderId], references: [id])
     orderId String?
 
-    @@map("aditionals")
+    @@map("additionals")
 }
 
 model Order {
-    id              String      @id @default(cuid())
-    service         Service     @relation(fields: [serviceId], references: [id])
-    aditionals      Aditional[]
+    id              String       @id @default(cuid())
+    service         Service      @relation(fields: [serviceId], references: [id])
+    additionals     Additional[]
     amount          Int
-    payment         CreditCard  @relation(fields: [creditCardId], references: [id])
+    payment         CreditCard   @relation(fields: [creditCardId], references: [id])
     contactNumber   String
     rut             String?
     socialReason    String?
     deliveryDate    DateTime
     address         String
-    surprise        Boolean     @default(false)
+    surprise        Boolean      @default(false)
     message         String?
     logo            String?
-    tryAgain        Boolean     @default(false)
-    User            User?       @relation(fields: [userId], references: [id])
+    tryAgain        Boolean      @default(false)
+    User            User?        @relation(fields: [userId], references: [id])
     userId          String?
     serviceId       String
     creditCardId    String

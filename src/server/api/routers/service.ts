@@ -15,7 +15,7 @@ export const serviceRouter = createTRPCRouter({
           id: input.id,
         },
         include: {
-          aditionals: true,
+          additionals: true,
           provider: { select: { name: true } },
           favoritedBy: true,
         },
@@ -36,33 +36,25 @@ export const serviceRouter = createTRPCRouter({
   changeFavoriteBy: publicProcedure
     .input(favoritedByServiceSchema)
     .mutation(async ({ ctx, input: { id, isFavorite } }) => {
-      const service = await ctx.prisma.service.findUnique({
-        where: {
-          id,
-        },
-        include: {
-          favoritedBy: true,
-        },
-      });
-
-      const user = await ctx.prisma.user.findUnique({
+      const currentUser = await ctx.prisma.user.findUnique({
         where: {
           email: ctx.session?.user.email,
         },
       });
 
-      if (service && user) {
-        const updatedFavoritedBy = isFavorite
-          ? [...service.favoritedBy, user]
-          : service.favoritedBy.filter((u) => u.name !== user.name);
-
+      if (currentUser) {
+        const data = isFavorite
+          ? {
+              favoritedBy: { disconnect: [{ id: currentUser.id }] },
+            }
+          : {
+              favoritedBy: { connect: [{ id: currentUser.id }] },
+            };
         await ctx.prisma.service.update({
           where: {
             id,
           },
-          data: {
-            favoritedBy: { set: updatedFavoritedBy },
-          },
+          data,
         });
       } else {
         throw new TRPCError({
@@ -87,7 +79,7 @@ export const serviceRouter = createTRPCRouter({
         include: {
           favoritedBy: true,
           provider: true,
-          aditionals: true,
+          additionals: true,
         },
       });
 
@@ -98,12 +90,12 @@ export const serviceRouter = createTRPCRouter({
         nextCursor = nextItem!.id;
       }
 
-      const userEmail = ctx.session?.user.email;
+      const userId = ctx.session?.user.id;
 
       const dataFavorite = data.flatMap((service) => {
         return {
           ...service,
-          isFavorite: service.favoritedBy.some((u) => u.email === userEmail),
+          isFavorite: service.favoritedBy.some((user) => user.id === userId),
         };
       });
 

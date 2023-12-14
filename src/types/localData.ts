@@ -1,4 +1,4 @@
-import { Aditional } from "@prisma/client";
+import { Additional } from "@prisma/client";
 
 export type LocalPreOrderType = {
   service: {
@@ -8,7 +8,7 @@ export type LocalPreOrderType = {
     provider: { name: string };
     id: string;
   };
-  aditionals: Aditional[];
+  additionals: Additional[];
   subtotal: number;
   amount: number;
 };

@@ -12,14 +12,14 @@ import { z } from "zod";
 import { OrderFormSchema as orderSchema } from "~/server/schemas/orderSchema";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import NavBarGoBack from "~/components/NavBarGoBack";
 import { getServerSession } from "next-auth";
 import { authOptions } from "~/server/auth";
 import router from "next/router";
 import { getTrpcHelpers } from "~/server/helper";
-import { Aditional } from "@prisma/client";
+import { Additional } from "@prisma/client";
 import DetailOrder from "~/components/DetailOrder";
 import { usePreOrderContext } from "~/hooks/usePreOrderContext";
+import GoBack from "~/components/GoBack";
 
 type OrderSchemaType = z.infer<typeof orderSchema>;
 
@@ -90,8 +90,8 @@ const Order: NextPage<OrderProps> = ({ user, defaultValues }) => {
 
     createOrderMutation.mutate({
       ...orderData,
-      aditionalsId: preOrder.aditionals.map(
-        (aditional: Aditional) => aditional.id,
+      additionalsId: preOrder.additionals.map(
+        (additional: Additional) => additional.id,
       ),
       image: orderData.image,
     });
@@ -108,7 +108,7 @@ const Order: NextPage<OrderProps> = ({ user, defaultValues }) => {
 
   return (
     <Layout intent="goBack" onClick={() => setPreOrder(undefined)}>
-      <NavBarGoBack color="black" absolute={false} onBack={changePage} />
+      <GoBack color="black" absolute={false} onBack={changePage} />
 
       <main className="flex flex-col px-5 pb-40 pt-0 font-poppins sm:px-32 sm:pb-28 sm:pt-24">
         <FormProvider {...methods}>

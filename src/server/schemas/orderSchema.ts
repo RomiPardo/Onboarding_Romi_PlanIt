@@ -16,7 +16,7 @@ export const OrderSchema = z.object({
   serviceId: z.string(),
   userId: z.string(),
   amount: z.number(),
-  aditionalsId: z.array(z.string()),
+  additionalsId: z.array(z.string()),
   surprise: z.boolean().default(false),
 });
 

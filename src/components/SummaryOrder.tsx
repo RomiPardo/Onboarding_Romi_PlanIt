@@ -38,12 +38,12 @@ const SummaryOrder = () => {
             </h6>
 
             <div>
-              {preOrder.aditionals.map((aditional, index) => (
+              {preOrder.additionals.map((additional, index) => (
                 <p
                   key={index}
                   className="text-sm font-normal leading-normal text-black sm:text-base sm:leading-4 sm:text-gray"
                 >
-                  {aditional.name}
+                  {additional.name}
                 </p>
               ))}
             </div>

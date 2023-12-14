@@ -19,6 +19,7 @@ const NumericInput = ({ onClick, amount }: NumericInputProps) => {
             onClick(-1);
           }
         }}
+        disabled={amount === 0}
       >
         -
       </button>

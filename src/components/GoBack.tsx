@@ -1,6 +1,7 @@
 import { RouterOutput } from "~/types/common";
 import { useRouter } from "next/router";
 import FavoriteButton from "./FavoriteButton";
+import ArrowToLeft from "./ArrowToLeft";
 
 type GoBackHeaderProps = {
   service?: NonNullable<RouterOutput["service"]["getById"]>;
@@ -9,7 +10,7 @@ type GoBackHeaderProps = {
   absolute?: boolean;
 };
 
-const NavBarGoBack = ({
+const GoBack = ({
   service,
   color = "black",
   onBack,
@@ -35,15 +36,7 @@ const NavBarGoBack = ({
         }}
         className="hover:cursor-pointer"
       >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="7"
-          height="11"
-          viewBox="0 0 7 11"
-          fill="none"
-        >
-          <path d="M6 0.5L1 5.5L6 10.5" stroke={color} strokeLinecap="round" />
-        </svg>
+        <ArrowToLeft color={color} />
       </div>
 
       <p
@@ -71,4 +64,4 @@ const NavBarGoBack = ({
   );
 };
 
-export default NavBarGoBack;
+export default GoBack;

@@ -10,8 +10,8 @@ import { z } from "zod";
 import { CreditCard } from "@prisma/client";
 import NewCardForm from "./NewCardForm";
 import Button from "./Button";
-import SelectCard from "./SelectCard";
 import { Switch } from "./ui/switch";
+import ControlledSelect from "./ControlledSelect";
 
 type DeliverySchemaType = z.infer<typeof deliverySchema>;
 
@@ -46,10 +46,17 @@ const DetailOrder = ({
           Método de Pago
         </h5>
 
-        <SelectCard
+        <ControlledSelect
           control={control}
-          cards={userData.cards}
+          data={userData.cards.map((card) => ({
+            value: card.id,
+            label:
+              card.number.slice(0, -4).replace(/\d/g, "*") +
+              card.number.slice(-4),
+          }))}
           errorMessage={errors.creditCardId?.message}
+          name={"creditCardId"}
+          placeholder="Selecciona una tarjeta de credito"
         />
 
         <NewCardForm />

@@ -2,7 +2,7 @@ import { createContext, useContext } from "react";
 import { PreOrderContext } from "~/contexts/PreOrderContext";
 import { LocalPreOrderType } from "~/types/localData";
 
-export const usePreOrderContext = (key: string) => {
+export const usePreOrderContext = () => {
   const context = useContext(PreOrderContext);
 
   if (!context) {
@@ -13,8 +13,8 @@ export const usePreOrderContext = (key: string) => {
 
   const setter = (preOrder: LocalPreOrderType | undefined) => {
     preOrder
-      ? localStorage.setItem(key, JSON.stringify(preOrder))
-      : localStorage.removeItem(key);
+      ? localStorage.setItem("preOrder", JSON.stringify(preOrder))
+      : localStorage.removeItem("preOrder");
     context.setPreOrder(preOrder);
   };
 
