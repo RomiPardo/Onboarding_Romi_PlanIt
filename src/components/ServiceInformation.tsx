@@ -1,16 +1,16 @@
-import React, { useEffect, useReducer, useState } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
+import PurchaseAdditional from "./PurchaseAdditional";
 import Button from "./Button";
 import { RouterOutput } from "~/types/common";
 import Link from "next/link";
-import NavBarGoBack from "./NavBarGoBack";
 import FavoriteButton from "./FavoriteButton";
-import ImageCarrusel from "./ImageCarrusel";
+import ImageCarousel from "./ImageCarousel";
 import NumericInput from "./NumericInput";
 import { useRouter } from "next/router";
-import { Aditional } from "@prisma/client";
-import PurchaseAdditional from "./PurchaseAdditional";
-import { usePreOrderContext } from "~/contexts/PreOrderContext";
+import { usePreOrderContext } from "~/hooks/usePreOrderContext";
+import { Additional } from "@prisma/client";
+import GoBack from "./GoBack";
 
 type ServerInformationProps = {
   service: NonNullable<RouterOutput["service"]["getById"]>;
@@ -18,20 +18,22 @@ type ServerInformationProps = {
 
 const ServiceInformation = ({ service }: ServerInformationProps) => {
   const [amount, setAmount] = useState(1);
-  const [aditionalsSelected, setAditionalsSelected] = useState<Aditional[]>([]);
+  const [additionalsSelected, setAdditionalsSelected] = useState<Additional[]>(
+    [],
+  );
 
   const router = useRouter();
   const matchLineBreak = /\u000A|\u000D|\u000D\u000A/;
 
-  const context = usePreOrderContext("preOrder");
+  const { setPreOrder } = usePreOrderContext();
 
-  const changeTotalAditional = (add: boolean, aditional: Aditional) => {
+  const changeTotalAdditional = (add: boolean, additional: Additional) => {
     if (add) {
-      setAditionalsSelected([...aditionalsSelected, aditional]);
+      setAdditionalsSelected([...additionalsSelected, additional]);
     } else {
-      setAditionalsSelected(
-        aditionalsSelected.filter(
-          (aditionals) => aditionals.id !== aditional.id,
+      setAdditionalsSelected(
+        additionalsSelected.filter(
+          (additionals) => additionals.id !== additional.id,
         ),
       );
     }
@@ -50,32 +52,32 @@ const ServiceInformation = ({ service }: ServerInformationProps) => {
         provider: { name: service.provider.name },
         id: service.id,
       },
-      aditionals: aditionalsSelected,
+      additionals: additionalsSelected,
       subtotal:
         (service.price +
-          (aditionalsSelected.length !== 0
-            ? aditionalsSelected
-                .map((aditional) => aditional.price)
+          (additionalsSelected.length !== 0
+            ? additionalsSelected
+                .map((additional) => additional.price)
                 .reduce((a, b) => a + b)
             : 0)) *
         amount,
       amount: amount,
     };
 
-    context.setPreOrder(preOrder);
+    setPreOrder(preOrder);
 
-    await router.replace("/comprar");
+    await router.push("/comprar");
   };
 
   return (
     <main className="flex flex-col gap-x-5 bg-light-gray pb-40 pt-0 font-poppins sm:flex-row sm:px-32 sm:pb-28 sm:pt-24">
       <div className=" flex flex-col sm:w-3/5">
         <div className="relative flex w-full flex-col pb-14">
-          <ImageCarrusel images={service.image} />
+          <ImageCarousel images={service.image} />
 
           <div className="absolute h-3/5 w-full bg-gradient-to-b from-black to-transparent object-cover sm:hidden"></div>
 
-          <NavBarGoBack service={service} color="white" />
+          <GoBack service={service} color="white" />
         </div>
 
         <div className="hidden flex-col gap-y-11 sm:flex">
@@ -151,18 +153,18 @@ const ServiceInformation = ({ service }: ServerInformationProps) => {
         </div>
 
         <div className="hidden sm:flex">
-          {service.aditionals.length > 0 && (
+          {service.additionals.length > 0 && (
             <div className="flex flex-col gap-y-5">
               <h6 className="text-xl font-normal leading-5 text-[#444343]">
                 Personaliza tu box
               </h6>
 
               <div className="flex flex-col gap-y-3">
-                {service.aditionals.map((aditional, index) => (
+                {service.additionals.map((additional, index) => (
                   <div key={index} className="flex w-full">
                     <PurchaseAdditional
-                      aditional={aditional}
-                      action={changeTotalAditional}
+                      additional={additional}
+                      onAdd={changeTotalAdditional}
                     />
                   </div>
                 ))}
@@ -191,9 +193,9 @@ const ServiceInformation = ({ service }: ServerInformationProps) => {
             <h6 className="hidden sm:block">
               $
               {(service.price +
-                (aditionalsSelected.length !== 0
-                  ? aditionalsSelected
-                      .map((aditional) => aditional.price)
+                (additionalsSelected.length !== 0
+                  ? additionalsSelected
+                      .map((additional) => additional.price)
                       .reduce((a, b) => a + b)
                   : 0)) *
                 amount}

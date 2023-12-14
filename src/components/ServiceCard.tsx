@@ -1,6 +1,6 @@
 import Image from "next/image";
 import React from "react";
-import { Aditional, Provider, Service } from "@prisma/client";
+import { Additional, Provider, Service } from "@prisma/client";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import FavoriteButton from "./FavoriteButton";
@@ -9,7 +9,7 @@ type ServiceProps = {
   service: Service & {
     isFavorite: boolean;
     provider: Provider;
-    aditionals: Aditional[];
+    additionals: Additional[];
   };
 };
 

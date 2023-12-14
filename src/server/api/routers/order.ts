@@ -12,9 +12,9 @@ export const orderRouter = createTRPCRouter({
         input: {
           deliveryDate,
           deliveryHours,
-          direction,
+          address,
           contactNumber,
-          mensage,
+          message,
           image,
           rut,
           socialReason,
@@ -23,7 +23,7 @@ export const orderRouter = createTRPCRouter({
           serviceId,
           userId,
           amount,
-          aditionalsId,
+          additionalsId,
           surprise,
           firstName,
           lastName,
@@ -36,8 +36,8 @@ export const orderRouter = createTRPCRouter({
         const createdOrder = await ctx.prisma.order.create({
           data: {
             serviceId: serviceId,
-            aditionals: {
-              connect: aditionalsId.map((id) => ({ id })),
+            additionals: {
+              connect: additionalsId.map((id) => ({ id })),
             },
             amount: amount,
             userId: userId,
@@ -46,9 +46,9 @@ export const orderRouter = createTRPCRouter({
             rut,
             socialReason,
             deliveryDate: deliveryDateHours,
-            direction,
+            address,
             surprise,
-            message: mensage,
+            message,
             logo,
             tryAgain,
             firstNameClient: firstName,

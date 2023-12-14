@@ -72,7 +72,7 @@ model Service {
     description   String         @default("No hay descripción")
     price         Int
     qualification Float
-    aditionals    Aditional[]
+    additionals   Additional[]
     provider      Provider       @relation(fields: [providerId], references: [id])
     providerId    String
     favoritedBy   User[]
@@ -83,7 +83,7 @@ model Service {
     @@map("services")
 }
 
-model Aditional {
+model Additional {
     id        String   @id @default(cuid())
     name      String   @unique
     price     Int
@@ -92,7 +92,7 @@ model Aditional {
     Order     Order?   @relation(fields: [orderId], references: [id])
     orderId   String?
 
-    @@map("aditionals")
+    @@map("additionals")
 }
 
 model AssetsLabels {
@@ -102,21 +102,21 @@ model AssetsLabels {
 }
 
 model Order {
-    id              String      @id @default(cuid())
-    service         Service     @relation(fields: [serviceId], references: [id])
-    aditionals      Aditional[]
+    id              String       @id @default(cuid())
+    service         Service      @relation(fields: [serviceId], references: [id])
+    additionals     Additional[]
     amount          Int
-    payment         CreditCard  @relation(fields: [creditCardId], references: [id])
+    payment         CreditCard   @relation(fields: [creditCardId], references: [id])
     contactNumber   String
     rut             String?
     socialReason    String?
     deliveryDate    DateTime
-    direction       String
-    surprise        Boolean     @default(false)
+    address         String
+    surprise        Boolean      @default(false)
     message         String?
     logo            String?
-    tryAgain        Boolean     @default(false)
-    User            User?       @relation(fields: [userId], references: [id])
+    tryAgain        Boolean      @default(false)
+    User            User?        @relation(fields: [userId], references: [id])
     userId          String?
     serviceId       String
     creditCardId    String

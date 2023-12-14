@@ -8,31 +8,42 @@ import {
 } from "./ui/select";
 import { OrderFormSchema as deliverySchema } from "~/server/schemas/orderSchema";
 import { z } from "zod";
-import { CreditCard } from "@prisma/client";
 
 type DeliverySchemaType = z.infer<typeof deliverySchema>;
 
-type SelectCardProps = {
+type DataInSelectType = {
+  value: string;
+  label: string;
+};
+
+type ControlledSelectProps = {
   control: Control<DeliverySchemaType>;
-  cards: CreditCard[];
+  placeholder: string;
+  name: keyof DeliverySchemaType;
+  data: DataInSelectType[];
   errorMessage?: string;
 };
 
-const SelectCard = ({ control, cards, errorMessage }: SelectCardProps) => (
-  <div>
+const ControlledSelect = ({
+  control,
+  errorMessage,
+  placeholder,
+  name,
+  data,
+}: ControlledSelectProps) => (
+  <>
     <Controller
       control={control}
-      name="creditCardId"
+      name={name}
       render={({ field: { onChange, value } }) => (
-        <Select value={value} onValueChange={onChange}>
+        <Select value={value as string} onValueChange={onChange}>
           <SelectTrigger>
-            <SelectValue placeholder="Selecciona una tarjeta de credito" />
+            <SelectValue placeholder={placeholder} />
           </SelectTrigger>
           <SelectContent>
-            {cards.map((card, index) => (
-              <SelectItem key={index} value={card.id}>
-                {card.number.slice(0, -4).replace(/\d/g, "*") +
-                  card.number.slice(-4)}
+            {data.map((item, index) => (
+              <SelectItem key={index} value={item.value}>
+                {item.label}
               </SelectItem>
             ))}
           </SelectContent>
@@ -43,7 +54,7 @@ const SelectCard = ({ control, cards, errorMessage }: SelectCardProps) => (
     {errorMessage && (
       <p className="block text-sm text-red-600 md:text-base">{errorMessage}</p>
     )}
-  </div>
+  </>
 );
 
-export default SelectCard;
+export default ControlledSelect;

@@ -1,7 +1,6 @@
 import prisma from "~/server/db";
 import bcrypt from "bcryptjs";
 import { ServiceType } from "@prisma/client";
-import { create } from "domain";
 
 async function main() {
   const alice = await prisma.user.upsert({
@@ -98,7 +97,7 @@ async function main() {
       providerId: filipa.id,
       description:
         "Cada Lunch box  de Filipa contiene los siguientes productos: \n- 2 scones de semillas \n- 1 alfajor de maicena \n- 1 alfajor de chocolate \n- 1 jugo de naranja natural",
-      aditionals: {
+      additionals: {
         createMany: {
           data: [
             { name: "Pan de Pita relleno - Mini", price: 25 },

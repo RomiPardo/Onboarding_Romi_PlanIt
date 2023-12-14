@@ -1,9 +1,9 @@
 import Image from "next/image";
 import Button from "./Button";
-import { usePreOrderContext } from "~/contexts/PreOrderContext";
+import { usePreOrderContext } from "~/hooks/usePreOrderContext";
 
 const SummaryOrder = () => {
-  const context = usePreOrderContext("preOrder");
+  const context = usePreOrderContext();
   const preOrder = context.preOrder;
 
   if (!preOrder) {
@@ -38,12 +38,12 @@ const SummaryOrder = () => {
             </h6>
 
             <div>
-              {preOrder.aditionals.map((aditional, index) => (
+              {preOrder.additionals.map((additional, index) => (
                 <p
                   key={index}
                   className="text-sm font-normal leading-normal text-black sm:text-base sm:leading-4 sm:text-gray"
                 >
-                  {aditional.name}
+                  {additional.name}
                 </p>
               ))}
             </div>

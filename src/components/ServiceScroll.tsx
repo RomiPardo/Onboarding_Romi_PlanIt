@@ -2,7 +2,7 @@ import ServiceCard from "../components/ServiceCard";
 import InfiniteScroll from "react-infinite-scroll-component";
 import ShimmerServiceScroll from "./ShimmerServiceScroll";
 import Spinner from "./Spinner";
-import { Aditional, Service, Provider, ServiceType } from "@prisma/client";
+import { Additional, Service, Provider, ServiceType } from "@prisma/client";
 import Categories from "./Categories";
 import useFilteredServices from "~/hooks/useFilteredServices";
 import { useFilteringContext } from "~/hooks/useFilteringContext";
@@ -11,7 +11,7 @@ import { toast } from "react-toastify";
 type ServiceComplete = Service & {
   isFavorite: boolean;
   provider: Provider;
-  aditionals: Aditional[];
+  additionals: Additional[];
 };
 
 type ServiceScrollProps = {

@@ -36,7 +36,7 @@ const Register = () => {
     if (res?.status !== 200) {
       toast.error("La contraseña y/o email ingresados son incorrectos");
     } else {
-      router.replace("/");
+      router.push("/");
     }
   };
 
