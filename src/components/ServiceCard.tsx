@@ -1,9 +1,6 @@
 import Image from "next/image";
 import React from "react";
-import { toast } from "react-toastify";
-import { api } from "~/utils/api";
-import Toast from "./Toast";
-import { Aditional, Provider, Service } from "@prisma/client";
+import { Additional, Provider, Service } from "@prisma/client";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import FavoriteButton from "./FavoriteButton";
@@ -11,7 +8,7 @@ import FavoriteButton from "./FavoriteButton";
 type ServiceFavorite = Service & {
   isFavorite: boolean;
   provider: Provider;
-  aditionals: Aditional[];
+  additionals: Additional[];
 };
 
 const ServiceCard = ({ service }: { service: ServiceFavorite }) => {

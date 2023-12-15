@@ -4,11 +4,13 @@ import PurchaseAdditional from "./PurchaseAdditional";
 import Button from "./Button";
 import { RouterOutput } from "~/types/common";
 import Link from "next/link";
-import GoBack from "./GoBack";
 import FavoriteButton from "./FavoriteButton";
 import ImageCarousel from "./ImageCarousel";
 import NumericInput from "./NumericInput";
-import { Aditional } from "@prisma/client";
+import { useRouter } from "next/router";
+import { usePreOrderContext } from "~/hooks/usePreOrderContext";
+import { Additional } from "@prisma/client";
+import GoBack from "./GoBack";
 
 type ServerInformationProps = {
   service: NonNullable<RouterOutput["service"]["getById"]>;
@@ -16,20 +18,55 @@ type ServerInformationProps = {
 
 const ServiceInformation = ({ service }: ServerInformationProps) => {
   const [amount, setAmount] = useState(1);
-  const [aditionalsSelected, setAditionalsSelected] = useState<Aditional[]>([]);
+  const [additionalsSelected, setAdditionalsSelected] = useState<Additional[]>(
+    [],
+  );
 
+  const router = useRouter();
   const matchLineBreak = /\u000A|\u000D|\u000D\u000A/;
 
-  const changeTotalAditional = (add: boolean, aditional: Aditional) => {
+  const { setPreOrder } = usePreOrderContext();
+
+  const changeTotalAdditional = (add: boolean, additional: Additional) => {
     if (add) {
-      setAditionalsSelected([...aditionalsSelected, aditional]);
+      setAdditionalsSelected([...additionalsSelected, additional]);
     } else {
-      setAditionalsSelected(
-        aditionalsSelected.filter(
-          (aditionals) => aditionals.id !== aditional.id,
+      setAdditionalsSelected(
+        additionalsSelected.filter(
+          (additionals) => additionals.id !== additional.id,
         ),
       );
     }
+  };
+
+  const changeAmount = (sum: number) => {
+    setAmount(amount + sum);
+  };
+
+  const createPreOrder = async () => {
+    const preOrder = {
+      service: {
+        deliveryPrice: service.deliveryPrice,
+        image: service.image,
+        name: service.name,
+        provider: { name: service.provider.name },
+        id: service.id,
+      },
+      additionals: additionalsSelected,
+      subtotal:
+        (service.price +
+          (additionalsSelected.length !== 0
+            ? additionalsSelected
+                .map((additional) => additional.price)
+                .reduce((a, b) => a + b)
+            : 0)) *
+        amount,
+      amount: amount,
+    };
+
+    setPreOrder(preOrder);
+
+    await router.push("/comprar");
   };
 
   return (
@@ -40,7 +77,7 @@ const ServiceInformation = ({ service }: ServerInformationProps) => {
 
           <div className="absolute h-3/5 w-full bg-gradient-to-b from-black to-transparent object-cover sm:hidden"></div>
 
-          <GoBack service={service} favoriteIcon={true} color="white" />
+          <GoBack service={service} color="white" />
         </div>
 
         <div className="hidden flex-col gap-y-11 sm:flex">
@@ -83,7 +120,7 @@ const ServiceInformation = ({ service }: ServerInformationProps) => {
             </div>
 
             <div className="hidden sm:flex">
-              <NumericInput onClick={setAmount} amount={amount} />
+              <NumericInput onClick={changeAmount} amount={amount} />
             </div>
           </div>
 
@@ -116,18 +153,18 @@ const ServiceInformation = ({ service }: ServerInformationProps) => {
         </div>
 
         <div className="hidden sm:flex">
-          {service.aditionals.length > 0 && (
+          {service.additionals.length > 0 && (
             <div className="flex flex-col gap-y-5">
               <h6 className="text-xl font-normal leading-5 text-[#444343]">
                 Personaliza tu box
               </h6>
 
               <div className="flex flex-col gap-y-3">
-                {service.aditionals.map((aditional, index) => (
+                {service.additionals.map((additional, index) => (
                   <div key={index} className="flex w-full">
                     <PurchaseAdditional
-                      aditional={aditional}
-                      onAdd={changeTotalAditional}
+                      additional={additional}
+                      onAdd={changeTotalAdditional}
                     />
                   </div>
                 ))}
@@ -156,9 +193,9 @@ const ServiceInformation = ({ service }: ServerInformationProps) => {
             <h6 className="hidden sm:block">
               $
               {(service.price +
-                (aditionalsSelected.length !== 0
-                  ? aditionalsSelected
-                      .map((aditional) => aditional.price)
+                (additionalsSelected.length !== 0
+                  ? additionalsSelected
+                      .map((additional) => additional.price)
                       .reduce((a, b) => a + b)
                   : 0)) *
                 amount}
@@ -172,11 +209,11 @@ const ServiceInformation = ({ service }: ServerInformationProps) => {
 
           <div className="flex flex-row items-center justify-between gap-x-6">
             <div className="flex sm:hidden">
-              <NumericInput onClick={setAmount} amount={amount} />
+              <NumericInput onClick={changeAmount} amount={amount} />
             </div>
 
             <div className="w-full rounded bg-white">
-              <Button intent="primary">
+              <Button intent="primary" type="button" onClick={createPreOrder}>
                 <p>
                   COMPRAR <span className="sm:hidden">AHORA</span>
                 </p>
@@ -187,6 +224,7 @@ const ServiceInformation = ({ service }: ServerInformationProps) => {
           <Link
             href={"/print"}
             className="hidden pt-4 text-center text-base font-light leading-5 text-blue-300 sm:block"
+            onClick={createPreOrder}
           >
             Imprimir presupuesto
           </Link>

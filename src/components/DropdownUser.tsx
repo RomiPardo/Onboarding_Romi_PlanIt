@@ -59,7 +59,7 @@ const DropdownUser = ({ mobile = false }: DropdownUserProps) => {
           ) : route.path === "/logOut" ? (
             <ItemDropdown
               key={route.path}
-              action={logOut}
+              onClick={logOut}
               route=""
               linkText=""
               intent="forth"

@@ -2,6 +2,7 @@ import { ReactNode } from "react";
 import NavBar from "./NavBar";
 import Footer from "./Footer";
 import { VariantProps, cva } from "class-variance-authority";
+import Toast from "./Toast";
 
 const navBarStyles = cva("", {
   variants: {
@@ -17,12 +18,15 @@ const navBarStyles = cva("", {
 
 type LayoutProps = VariantProps<typeof navBarStyles> & {
   children: ReactNode;
+  onClick?: (() => Promise<void>) | (() => void);
 };
 
-const Layout = ({ intent, children, ...props }: LayoutProps) => (
+const Layout = ({ intent, children, onClick, ...props }: LayoutProps) => (
   <div className="flex h-screen flex-col">
+    <Toast />
+
     <div className={navBarStyles({ intent })}>
-      <NavBar />
+      <NavBar onClick={onClick} />
     </div>
 
     <div
