@@ -12,6 +12,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Button from "~/components/Button";
 import Image from "next/image";
+import { api } from "~/utils/api";
 
 type UserSchemaType = z.infer<typeof UserShema>;
 
@@ -23,9 +24,19 @@ const Register = () => {
     formState: { errors },
     handleSubmit,
     register,
+    getValues,
   } = methods;
 
   const router = useRouter();
+
+  const passwordForgotenMutation = api.user.forgotPassword.useMutation({
+    onError(error) {
+      toast.error(error.message);
+    },
+    onSuccess() {
+      toast.success("Se envio un correo con la nueva contraseña");
+    },
+  });
 
   const login = async (user: UserSchemaType) => {
     const res = await signIn("credentials", {
@@ -38,6 +49,11 @@ const Register = () => {
     } else {
       router.replace("/");
     }
+  };
+
+  const passwordForgoten = () => {
+    const email = getValues("email");
+    passwordForgotenMutation.mutate({ email });
   };
 
   return (
@@ -93,6 +109,13 @@ const Register = () => {
                   <Link href="/register" className="text-blue-300">
                     ¡Regístrate aquí!
                   </Link>
+
+                  <p
+                    onClick={passwordForgoten}
+                    className="text-blue-300 hover:cursor-pointer"
+                  >
+                    Olvide mi contraseña
+                  </p>
                 </div>
               </form>
             </FormProvider>

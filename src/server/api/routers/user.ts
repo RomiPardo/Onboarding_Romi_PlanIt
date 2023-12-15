@@ -1,10 +1,14 @@
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "../trpc";
 import { protectedProcedure } from "../trpc";
-import { RegisterUserSchema } from "~/server/schemas/userSchema";
+import {
+  ForgotPasswordSchema,
+  RegisterUserSchema,
+} from "~/server/schemas/userSchema";
 import { EditUserSchema } from "~/server/schemas/userSchema";
 import bcrypt from "bcryptjs";
 import { TRPCError } from "@trpc/server";
+import { sendEmail } from "~/server/email/mailService";
 
 export const userRouter = createTRPCRouter({
   me: protectedProcedure.query(
@@ -121,4 +125,52 @@ export const userRouter = createTRPCRouter({
         };
       },
     ),
+
+  forgotPassword: publicProcedure
+    .input(ForgotPasswordSchema)
+    .mutation(async ({ ctx, input: { email } }) => {
+      const user = await ctx.prisma.user.findUnique({
+        where: {
+          email,
+        },
+      });
+
+      if (user === null) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "No existe un usuario con ese mail",
+        });
+      }
+
+      const newPassword = Math.random().toString(36).slice(-8);
+
+      const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+      await ctx.prisma.user.update({
+        where: {
+          email,
+        },
+        data: {
+          hashedPassword,
+        },
+      });
+
+      const message = `
+      ¡Hola ${user.name}!
+
+      Hemos recibido tu solicitud para restablecer la contraseña de tu cuenta. Para tu comodidad, aquí está tu nueva contraseña:
+
+      ${newPassword}
+
+      Utiliza esta contraseña para acceder a tu cuenta. Te recomendamos cambiarla tan pronto como ingreses.
+
+      ¡Gracias y que tengas un excelente día!
+
+      PlanIt
+      `;
+
+      const subject = "Recupera tu contraseña";
+
+      await sendEmail(email, message, subject);
+    }),
 });

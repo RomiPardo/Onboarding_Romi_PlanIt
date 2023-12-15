@@ -38,3 +38,10 @@ export const NewUserSchema = z.object({
   contactNumber: z.string(),
   password: z.string(),
 });
+
+export const ForgotPasswordSchema = z.object({
+  email: z
+    .string()
+    .min(1, "Debe completar este campo")
+    .email("Formato invalido del mail"),
+});
