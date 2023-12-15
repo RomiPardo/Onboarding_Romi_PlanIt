@@ -9,7 +9,7 @@ import {
 import { EditUserSchema } from "~/server/schemas/userSchema";
 import bcrypt from "bcryptjs";
 import { TRPCError } from "@trpc/server";
-import { sendEmail } from "~/server/email/mailService";
+import { sendEmail } from "~/nodemailer";
 
 export const userRouter = createTRPCRouter({
   me: protectedProcedure.query(
@@ -156,19 +156,7 @@ export const userRouter = createTRPCRouter({
         },
       });
 
-      const message = `
-      ¡Hola ${user.name}!
-
-      Hemos recibido tu solicitud para restablecer la contraseña de tu cuenta. Para tu comodidad, aquí está tu nueva contraseña:
-
-      ${newPassword}
-
-      Utiliza esta contraseña para acceder a tu cuenta. Te recomendamos cambiarla tan pronto como ingreses.
-
-      ¡Gracias y que tengas un excelente día!
-
-      PlanIt
-      `;
+      const message = `¡Hola ${user.name}! \n\nHemos recibido tu solicitud para restablecer la contraseña de tu cuenta. Para tu comodidad, aquí está tu nueva contraseña: \n\n${newPassword} \n\nUtiliza esta contraseña para acceder a tu cuenta. Te recomendamos cambiarla tan pronto como ingreses. \n\n¡Gracias y que tengas un excelente día! \n\nPlanIt`;
 
       const subject = "Recupera tu contraseña";
 

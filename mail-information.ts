@@ -1,5 +1,5 @@
-export const EMAIL_ADDRESS = "your mail";
-export const EMAIL_PASSWORD = "your app password";
+export const EMAIL_ADDRESS = "aux5687@gmail.com";
+export const EMAIL_PASSWORD = "thzp dfsz gyze jjba";
 
 // Steps to get your email infromation:
 

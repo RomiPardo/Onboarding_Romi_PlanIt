@@ -1,5 +1,7 @@
 import { EMAIL_ADDRESS, EMAIL_PASSWORD } from "mail-information";
 import nodemailer from "nodemailer";
+import { Email } from "./email";
+import { render } from "@react-email/components";
 
 const transport = nodemailer.createTransport({
   service: "gmail",
@@ -15,12 +17,14 @@ export const sendEmail = (
   subject: string,
 ): Promise<string> => {
   return new Promise((resolve, reject) => {
+    const emailHtml = render(<Email message={message} />);
+
     transport.sendMail(
       {
         to: userEmail,
         from: EMAIL_ADDRESS,
+        html: emailHtml,
         subject: subject,
-        text: message,
       },
       (error) => {
         if (error) {
