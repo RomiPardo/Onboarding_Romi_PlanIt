@@ -1,6 +1,9 @@
 import { signIn } from "next-auth/react";
 import { FormProvider, useForm } from "react-hook-form";
-import { LoginUserSchema as UserShema } from "~/server/schemas/userSchema";
+import {
+  ForgotPasswordSchema,
+  LoginUserSchema as UserShema,
+} from "~/server/schemas/userSchema";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import InputWithLabel from "~/components/InputWithLabel";
@@ -53,7 +56,14 @@ const Register = () => {
 
   const passwordForgoten = () => {
     const email = getValues("email");
-    passwordForgotenMutation.mutate({ email });
+
+    try {
+      ForgotPasswordSchema.parse({ email });
+
+      passwordForgotenMutation.mutate({ email });
+    } catch (error) {
+      toast.error("Debe completar el campo de email y darle un fromato valido");
+    }
   };
 
   return (
