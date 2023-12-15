@@ -4,6 +4,7 @@ import { protectedProcedure } from "../trpc";
 import {
   ForgotPasswordSchema,
   RegisterUserSchema,
+  cardSchema,
 } from "~/server/schemas/userSchema";
 import { EditUserSchema } from "~/server/schemas/userSchema";
 import bcrypt from "bcryptjs";
@@ -173,4 +174,56 @@ export const userRouter = createTRPCRouter({
 
       await sendEmail(email, message, subject);
     }),
+
+  addCard: publicProcedure
+    .input(cardSchema)
+    .mutation(async ({ ctx, input: { number, cvv } }) => {
+      if (cvv.length !== 3) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "El CVV debe tener 3 caracters",
+        });
+      }
+
+      const userId = ctx.session?.user.id;
+
+      if (!userId) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "Hubo problemas al identificar el usuario",
+        });
+      }
+
+      const card = await ctx.prisma.creditCard.findUnique({
+        where: { number, userId },
+      });
+
+      if (card) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "Ya existe una tarjeta con ese numero en su cuenta",
+        });
+      }
+
+      await ctx.prisma.creditCard.create({
+        data: { number, cvv: parseInt(cvv), userId },
+      });
+    }),
+
+  getCards: publicProcedure.query(async ({ ctx }) => {
+    const userId = ctx.session?.user.id;
+
+    if (!userId) {
+      throw new TRPCError({
+        code: "BAD_REQUEST",
+        message: "Hubo problemas al identificar el usuario",
+      });
+    }
+
+    const cards = await ctx.prisma.creditCard.findMany({
+      where: { userId: userId },
+    });
+
+    return cards;
+  }),
 });

@@ -50,7 +50,7 @@ const Register = () => {
     if (res?.status !== 200) {
       toast.error("La contraseña y/o email ingresados son incorrectos");
     } else {
-      router.replace("/");
+      router.push("/");
     }
   };
 
@@ -132,7 +132,7 @@ const Register = () => {
           </div>
 
           <div className="hidden flex-row items-center justify-end gap-5 pb-6 pr-6 md:flex">
-            <Button intent="help">
+            <Button intent="help" type="button">
               ¿Necesitás ayuda?
               <span>
                 <svg

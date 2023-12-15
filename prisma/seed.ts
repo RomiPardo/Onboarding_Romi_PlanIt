@@ -14,6 +14,14 @@ async function main() {
       image: "/userImage/example.png",
       hashedPassword: await bcrypt.hash("Contra1234", 10),
       points: 202,
+      cards: {
+        createMany: {
+          data: [
+            { number: "1234-5647-8933-9876", cvv: 123 },
+            { number: "1834-5897-8930-9876", cvv: 123 },
+          ],
+        },
+      },
     },
   });
 
@@ -64,7 +72,7 @@ async function main() {
       providerId: filipa.id,
       description:
         "Cada Lunch box  de Filipa contiene los siguientes productos: \n- 2 scones de semillas \n- 1 alfajor de maicena \n- 1 alfajor de chocolate \n- 1 jugo de naranja natural",
-      aditionals: {
+      additionals: {
         createMany: {
           data: [
             { name: "Pan de Pita relleno - Mini", price: 25 },

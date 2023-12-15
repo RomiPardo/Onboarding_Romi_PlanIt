@@ -10,3 +10,4 @@ export const filterServiceSchema = z.object({
   category: z.enum(["PRESENT", "CATERING", "MERCHANDISING", "EVENT"]),
   limit: z.number().min(1).max(100).nullish(),
 });
+

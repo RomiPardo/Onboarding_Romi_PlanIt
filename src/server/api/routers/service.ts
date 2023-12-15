@@ -15,7 +15,7 @@ export const serviceRouter = createTRPCRouter({
           id: input.id,
         },
         include: {
-          aditionals: true,
+          additionals: true,
           provider: { select: { name: true } },
           favoritedBy: true,
         },
@@ -79,7 +79,7 @@ export const serviceRouter = createTRPCRouter({
         include: {
           favoritedBy: true,
           provider: true,
-          aditionals: true,
+          additionals: true,
         },
       });
 

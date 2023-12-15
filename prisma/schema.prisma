@@ -27,20 +27,35 @@ enum ServiceType {
 }
 
 model User {
-    id               String    @id @default(cuid())
+    id               String       @id @default(cuid())
     name             String
     lastName         String
-    email            String    @unique
+    email            String       @unique
     business         String
     image            String?
     hashedPassword   String
-    role             Role      @default(USER)
-    points           Int       @default(0)
+    role             Role         @default(USER)
+    points           Int          @default(0)
     serviceId        String?
     favoriteServices Service[]
     contactNumber    String?
+    cards            CreditCard[]
+
+    Order Order[]
 
     @@map("users")
+}
+
+model CreditCard {
+    id     String  @id @default(cuid())
+    number String  @unique
+    cvv    Int
+    User   User?   @relation(fields: [userId], references: [id])
+    userId String?
+
+    Order Order[]
+
+    @@map("cards")
 }
 
 model Provider {
@@ -52,27 +67,58 @@ model Provider {
 }
 
 model Service {
-    id            String      @id @default(cuid())
+    id            String       @id @default(cuid())
     type          ServiceType
     image         String[]
-    name          String      @unique
-    description   String      @default("No hay descripción")
+    name          String       @unique
+    description   String       @default("No hay descripción")
     price         Int
     qualification Float
-    aditionals    Aditional[]
-    provider      Provider    @relation(fields: [providerId], references: [id])
+    additionals   Additional[]
+    provider      Provider     @relation(fields: [providerId], references: [id])
     providerId    String
     favoritedBy   User[]
+    deliveryPrice Int          @default(100)
+
+    Order Order[]
 
     @@map("services")
 }
 
-model Aditional {
+model Additional {
     id        String   @id @default(cuid())
     name      String   @unique
     price     Int
     Service   Service? @relation(fields: [serviceId], references: [id])
     serviceId String?
 
-    @@map("aditionals")
+    Order   Order?  @relation(fields: [orderId], references: [id])
+    orderId String?
+
+    @@map("additionals")
+}
+
+model Order {
+    id              String       @id @default(cuid())
+    service         Service      @relation(fields: [serviceId], references: [id])
+    additionals     Additional[]
+    amount          Int
+    payment         CreditCard   @relation(fields: [creditCardId], references: [id])
+    contactNumber   String
+    rut             String?
+    socialReason    String?
+    deliveryDate    DateTime
+    address         String
+    surprise        Boolean      @default(false)
+    message         String?
+    logo            String?
+    tryAgain        Boolean      @default(false)
+    User            User?        @relation(fields: [userId], references: [id])
+    userId          String?
+    serviceId       String
+    creditCardId    String
+    firstNameClient String
+    lastNameClient  String
+
+    @@map("orders")
 }

@@ -21,9 +21,9 @@ const FavoriteButton = ({
 }: FavoriteButtonProps) => {
   const utils = api.useUtils();
 
-  const favoriteMutation = api.service.changeFavoriteBy.useMutation({
-    onError() {
-      toast.error("Hubo problemas al identificar el usuario o el servicio");
+  const favourtiteMutation = api.service.changeFavoriteBy.useMutation({
+    onError(error) {
+      toast.error(error.message);
     },
     async onSuccess() {
       await utils.service.getById.invalidate({ id: serviceId });
@@ -32,36 +32,32 @@ const FavoriteButton = ({
   });
 
   const changeFavoriteService = () => {
-    favoriteMutation.mutate({
+    favourtiteMutation.mutate({
       isFavorite: !isFavorite,
       id: serviceId,
     });
   };
 
   return (
-    <>
-      <Toast />
-
-      <div className="flex items-end">
-        {isFavorite ? (
-          <Image
-            src="/service/favoriteIconTrue.png"
-            width={width}
-            height={height}
-            alt="Icono de favorito seleccionado"
-            onClick={changeFavoriteService}
-          />
-        ) : (
-          <Image
-            src={linkFalse}
-            width={width}
-            height={height}
-            alt="Icono de favorito no seleccionado"
-            onClick={changeFavoriteService}
-          />
-        )}
-      </div>
-    </>
+    <div className="flex items-end">
+      {isFavorite ? (
+        <Image
+          src="/service/favoriteIconTrue.png"
+          width={width}
+          height={height}
+          alt="Icono de favorito seleccionado"
+          onClick={changeFavoriteService}
+        />
+      ) : (
+        <Image
+          src={linkFalse}
+          width={width}
+          height={height}
+          alt="Icono de favorito no seleccionado"
+          onClick={changeFavoriteService}
+        />
+      )}
+    </div>
   );
 };
 
