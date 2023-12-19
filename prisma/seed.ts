@@ -47,7 +47,7 @@ async function main() {
     },
   });
 
-  const assetShare = await prisma.assetsLabels.upsert({
+  const subcategoryShare = await prisma.subcategory.upsert({
     where: { name: "Para compartir" },
     update: {},
     create: {
@@ -55,15 +55,15 @@ async function main() {
     },
   });
 
-  const assetVegi = await prisma.assetsLabels.upsert({
-    where: { name: "Veganos/Vegetarianos" },
+  const subcategoryDessert = await prisma.subcategory.upsert({
+    where: { name: "Postre" },
     update: {},
     create: {
-      name: "Veganos/Vegetarianos",
+      name: "Postre",
     },
   });
 
-  const assetDip = await prisma.assetsLabels.upsert({
+  const subcategoryDip = await prisma.subcategory.upsert({
     where: { name: "Picadas" },
     update: {},
     create: {
@@ -81,7 +81,9 @@ async function main() {
       price: 495,
       qualification: 4.95,
       providerId: filipa.id,
-      assets: { connect: [{ id: assetShare.id }, { id: assetVegi.id }] },
+      subcategories: {
+        connect: [{ id: subcategoryShare.id }, { id: subcategoryDessert.id }],
+      },
     },
   });
 
@@ -107,7 +109,9 @@ async function main() {
           ],
         },
       },
-      assets: { connect: [{ id: assetDip.id }, { id: assetShare.id }] },
+      subcategories: {
+        connect: [{ id: subcategoryDip.id }, { id: subcategoryShare.id }],
+      },
     },
   });
 

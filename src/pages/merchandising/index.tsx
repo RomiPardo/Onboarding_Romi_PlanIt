@@ -1,5 +1,5 @@
-import PageFormat from "~/components/PageFormat";
+import CategoryPage from "~/components/CategoryPage";
 
-const Merchandising = () => <PageFormat category="MERCHANDISING" />;
+const Merchandising = () => <CategoryPage category="MERCHANDISING" />;
 
 export default Merchandising;

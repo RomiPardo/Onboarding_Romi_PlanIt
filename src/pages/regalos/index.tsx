@@ -1,5 +1,5 @@
-import PageFormat from "~/components/PageFormat";
+import CategoryPage from "~/components/CategoryPage";
 
-const Present = () => <PageFormat category="PRESENT" />;
+const Present = () => <CategoryPage category="PRESENT" />;
 
 export default Present;

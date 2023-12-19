@@ -2,29 +2,33 @@ import { createContext, useState, ReactNode, useEffect } from "react";
 import useStorage from "~/hooks/useStorage";
 
 type ContextType = {
-  searchFilter?: string;
-  setSearchFilter: (newValue: string | undefined) => void;
-  selectedAssetFilters?: string[];
-  setSelectedAssetFilters: (assetsSelected: string[] | undefined) => void;
-  selectedOrder?: string;
-  setSelectedOrder: (newOrderBy: string | undefined) => void;
-  assets?: string[];
-  setAssets: (newAssets: string[] | undefined) => void;
+  searchFilter: string;
+  setSearchFilter: (newValue: string) => void;
+  selectedSubcategoriesFilters: string[];
+  setSelectedSubcategoriesFilters: (subcategoriesSelected: string[]) => void;
+  selectedOrder: string;
+  setSelectedOrder: (newOrderBy: string) => void;
+  subcategories: string[];
+  setSubcategories: (newSubcategories: string[]) => void;
 };
 
 export const FilteringContext = createContext<ContextType>({
-  setSearchFilter: (newValue: string | undefined) => {
+  setSearchFilter: (newValue: string) => {
     return;
   },
-  setSelectedAssetFilters: (newValue: string[] | undefined) => {
+  searchFilter: "",
+  setSelectedSubcategoriesFilters: (newValue: string[]) => {
     return;
   },
-  setSelectedOrder: (newValue: string | undefined) => {
+  selectedSubcategoriesFilters: [],
+  setSelectedOrder: (newValue: string) => {
     return;
   },
-  setAssets: (newValue: string[] | undefined) => {
+  selectedOrder: "",
+  setSubcategories: (newValue: string[]) => {
     return;
   },
+  subcategories: [],
 });
 
 type WrapperProps = {
@@ -33,34 +37,33 @@ type WrapperProps = {
 
 export const FilteringContextProvider = ({ children }: WrapperProps) => {
   const { getItem } = useStorage();
-  const selectedAssetFiltersStoredValue = getItem(
-    "selectedAssetFilters",
+  const selectedSubcategoriesFiltersStoredValue = getItem(
+    "selectedSubcategoriesFilters",
     "local",
   );
   const selectedOrderStoredValue = getItem("selectedOrder", "local");
   const searchFilterStoredValue = getItem("searchFilter", "local");
-  const assetsStoredValue = getItem("assets", "local");
+  const subcategoriesStoredValue = getItem("subcategories", "local");
 
-  const [selectedAssetFilters, setSelectedAssetFilters] = useState<
-    string[] | undefined
-  >([]);
-  const [selectedOrder, setSelectedOrder] = useState<string | undefined>("");
-  const [searchFilter, setSearchFilter] = useState<string | undefined>("");
-  const [assets, setAssets] = useState<string[] | undefined>([]);
+  const [selectedSubcategoriesFilters, setSelectedSubcategoriesFilters] =
+    useState<string[]>([]);
+  const [selectedOrder, setSelectedOrder] = useState<string>("");
+  const [searchFilter, setSearchFilter] = useState<string>("");
+  const [subcategories, setSubcategories] = useState<string[]>([]);
 
   useEffect(() => {
-    if (selectedAssetFiltersStoredValue) {
-      setSelectedAssetFilters(
-        JSON.parse(selectedAssetFiltersStoredValue) as string[],
+    if (selectedSubcategoriesFiltersStoredValue) {
+      setSelectedSubcategoriesFilters(
+        JSON.parse(selectedSubcategoriesFiltersStoredValue) as string[],
       );
     }
-  }, [selectedAssetFiltersStoredValue]);
+  }, [selectedSubcategoriesFiltersStoredValue]);
 
   useEffect(() => {
-    if (assetsStoredValue) {
-      setAssets(JSON.parse(assetsStoredValue) as string[]);
+    if (subcategoriesStoredValue) {
+      setSubcategories(JSON.parse(subcategoriesStoredValue) as string[]);
     }
-  }, [assetsStoredValue]);
+  }, [subcategoriesStoredValue]);
 
   useEffect(() => {
     if (selectedOrderStoredValue) {
@@ -79,12 +82,12 @@ export const FilteringContextProvider = ({ children }: WrapperProps) => {
       value={{
         searchFilter: searchFilter,
         setSearchFilter: setSearchFilter,
-        selectedAssetFilters: selectedAssetFilters,
-        setSelectedAssetFilters: setSelectedAssetFilters,
+        selectedSubcategoriesFilters: selectedSubcategoriesFilters,
+        setSelectedSubcategoriesFilters: setSelectedSubcategoriesFilters,
         selectedOrder: selectedOrder,
         setSelectedOrder: setSelectedOrder,
-        assets: assets,
-        setAssets: setAssets,
+        subcategories: subcategories,
+        setSubcategories: setSubcategories,
       }}
     >
       {children}

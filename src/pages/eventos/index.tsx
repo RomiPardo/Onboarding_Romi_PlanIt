@@ -1,5 +1,5 @@
-import PageFormat from "~/components/PageFormat";
+import CategoryPage from "~/components/CategoryPage";
 
-const Events = () => <PageFormat category="EVENT" />;
+const Events = () => <CategoryPage category="EVENT" />;
 
 export default Events;

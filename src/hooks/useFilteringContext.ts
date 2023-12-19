@@ -11,62 +11,72 @@ export const useFilteringContext = () => {
   }
 
   const setNewOrderBy = (newOrderBy: string | undefined) => {
-    newOrderBy
-      ? localStorage.setItem("selectedOrder", newOrderBy)
-      : localStorage.removeItem("selectedOrder");
-
-    context.setSelectedOrder(newOrderBy);
-  };
-
-  const setNewSearchFilter = (newSearchFilter: string | undefined) => {
-    newSearchFilter
-      ? localStorage.setItem("searchFilter", newSearchFilter)
-      : localStorage.removeItem("searchFilter");
-
-    context.setSearchFilter(newSearchFilter);
-  };
-
-  const setNewAssets = (newAssets: string[] | undefined) => {
-    if (typeof window !== "undefined") {
-      newAssets
-        ? localStorage.setItem("assets", JSON.stringify(newAssets))
-        : localStorage.removeItem("assets");
-
-      context.setAssets(newAssets);
+    if (newOrderBy) {
+      localStorage.setItem("selectedOrder", newOrderBy);
+      context.setSelectedOrder(newOrderBy);
+    } else {
+      localStorage.removeItem("selectedOrder");
+      context.setSelectedOrder("");
     }
   };
 
-  const setNewSelectedAssets = (newSelectedAssets: string[] | undefined) => {
-    newSelectedAssets
-      ? localStorage.setItem(
-          "selectedAssetFilters",
-          JSON.stringify(newSelectedAssets),
-        )
-      : localStorage.removeItem("selectedAssetFilters");
+  const setNewSearchFilter = (newSearchFilter: string | undefined) => {
+    if (newSearchFilter) {
+      localStorage.setItem("searchFilter", newSearchFilter);
+      context.setSearchFilter(newSearchFilter);
+    } else {
+      localStorage.removeItem("searchFilter");
+      context.setSearchFilter("");
+    }
+  };
 
-    context.setSelectedAssetFilters(newSelectedAssets);
+  const setNewSubcategories = (newSubcategories: string[] | undefined) => {
+    if (typeof window !== "undefined") {
+      if (newSubcategories) {
+        localStorage.setItem("subcategories", JSON.stringify(newSubcategories));
+        context.setSubcategories(newSubcategories);
+      } else {
+        localStorage.removeItem("subcategories");
+        context.setSubcategories([]);
+      }
+    }
+  };
+
+  const setNewSelectedSubcategories = (
+    newSelectedSubcategories: string[] | undefined,
+  ) => {
+    if (newSelectedSubcategories) {
+      localStorage.setItem(
+        "selectedSubcategoriesFilters",
+        JSON.stringify(newSelectedSubcategories),
+      );
+      context.setSelectedSubcategoriesFilters(newSelectedSubcategories);
+    } else {
+      localStorage.removeItem("selectedSubcategoriesFilters");
+      context.setSelectedSubcategoriesFilters([]);
+    }
   };
 
   const clearAll = () => {
-    localStorage.removeItem("selectedAssetFilters");
-    localStorage.removeItem("assets");
+    localStorage.removeItem("selectedSubcategoriesFilters");
+    localStorage.removeItem("subcategories");
     localStorage.removeItem("searchFilter");
-    localStorage.removeItem("searchFilter");
-    context.setSelectedAssetFilters(undefined);
-    context.setSearchFilter(undefined);
-    context.setAssets(undefined);
-    context.setSelectedOrder(undefined);
+    localStorage.removeItem("selectedOrder");
+    context.setSelectedSubcategoriesFilters([]);
+    context.setSearchFilter("");
+    context.setSubcategories([]);
+    context.setSelectedOrder("");
   };
 
   return {
     searchFilter: context.searchFilter,
     setSearchFilter: setNewSearchFilter,
-    selectedAssetFilters: context.selectedAssetFilters,
-    setSelectedAssetFilters: setNewSelectedAssets,
+    selectedSubcategories: context.selectedSubcategoriesFilters,
+    setSelectedSubcategories: setNewSelectedSubcategories,
     selectedOrder: context.selectedOrder,
     setSelectedOrder: setNewOrderBy,
-    assets: context.assets,
-    setAssets: setNewAssets,
+    subcategories: context.subcategories,
+    setSubcategories: setNewSubcategories,
     clearAll,
   };
 };

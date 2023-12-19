@@ -68,18 +68,19 @@ export const serviceRouter = createTRPCRouter({
     .input(filterServiceSchema)
     .query(async ({ ctx, input }) => {
       const limit = input.limit ?? 12;
-      const { cursor, category, order, assetFilter, searchFilter } = input;
+      const { cursor, category, order, subcategoryFilter, searchFilter } =
+        input;
 
       const [field = "", direction] = order.split("-");
       const orderBy = field ? { [field]: direction } : {};
 
-      const assetsFiltered =
-        assetFilter.length !== 0
+      const subcategoriesFiltered =
+        subcategoryFilter.length !== 0
           ? {
-              assets: {
+              subcategories: {
                 some: {
                   name: {
-                    in: assetFilter,
+                    in: subcategoryFilter,
                   },
                 },
               },
@@ -113,7 +114,7 @@ export const serviceRouter = createTRPCRouter({
                 },
               },
             ],
-            ...assetsFiltered,
+            ...subcategoriesFiltered,
           },
           orderBy,
           cursor: cursor ? { id: cursor } : undefined,
@@ -121,7 +122,7 @@ export const serviceRouter = createTRPCRouter({
             favoritedBy: true,
             provider: true,
             additionals: true,
-            assets: true,
+            subcategories: true,
           },
         });
 
@@ -150,7 +151,7 @@ export const serviceRouter = createTRPCRouter({
       }
     }),
 
-  getAllAssetsFromCategory: publicProcedure
+  getAllSubcategoriesFromCategory: publicProcedure
     .input(
       z.object({
         category: z.enum(["PRESENT", "CATERING", "MERCHANDISING", "EVENT"]),
@@ -163,21 +164,21 @@ export const serviceRouter = createTRPCRouter({
             type: category,
           },
           include: {
-            assets: true,
+            subcategories: true,
           },
         });
 
-        const uniqueAssets = data
+        const uniqueSubcategories = data
           ? [
               ...new Set(
                 data.flatMap((service) =>
-                  service.assets.map((asset) => asset.name),
+                  service.subcategories.map((subcategory) => subcategory.name),
                 ),
               ),
             ]
           : [];
 
-        return { filters: uniqueAssets };
+        return { filters: uniqueSubcategories };
       } catch (error) {
         throw new TRPCError({
           code: "BAD_REQUEST",

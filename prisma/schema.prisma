@@ -65,19 +65,19 @@ model Provider {
 }
 
 model Service {
-    id            String         @id @default(cuid())
+    id            String        @id @default(cuid())
     type          ServiceType
     image         String[]
-    name          String         @unique
-    description   String         @default("No hay descripción")
+    name          String        @unique
+    description   String        @default("No hay descripción")
     price         Int
     qualification Float
     additionals   Additional[]
-    provider      Provider       @relation(fields: [providerId], references: [id])
+    provider      Provider      @relation(fields: [providerId], references: [id])
     providerId    String
     favoritedBy   User[]
-    deliveryPrice Int            @default(100)
-    assets        AssetsLabels[]
+    deliveryPrice Int           @default(100)
+    subcategories Subcategory[]
     Order         Order[]
 
     @@map("services")
@@ -95,7 +95,7 @@ model Additional {
     @@map("additionals")
 }
 
-model AssetsLabels {
+model Subcategory {
     id       String    @id @default(cuid())
     name     String    @unique
     services Service[]

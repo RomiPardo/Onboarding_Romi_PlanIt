@@ -19,17 +19,14 @@ type ServiceScrollProps = {
 };
 
 const ServiceScroll = ({ category }: ServiceScrollProps) => {
-  const {
-    selectedOrder = "",
-    selectedAssetFilters = [],
-    searchFilter = "",
-  } = useFilteringContext();
+  const { selectedOrder, selectedSubcategories, searchFilter } =
+    useFilteringContext();
 
   const { services, error, fetchNextPage, hasNextPage, moreThan } =
     useFilteredServices(
       category,
       selectedOrder,
-      selectedAssetFilters,
+      selectedSubcategories,
       searchFilter,
     );
 

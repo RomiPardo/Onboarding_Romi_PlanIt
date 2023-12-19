@@ -43,7 +43,7 @@ const Categories = ({ category, moreThan }: CategoriesProps) => {
         <SubFilterBar />
       </div>
 
-      <p className="flex items-center justify-center pb-12 pt-8 text-sm font-normal leading-normal text-[#7D7D7D] sm:hidden">
+      <p className="flex items-center justify-center pb-12 pt-44 text-sm font-normal leading-normal text-[#7D7D7D] sm:hidden">
         {moreThan + 1 > 1 ? (
           <span>{moreThan + 1} resultados</span>
         ) : moreThan + 1 === 1 ? (

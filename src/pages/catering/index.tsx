@@ -1,5 +1,5 @@
-import PageFormat from "~/components/PageFormat";
+import CategoryPage from "~/components/CategoryPage";
 
-const Catering = () => <PageFormat category="CATERING" />
+const Catering = () => <CategoryPage category="CATERING" />;
 
 export default Catering;

@@ -9,10 +9,10 @@ type PageFormatProps = {
   category: ServiceType;
 };
 
-const PageFormat = ({ category }: PageFormatProps) => {
-  const { setAssets, clearAll } = useFilteringContext();
+const CategoryPage = ({ category }: PageFormatProps) => {
+  const { setSubcategories, clearAll } = useFilteringContext();
 
-  const { error, data } = api.service.getAllAssetsFromCategory.useQuery({
+  const { error, data } = api.service.getAllSubcategoriesFromCategory.useQuery({
     category,
   });
 
@@ -25,7 +25,7 @@ const PageFormat = ({ category }: PageFormatProps) => {
     );
   }
 
-  setAssets(data?.filters ?? undefined);
+  setSubcategories(data?.filters ?? undefined);
 
   return (
     <Layout onClick={() => clearAll()}>
@@ -34,4 +34,4 @@ const PageFormat = ({ category }: PageFormatProps) => {
   );
 };
 
-export default PageFormat;
+export default CategoryPage;
