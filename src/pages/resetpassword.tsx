@@ -4,7 +4,7 @@ import {
   NextPage,
 } from "next";
 import { getTrpcHelpers } from "~/server/helper";
-import jwt, { JwtPayload } from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 import { useRouter } from "next/router";
 import { toast } from "react-toastify";
 import Toast from "~/components/Toast";
@@ -15,9 +15,8 @@ import { z } from "zod";
 import InputWithLabel from "~/components/InputWithLabel";
 import Button from "~/components/Button";
 import { api } from "~/utils/api";
-import { time } from "console";
-import Layout from "~/components/Layout";
 import GoBack from "~/components/GoBack";
+import { TRPCClientError } from "@trpc/client";
 
 type ChangePasswordSchema = z.infer<typeof changePasswordSchema>;
 
@@ -45,23 +44,9 @@ const ResetPassword: NextPage<ResetPasswordProps> = ({ email, timestamp }) => {
     handleSubmit,
   } = methods;
 
-  const changePasswordMutation = api.user.changePassword.useMutation({
-    onError(error) {
-      toast.error(error.message);
-    },
-    onSuccess() {
-      toast.success("Se ha cambiado la contraseña correctamente");
-    },
-  });
+  const changePasswordMutation = api.user.changePassword.useMutation();
 
-  const passwordForgotenMutation = api.user.forgotPassword.useMutation({
-    onError(error) {
-      toast.error(error.message);
-    },
-    onSuccess() {
-      toast.success("Se le envio un correo con la nueva contraseña");
-    },
-  });
+  const passwordForgotenMutation = api.user.forgotPassword.useMutation();
 
   const verifyTimestamp = () => {
     if (currentDate > expirationDate && timestamp !== 0) {
@@ -69,11 +54,23 @@ const ResetPassword: NextPage<ResetPasswordProps> = ({ email, timestamp }) => {
     }
   };
 
-  const changePassword = (passwordData: ChangePasswordSchema) => {
-    if (passwordData.password === "") {
-      passwordForgotenMutation.mutate({ email: passwordData.email });
-    } else {
-      changePasswordMutation.mutate({ ...passwordData });
+  const changePassword = async (passwordData: ChangePasswordSchema) => {
+    try {
+      if (email === "") {
+        await passwordForgotenMutation.mutateAsync({
+          email: passwordData.email,
+        });
+
+        toast.success("Se le envio un correo con la nueva contraseña");
+      } else {
+        await changePasswordMutation.mutateAsync({ ...passwordData });
+
+        toast.success("Se ha cambiado la contraseña correctamente");
+      }
+    } catch (error) {
+      error instanceof TRPCClientError
+        ? toast.error(error?.message)
+        : toast.error("Sucedio un error inesperado");
     }
   };
 
