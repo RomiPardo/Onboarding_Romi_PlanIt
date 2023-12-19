@@ -41,7 +41,7 @@ const FavoriteButton = ({
   };
 
   return (
-    <div className="flex items-end">
+    <div className="flex items-end hover:cursor-pointer">
       {isFavorite ? (
         <Image
           src="/service/favoriteIconTrue.png"

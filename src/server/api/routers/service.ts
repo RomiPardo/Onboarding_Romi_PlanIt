@@ -43,18 +43,17 @@ export const serviceRouter = createTRPCRouter({
       });
 
       if (currentUser) {
-        const data = isFavorite
-          ? {
-              favoritedBy: { disconnect: [{ id: currentUser.id }] },
-            }
-          : {
-              favoritedBy: { connect: [{ id: currentUser.id }] },
-            };
+        const favoritedByAction = isFavorite
+          ? { connect: [{ id: currentUser.id }] }
+          : { disconnect: [{ id: currentUser.id }] };
+
         await ctx.prisma.service.update({
           where: {
             id,
           },
-          data,
+          data: {
+            favoritedBy: favoritedByAction,
+          },
         });
       } else {
         throw new TRPCError({
