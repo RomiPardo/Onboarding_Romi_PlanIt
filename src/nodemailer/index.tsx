@@ -28,6 +28,7 @@ export const sendEmail = (
       },
       (error) => {
         if (error) {
+          console.error("Error sending email:", error);
           reject("Hubo un error al enviar el email");
         } else {
           resolve("success");

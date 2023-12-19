@@ -8,6 +8,7 @@ type GoBackHeaderProps = {
   color?: string;
   onBack?: () => void;
   absolute?: boolean;
+  showAlways?: boolean;
 };
 
 const GoBack = ({
@@ -15,6 +16,7 @@ const GoBack = ({
   color = "black",
   onBack,
   absolute = true,
+  showAlways = false,
 }: GoBackHeaderProps) => {
   const router = useRouter();
 
@@ -22,7 +24,11 @@ const GoBack = ({
     <nav
       className={
         absolute
-          ? "absolute flex w-full flex-row items-center justify-between gap-x-5 px-5 pt-8 text-sm font-normal leading-normal sm:hidden"
+          ? showAlways
+            ? "absolute flex w-full flex-row items-center justify-between gap-x-5 px-5 pt-8 text-sm font-normal leading-normal"
+            : "absolute flex w-full flex-row items-center justify-between gap-x-5 px-5 pt-8 text-sm font-normal leading-normal sm:hidden"
+          : showAlways
+          ? "flex w-full flex-row items-center justify-between gap-x-5 px-5 py-8 pt-8 text-sm font-normal leading-normal"
           : "flex w-full flex-row items-center justify-between gap-x-5 px-5 py-8 pt-8 text-sm font-normal leading-normal sm:hidden"
       }
     >

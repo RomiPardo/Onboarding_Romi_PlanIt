@@ -8,6 +8,7 @@ import {
   Img,
   Head,
   Section,
+  Link,
 } from "@react-email/components";
 
 type EmailProps = {
@@ -34,9 +35,13 @@ export const Email = ({ message }: EmailProps) => {
           <Body className="px-5 py-5">
             <Section className="border border-[#7D7D7D] bg-white px-6 py-2">
               {message.split(matchLineBreak).map((paragraph, index) => (
-                <Text className="text-lg font-normal" key={index}>
-                  {paragraph}
-                </Text>
+                <div className="text-lg font-normal" key={index}>
+                  {paragraph.includes("http") ? (
+                    <Link href={paragraph}>Resetear contraseña</Link>
+                  ) : (
+                    <Text>{paragraph}</Text>
+                  )}
+                </div>
               ))}
             </Section>
           </Body>

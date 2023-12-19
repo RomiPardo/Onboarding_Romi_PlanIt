@@ -46,7 +46,16 @@ export const ForgotPasswordSchema = z.object({
     .email("Formato invalido del mail"),
 });
 
-export const cardSchema = z.object({
+export const CardSchema = z.object({
   number: z.string().min(1, "Debe completar este campo"),
   cvv: z.string().min(1, "Debe completar este campo"),
+});
+
+export const ChangePasswordSchema = z.object({
+  password: z.string(),
+  confirmationPassword: z.string(),
+  email: z
+    .string()
+    .min(1, "Debe completar este campo")
+    .email("Formato invalido del mail"),
 });

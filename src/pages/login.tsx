@@ -27,19 +27,9 @@ const Register = () => {
     formState: { errors },
     handleSubmit,
     register,
-    getValues,
   } = methods;
 
   const router = useRouter();
-
-  const passwordForgotenMutation = api.user.forgotPassword.useMutation({
-    onError(error) {
-      toast.error(error.message);
-    },
-    onSuccess() {
-      toast.success("Se envio un correo con la nueva contraseña");
-    },
-  });
 
   const login = async (user: UserSchemaType) => {
     const res = await signIn("credentials", {
@@ -51,18 +41,6 @@ const Register = () => {
       toast.error("La contraseña y/o email ingresados son incorrectos");
     } else {
       router.push("/");
-    }
-  };
-
-  const passwordForgoten = () => {
-    const email = getValues("email");
-
-    try {
-      ForgotPasswordSchema.parse({ email });
-
-      passwordForgotenMutation.mutate({ email });
-    } catch (error) {
-      toast.error("Debe completar el campo de email y darle un fromato valido");
     }
   };
 
@@ -120,12 +98,12 @@ const Register = () => {
                     ¡Regístrate aquí!
                   </Link>
 
-                  <p
-                    onClick={passwordForgoten}
+                  <Link
+                    href={"/resetpassword"}
                     className="text-blue-300 hover:cursor-pointer"
                   >
                     Olvide mi contraseña
-                  </p>
+                  </Link>
                 </div>
               </form>
             </FormProvider>

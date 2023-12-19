@@ -4,12 +4,14 @@ import { protectedProcedure } from "../trpc";
 import {
   ForgotPasswordSchema,
   RegisterUserSchema,
-  cardSchema,
+  CardSchema,
+  ChangePasswordSchema,
 } from "~/server/schemas/userSchema";
 import { EditUserSchema } from "~/server/schemas/userSchema";
 import bcrypt from "bcryptjs";
 import { TRPCError } from "@trpc/server";
 import { sendEmail } from "~/nodemailer";
+import jwt from "jsonwebtoken";
 
 export const userRouter = createTRPCRouter({
   me: protectedProcedure.query(
@@ -26,6 +28,15 @@ export const userRouter = createTRPCRouter({
       await ctx.prisma.user.findFirst({
         where: {
           id: input.id,
+        },
+      }),
+  ),
+
+  getUserToken: publicProcedure.input(z.object({ token: z.string() })).query(
+    async ({ ctx, input }) =>
+      await ctx.prisma.user.findFirst({
+        where: {
+          resetToken: input.token,
         },
       }),
   ),
@@ -143,20 +154,27 @@ export const userRouter = createTRPCRouter({
         });
       }
 
-      const newPassword = Math.random().toString(36).slice(-8);
+      const expirationTime = 900;
 
-      const hashedPassword = await bcrypt.hash(newPassword, 10);
+      const token = {
+        userEmail: email,
+        timestamp: Math.floor(Date.now() / 1000) + expirationTime,
+      };
+
+      const jwtSecret = process.env.JWT_SECRET ?? "defaultSecret";
+
+      const resetToken = jwt.sign(token, jwtSecret);
 
       await ctx.prisma.user.update({
         where: {
           email,
         },
         data: {
-          hashedPassword,
+          resetToken,
         },
       });
 
-      const message = `¡Hola ${user.name}! \n\nHemos recibido tu solicitud para restablecer la contraseña de tu cuenta. Para tu comodidad, aquí está tu nueva contraseña: \n\n${newPassword} \n\nUtiliza esta contraseña para acceder a tu cuenta. Te recomendamos cambiarla tan pronto como ingreses. \n\n¡Gracias y que tengas un excelente día! \n\nPlanIt`;
+      const message = `¡Hola ${user.name}! \n\nHemos recibido tu solicitud para restablecer la contraseña de tu cuenta. Para tu comodidad, en el siguiente link podra resetear su contraseña: \n\nhttp://localhost:3000/resetpassword?token=${resetToken} \n\nEste link expirara en 15 minutos \n\n¡Gracias y que tengas un excelente día! \n\nPlanIt`;
 
       const subject = "Recupera tu contraseña";
 
@@ -164,7 +182,7 @@ export const userRouter = createTRPCRouter({
     }),
 
   addCard: publicProcedure
-    .input(cardSchema)
+    .input(CardSchema)
     .mutation(async ({ ctx, input: { number, cvv } }) => {
       if (cvv.length !== 3) {
         throw new TRPCError({
@@ -214,4 +232,41 @@ export const userRouter = createTRPCRouter({
 
     return cards;
   }),
+
+  changePassword: publicProcedure
+    .input(ChangePasswordSchema)
+    .mutation(
+      async ({ ctx, input: { email, password, confirmationPassword } }) => {
+        if (password.length < 8) {
+          throw new TRPCError({
+            code: "BAD_REQUEST",
+            message: "La contraseña debe tener mas de 8 caracteres",
+          });
+        }
+
+        if (password !== confirmationPassword) {
+          throw new TRPCError({
+            code: "BAD_REQUEST",
+            message: "Las contraseñas no cohinciden",
+          });
+        }
+
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        try {
+          await ctx.prisma.user.update({
+            where: {
+              email,
+              resetToken: { not: "" },
+            },
+            data: { hashedPassword, resetToken: "" },
+          });
+        } catch {
+          throw new TRPCError({
+            code: "BAD_REQUEST",
+            message: "El token ya ha expirado",
+          });
+        }
+      },
+    ),
 });
