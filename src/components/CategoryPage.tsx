@@ -17,10 +17,9 @@ const CategoryPage = ({ category }: PageFormatProps) => {
   });
 
   if (error) {
-    toast.error("Sucedio un error inesperado al obtener los servicios");
     return (
       <Layout>
-        <></>
+        <p className="w-full text-center">Intente de nuevo mas tarde</p>
       </Layout>
     );
   }

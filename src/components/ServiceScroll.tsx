@@ -31,8 +31,7 @@ const ServiceScroll = ({ category }: ServiceScrollProps) => {
     );
 
   if (error) {
-    toast.error("Sucedio un error inesperado al obtener los servicios");
-    return <></>;
+    return <p className="w-full text-center">Intente de nuevo mas tarde</p>;
   }
 
   return (
