@@ -47,6 +47,30 @@ async function main() {
     },
   });
 
+  const subcategoryShare = await prisma.subcategory.upsert({
+    where: { name: "Para compartir" },
+    update: {},
+    create: {
+      name: "Para compartir",
+    },
+  });
+
+  const subcategoryDessert = await prisma.subcategory.upsert({
+    where: { name: "Postre" },
+    update: {},
+    create: {
+      name: "Postre",
+    },
+  });
+
+  const subcategoryDip = await prisma.subcategory.upsert({
+    where: { name: "Picadas" },
+    update: {},
+    create: {
+      name: "Picadas",
+    },
+  });
+
   const filipaMiniBox = await prisma.service.upsert({
     where: { name: "Mini Box Salada" },
     update: {},
@@ -57,6 +81,9 @@ async function main() {
       price: 495,
       qualification: 4.95,
       providerId: filipa.id,
+      subcategories: {
+        connect: [{ id: subcategoryShare.id }, { id: subcategoryDessert.id }],
+      },
     },
   });
 
@@ -81,6 +108,9 @@ async function main() {
             { name: "Agregar una tarjeta con mensaje", price: 0 },
           ],
         },
+      },
+      subcategories: {
+        connect: [{ id: subcategoryDip.id }, { id: subcategoryShare.id }],
       },
     },
   });

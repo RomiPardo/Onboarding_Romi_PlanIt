@@ -1,10 +1,5 @@
-import Layout from "~/components/Layout";
-import ServiceScroll from "~/components/ServiceScroll";
+import CategoryPage from "~/components/CategoryPage";
 
-const Merchandising = () => (
-  <Layout>
-    <ServiceScroll category="MERCHANDISING" />
-  </Layout>
-);
+const Merchandising = () => <CategoryPage category="MERCHANDISING" />;
 
 export default Merchandising;

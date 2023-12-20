@@ -1,10 +1,5 @@
-import Layout from "~/components/Layout";
-import ServiceScroll from "~/components/ServiceScroll";
+import CategoryPage from "~/components/CategoryPage";
 
-const Events = () => (
-  <Layout>
-    <ServiceScroll category="EVENT" />
-  </Layout>
-);
+const Events = () => <CategoryPage category="EVENT" />;
 
 export default Events;

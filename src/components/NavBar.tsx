@@ -5,9 +5,13 @@ import { Menu } from "@headlessui/react";
 import DropdownUser from "./DropdownUser";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { routesMenu } from "./routes";
+import { routesMenu } from "../utils/constants";
+import { useState } from "react";
+import FilterBar from "./FilterBar";
 
-type NavBarProps = { onClick?: (() => Promise<void>) | (() => void) };
+type NavBarProps = {
+  onClick?: (() => Promise<void>) | (() => void);
+};
 
 const NavBar = ({ onClick }: NavBarProps) => {
   const { asPath } = useRouter();
@@ -86,7 +90,7 @@ const NavBar = ({ onClick }: NavBarProps) => {
       </div>
 
       <div className="flex sm:hidden">
-        <SearchBar />
+        <FilterBar />
       </div>
     </nav>
   );

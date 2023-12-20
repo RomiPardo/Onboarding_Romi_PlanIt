@@ -1,23 +1,41 @@
 import ServiceCard from "../components/ServiceCard";
 import InfiniteScroll from "react-infinite-scroll-component";
 import ShimmerServiceScroll from "./ShimmerServiceScroll";
-import Toast from "./Toast";
-import { toast } from "react-toastify";
 import Spinner from "./Spinner";
-import useFilteredServices from "~/hooks/useFilteredServices";
-import { Provider, ServiceType } from "@prisma/client";
+import { Additional, Service, Provider, ServiceType } from "@prisma/client";
 import Categories from "./Categories";
+import useFilteredServices from "~/hooks/useFilteredServices";
+import { useFilteringContext } from "~/hooks/useFilteringContext";
+import { toast } from "react-toastify";
+
+type ServiceComplete = Service & {
+  isFavorite: boolean;
+  provider: Provider;
+  additionals: Additional[];
+};
 
 type ServiceScrollProps = {
   category: ServiceType;
 };
 
 const ServiceScroll = ({ category }: ServiceScrollProps) => {
-  const { services, error, fetchNextPage, hasNextPage, moreThan } =
-    useFilteredServices(category);
+  const { selectedOrder, selectedSubcategories, searchFilter } =
+    useFilteringContext();
 
-  if (error) {
-    toast.error("Sucedio un error inesperado al obtener los servicios");
+  const { services, error, fetchNextPage, hasNextPage, moreThan } =
+    useFilteredServices(
+      category,
+      selectedOrder,
+      selectedSubcategories,
+      searchFilter,
+    );
+
+  if (error ?? !services) {
+    return (
+      <p className="w-full pt-52 text-center sm:pt-10">
+        Intente de nuevo mas tarde
+      </p>
+    );
   }
 
   return (

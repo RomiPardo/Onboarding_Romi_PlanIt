@@ -1,10 +1,5 @@
-import Layout from "~/components/Layout";
-import ServiceScroll from "~/components/ServiceScroll";
+import CategoryPage from "~/components/CategoryPage";
 
-const Present = () => (
-  <Layout>
-    <ServiceScroll category="PRESENT" />
-  </Layout>
-);
+const Present = () => <CategoryPage category="PRESENT" />;
 
 export default Present;

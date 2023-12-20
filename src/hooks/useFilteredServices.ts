@@ -1,10 +1,15 @@
 import { ServiceType } from "@prisma/client";
 import { api } from "~/utils/api";
 
-const useFilteredServices = (category: ServiceType) => {
+const useFilteredServices = (
+  category: ServiceType,
+  order: string,
+  subcategoryFilter: string[],
+  searchFilter: string,
+) => {
   const { data, error, fetchNextPage, hasNextPage } =
     api.service.getFilteredServices.useInfiniteQuery(
-      { category },
+      { category, order, subcategoryFilter, searchFilter },
       {
         getNextPageParam: (lastPage) => lastPage.nextCursor,
       },
