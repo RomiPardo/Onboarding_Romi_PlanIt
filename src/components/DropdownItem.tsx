@@ -3,6 +3,7 @@ import { cva, VariantProps } from "class-variance-authority";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { ReactNode } from "react";
+import { useFilteringContext } from "~/hooks/useFilteringContext";
 
 const itemDropdownStyles = cva("", {
   variants: {
@@ -39,12 +40,18 @@ const ItemDropdown = ({
 }: ItemDropdownProps) => {
   const { asPath } = useRouter();
   const active = asPath === route;
+  const { clearAll } = useFilteringContext();
 
   return (
     <Menu.Item>
       {children ? (
         <div
-          onClick={onClick}
+          onClick={async () => {
+            if (onClick) {
+              await onClick();
+            }
+            clearAll();
+          }}
           className={`${active ? "text-blue-300" : ""} ${itemDropdownStyles({
             intent,
           })}`}
@@ -55,7 +62,12 @@ const ItemDropdown = ({
         <div className={itemDropdownStyles({ intent })}>
           <Link
             href={route}
-            onClick={onClick}
+            onClick={async () => {
+              if (onClick) {
+                await onClick();
+              }
+              clearAll();
+            }}
             className={`${active ? "text-blue-300" : ""}`}
           >
             {linkText}

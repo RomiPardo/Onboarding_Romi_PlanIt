@@ -3,7 +3,7 @@ import { Menu } from "@headlessui/react";
 import Link from "next/link";
 import { signOut, useSession } from "next-auth/react";
 import ItemDropdown from "./DropdownItem";
-import { routesMenu, routesUser } from "./routes";
+import { routesMenu, routesUser } from "../utils/constants";
 
 type DropdownUserProps = {
   mobile?: boolean;

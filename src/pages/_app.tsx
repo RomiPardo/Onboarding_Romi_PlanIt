@@ -6,6 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { api } from "~/utils/api";
 
 import "~/styles/globals.css";
+import { FilteringContextProvider } from "~/contexts/FilteringContext";
 import { PreOrderContextProvider } from "~/contexts/PreOrderContext";
 
 const MyApp: AppType<{ session: Session | null }> = ({
@@ -13,11 +14,13 @@ const MyApp: AppType<{ session: Session | null }> = ({
   pageProps: { session, ...pageProps },
 }) => {
   return (
-    <PreOrderContextProvider>
-      <SessionProvider session={session}>
-        <Component {...pageProps} />
-      </SessionProvider>
-    </PreOrderContextProvider>
+    <FilteringContextProvider>
+      <PreOrderContextProvider>
+        <SessionProvider session={session}>
+          <Component {...pageProps} />
+        </SessionProvider>
+      </PreOrderContextProvider>
+    </FilteringContextProvider>
   );
 };
 

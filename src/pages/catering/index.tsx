@@ -1,10 +1,5 @@
-import Layout from "~/components/Layout";
-import ServiceScroll from "~/components/ServiceScroll";
+import CategoryPage from "~/components/CategoryPage";
 
-const Catering = () => (
-  <Layout>
-    <ServiceScroll category="CATERING" />
-  </Layout>
-);
+const Catering = () => <CategoryPage category="CATERING" />;
 
 export default Catering;

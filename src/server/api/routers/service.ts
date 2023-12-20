@@ -67,37 +67,122 @@ export const serviceRouter = createTRPCRouter({
     .input(filterServiceSchema)
     .query(async ({ ctx, input }) => {
       const limit = input.limit ?? 12;
-      const { cursor, category } = input;
+      const { cursor, category, order, subcategoryFilter, searchFilter } =
+        input;
 
-      const data = await ctx.prisma.service.findMany({
-        take: limit + 1,
-        where: {
-          type: category,
-        },
-        cursor: cursor ? { id: cursor } : undefined,
-        include: {
-          favoritedBy: true,
-          provider: true,
-          additionals: true,
-        },
-      });
+      const [field = "", direction] = order.split("-");
+      const orderBy = field ? { [field]: direction } : {};
 
-      let nextCursor: typeof cursor | undefined = undefined;
+      const subcategoriesFiltered =
+        subcategoryFilter.length !== 0
+          ? {
+              subcategories: {
+                some: {
+                  name: {
+                    in: subcategoryFilter,
+                  },
+                },
+              },
+            }
+          : {};
 
-      if (data.length > limit) {
-        const nextItem = data.pop();
-        nextCursor = nextItem!.id;
+      try {
+        const data = await ctx.prisma.service.findMany({
+          take: limit + 1,
+          where: {
+            type: category,
+            OR: [
+              {
+                name: {
+                  contains: searchFilter,
+                  mode: "insensitive",
+                },
+              },
+              {
+                description: {
+                  contains: searchFilter,
+                  mode: "insensitive",
+                },
+              },
+              {
+                provider: {
+                  name: {
+                    contains: searchFilter,
+                    mode: "insensitive",
+                  },
+                },
+              },
+            ],
+            ...subcategoriesFiltered,
+          },
+          orderBy,
+          cursor: cursor ? { id: cursor } : undefined,
+          include: {
+            favoritedBy: true,
+            provider: true,
+            additionals: true,
+            subcategories: true,
+          },
+        });
+
+        let nextCursor: typeof cursor | undefined = undefined;
+
+        if (data.length > limit) {
+          const nextItem = data.pop();
+          nextCursor = nextItem!.id;
+        }
+
+        const userEmail = ctx.session?.user.email;
+
+        const dataFavorite = data.flatMap((service) => {
+          return {
+            ...service,
+            isFavorite: service.favoritedBy.some((u) => u.email === userEmail),
+          };
+        });
+
+        return { data: dataFavorite, nextCursor };
+      } catch (error) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "Hubo problemas por parte del servidor",
+        });
       }
+    }),
 
-      const userId = ctx.session?.user.id;
+  getAllSubcategoriesFromCategory: publicProcedure
+    .input(
+      z.object({
+        category: z.enum(["PRESENT", "CATERING", "MERCHANDISING", "EVENT"]),
+      }),
+    )
+    .query(async ({ ctx, input: { category } }) => {
+      try {
+        const data = await ctx.prisma.service.findMany({
+          where: {
+            type: category,
+          },
+          include: {
+            subcategories: true,
+          },
+        });
 
-      const dataFavorite = data.flatMap((service) => {
-        return {
-          ...service,
-          isFavorite: service.favoritedBy.some((user) => user.id === userId),
-        };
-      });
+        const uniqueSubcategories = data
+          ? [
+              ...new Set(
+                data.flatMap((service) =>
+                  service.subcategories.map((subcategory) => subcategory.name),
+                ),
+              ),
+            ]
+          : [];
 
-      return { data: dataFavorite, nextCursor };
+        return { filters: uniqueSubcategories };
+      } catch (error) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "Hubo problemas por parte del servidor",
+        });
+      }
     }),
 });
