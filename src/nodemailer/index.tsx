@@ -15,8 +15,8 @@ export const sendEmail = (
   userEmail: string,
   message: string,
   subject: string,
-): Promise<string> => {
-  return new Promise((resolve, reject) => {
+): Promise<string> =>
+  new Promise((resolve, reject) => {
     const emailHtml = render(<Email message={message} />);
 
     transport.sendMail(
@@ -24,16 +24,15 @@ export const sendEmail = (
         to: userEmail,
         from: EMAIL_ADDRESS,
         html: emailHtml,
-        subject: subject,
+        subject,
       },
       (error) => {
         if (error) {
           console.error("Error sending email:", error);
-          reject("Hubo un error al enviar el email");
-        } else {
-          resolve("success");
+          return reject("Hubo un error al enviar el email");
         }
+
+        resolve("success");
       },
     );
   });
-};

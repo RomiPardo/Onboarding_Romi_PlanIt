@@ -84,9 +84,7 @@ const Order: NextPage<OrderProps> = ({ user, defaultValues }) => {
     try {
       await createOrderMutation.mutateAsync({
         ...orderData,
-        additionalsId: preOrder.additionals.map(
-          (additional: Additional) => additional.id,
-        ),
+        additionalsId: preOrder.additionals.map((additional) => additional.id),
         image: orderData.image,
       });
 
@@ -95,7 +93,7 @@ const Order: NextPage<OrderProps> = ({ user, defaultValues }) => {
     } catch (error) {
       error instanceof TRPCClientError
         ? toast.error(error?.message)
-        : toast.error("Sucedio un error inesperado");
+        : toast.error("Sucedió un error inesperado");
     }
   };
 
@@ -110,7 +108,7 @@ const Order: NextPage<OrderProps> = ({ user, defaultValues }) => {
 
   return (
     <Layout intent="goBack" onClick={() => setPreOrder(undefined)}>
-      <GoBack color="black" absolute={false} onBack={changePage} />
+      <GoBack color="black" intent="static" onBack={changePage} />
 
       <main className="flex flex-col px-5 pb-40 pt-0 font-poppins sm:px-32 sm:pb-28 sm:pt-24">
         <FormProvider {...methods}>

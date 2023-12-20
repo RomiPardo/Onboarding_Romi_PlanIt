@@ -17,7 +17,7 @@ const ServiceScroll = ({ category }: ServiceScrollProps) => {
     useFilteredServices(category);
 
   if (error) {
-    toast.error("Sucedio un error inesperado al obtener los servicios");
+    toast.error("Sucedió un error inesperado al obtener los servicios");
   }
 
   return (

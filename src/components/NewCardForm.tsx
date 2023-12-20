@@ -20,7 +20,7 @@ const NewCardForm = () => {
     } catch (error) {
       error instanceof TRPCClientError
         ? toast.error(error?.message)
-        : toast.error("Sucedio un error inesperado");
+        : toast.error("Sucedió un error inesperado");
     }
   };
 

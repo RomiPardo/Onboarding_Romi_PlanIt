@@ -46,7 +46,7 @@ const ResetPassword: NextPage<ResetPasswordProps> = ({ email, timestamp }) => {
 
   const changePasswordMutation = api.user.changePassword.useMutation();
 
-  const passwordForgotenMutation = api.user.forgotPassword.useMutation();
+  const passwordForgottenMutation = api.user.forgotPassword.useMutation();
 
   const verifyTimestamp = () => {
     if (currentDate > expirationDate && timestamp !== 0) {
@@ -57,11 +57,11 @@ const ResetPassword: NextPage<ResetPasswordProps> = ({ email, timestamp }) => {
   const changePassword = async (passwordData: ChangePasswordSchema) => {
     try {
       if (email === "") {
-        await passwordForgotenMutation.mutateAsync({
+        await passwordForgottenMutation.mutateAsync({
           email: passwordData.email,
         });
 
-        toast.success("Se le envio un correo con la nueva contraseña");
+        toast.success("Se le envió un correo con la nueva contraseña");
       } else {
         await changePasswordMutation.mutateAsync({ ...passwordData });
 
@@ -70,7 +70,7 @@ const ResetPassword: NextPage<ResetPasswordProps> = ({ email, timestamp }) => {
     } catch (error) {
       error instanceof TRPCClientError
         ? toast.error(error?.message)
-        : toast.error("Sucedio un error inesperado");
+        : toast.error("Sucedió un error inesperado");
     }
   };
 

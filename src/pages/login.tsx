@@ -1,9 +1,6 @@
 import { signIn } from "next-auth/react";
 import { FormProvider, useForm } from "react-hook-form";
-import {
-  ForgotPasswordSchema,
-  LoginUserSchema as UserShema,
-} from "~/server/schemas/userSchema";
+import { LoginUserSchema as UserShema } from "~/server/schemas/userSchema";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import InputWithLabel from "~/components/InputWithLabel";
@@ -15,7 +12,6 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Button from "~/components/Button";
 import Image from "next/image";
-import { api } from "~/utils/api";
 
 type UserSchemaType = z.infer<typeof UserShema>;
 
@@ -99,10 +95,10 @@ const Register = () => {
                   </Link>
 
                   <Link
-                    href={"/resetpassword"}
+                    href="/resetpassword"
                     className="text-blue-300 hover:cursor-pointer"
                   >
-                    Olvide mi contraseña
+                    Olvidé mi contraseña
                   </Link>
                 </div>
               </form>

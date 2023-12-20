@@ -1,8 +1,6 @@
 import { toast } from "react-toastify";
-import { RouterOutput } from "~/types/common";
 import { api } from "~/utils/api";
 import Image from "next/image";
-import Toast from "./Toast";
 import { TRPCClientError } from "@trpc/client";
 
 type FavoriteButtonProps = {
@@ -22,11 +20,11 @@ const FavoriteButton = ({
 }: FavoriteButtonProps) => {
   const utils = api.useUtils();
 
-  const favourtiteMutation = api.service.changeFavoriteBy.useMutation();
+  const favoriteMutation = api.service.changeFavoriteBy.useMutation();
 
   const changeFavoriteService = async () => {
     try {
-      await favourtiteMutation.mutateAsync({
+      await favoriteMutation.mutateAsync({
         isFavorite: !isFavorite,
         id: serviceId,
       });
@@ -36,7 +34,7 @@ const FavoriteButton = ({
     } catch (error) {
       error instanceof TRPCClientError
         ? toast.error(error?.message)
-        : toast.error("Sucedio un error inesperado");
+        : toast.error("Sucedió un error inesperado");
     }
   };
 

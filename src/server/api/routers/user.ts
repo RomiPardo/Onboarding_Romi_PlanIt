@@ -103,7 +103,7 @@ export const userRouter = createTRPCRouter({
         if (password.length < 8 && password !== "")
           throw new TRPCError({
             code: "BAD_REQUEST",
-            message: "La contraseña debe tener mas de 8 caracteres",
+            message: "La contraseña debe tener más de 8 caracteres",
           });
 
         const updatedUser =
@@ -174,7 +174,7 @@ export const userRouter = createTRPCRouter({
         },
       });
 
-      const message = `¡Hola ${user.name}! \n\nHemos recibido tu solicitud para restablecer la contraseña de tu cuenta. Para tu comodidad, en el siguiente link podra resetear su contraseña: \n\nhttp://localhost:3000/resetpassword?token=${resetToken} \n\nEste link expirara en 15 minutos \n\n¡Gracias y que tengas un excelente día! \n\nPlanIt`;
+      const message = `¡Hola ${user.name}! \n\nHemos recibido tu solicitud para restablecer la contraseña de tu cuenta. Para tu comodidad, en el siguiente link podrá resetear su contraseña: \n\nhttp://localhost:3000/resetpassword?token=${resetToken} \n\nEste link expirara en 15 minutos \n\n¡Gracias y que tengas un excelente día! \n\nPlanIt`;
 
       const subject = "Recupera tu contraseña";
 
@@ -240,14 +240,14 @@ export const userRouter = createTRPCRouter({
         if (password.length < 8) {
           throw new TRPCError({
             code: "BAD_REQUEST",
-            message: "La contraseña debe tener mas de 8 caracteres",
+            message: "La contraseña debe tener más de 8 caracteres",
           });
         }
 
         if (password !== confirmationPassword) {
           throw new TRPCError({
             code: "BAD_REQUEST",
-            message: "Las contraseñas no cohinciden",
+            message: "Las contraseñas no coinciden",
           });
         }
 

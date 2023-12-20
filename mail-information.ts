@@ -1,7 +1,7 @@
 export const EMAIL_ADDRESS = "your email";
 export const EMAIL_PASSWORD = "your app password";
 
-// Steps to get your email infromation:
+// Steps to get your email information:
 
 // 1 - Make a Google account and go to configuration.
 
