@@ -30,7 +30,7 @@ const ServiceScroll = ({ category }: ServiceScrollProps) => {
       searchFilter,
     );
 
-  if (error) {
+  if (error ?? !services) {
     return <p className="w-full text-center">Intente de nuevo mas tarde</p>;
   }
 

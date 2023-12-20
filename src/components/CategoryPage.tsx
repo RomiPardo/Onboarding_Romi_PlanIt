@@ -16,7 +16,7 @@ const CategoryPage = ({ category }: PageFormatProps) => {
     category,
   });
 
-  if (error) {
+  if (error ?? !data) {
     return (
       <Layout>
         <p className="w-full text-center">Intente de nuevo mas tarde</p>
