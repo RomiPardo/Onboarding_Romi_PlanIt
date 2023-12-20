@@ -31,7 +31,11 @@ const ServiceScroll = ({ category }: ServiceScrollProps) => {
     );
 
   if (error ?? !services) {
-    return <p className="w-full text-center">Intente de nuevo mas tarde</p>;
+    return (
+      <p className="w-full pt-52 text-center sm:pt-10">
+        Intente de nuevo mas tarde
+      </p>
+    );
   }
 
   return (
