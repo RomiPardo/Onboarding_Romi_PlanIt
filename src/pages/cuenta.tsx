@@ -16,6 +16,7 @@ import {
 } from "next";
 import { getServerSession } from "next-auth";
 import { authOptions } from "~/server/auth";
+import { TRPCClientError } from "@trpc/client";
 
 type UserSchema = z.infer<typeof userShema>;
 
@@ -36,20 +37,21 @@ const Acount: NextPage<AcountProps> = ({ defaultValues }) => {
     register,
   } = methods;
 
-  const updateMutation = api.user.updateUser.useMutation({
-    onError(error) {
-      toast.error(error.message);
-    },
-    async onSuccess() {
-      await update();
-    },
-  });
+  const updateMutation = api.user.updateUser.useMutation();
 
-  const editUser = (user: UserSchema) => {
-    updateMutation.mutate({
-      ...user,
-      oldEmail: session?.user.email ? session?.user.email : "",
-    });
+  const editUser = async (user: UserSchema) => {
+    try {
+      await updateMutation.mutateAsync({
+        ...user,
+        oldEmail: session?.user.email ? session?.user.email : "",
+      });
+
+      await update();
+    } catch (error) {
+      error instanceof TRPCClientError
+        ? toast.error(error?.message)
+        : toast.error("Sucedió un error inesperado");
+    }
   };
 
   const logOut = async () => {

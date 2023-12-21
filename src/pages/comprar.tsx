@@ -20,6 +20,7 @@ import { Additional } from "@prisma/client";
 import DetailOrder from "~/components/DetailOrder";
 import { usePreOrderContext } from "~/hooks/usePreOrderContext";
 import GoBack from "~/components/GoBack";
+import { TRPCClientError } from "@trpc/client";
 
 type OrderSchemaType = z.infer<typeof orderSchema>;
 
@@ -56,15 +57,7 @@ const Order: NextPage<OrderProps> = ({ user, defaultValues }) => {
     }
   }, [preOrder]);
 
-  const createOrderMutation = api.order.createOrder.useMutation({
-    onError(error) {
-      toast.error(error.message);
-    },
-    async onSuccess() {
-      setPreOrder(undefined);
-      await router.push("/confirmada");
-    },
-  });
+  const createOrderMutation = api.order.createOrder.useMutation();
 
   const { data, isLoading } = api.user.getCards.useQuery();
 
@@ -82,19 +75,26 @@ const Order: NextPage<OrderProps> = ({ user, defaultValues }) => {
 
   const cards = data ?? [];
 
-  const buy = (orderData: OrderSchemaType) => {
+  const buy = async (orderData: OrderSchemaType) => {
     if (!preOrder) {
       toast.error("Hubo un error al recopilar la información de la compra");
       return;
     }
 
-    createOrderMutation.mutate({
-      ...orderData,
-      additionalsId: preOrder.additionals.map(
-        (additional: Additional) => additional.id,
-      ),
-      image: orderData.image,
-    });
+    try {
+      await createOrderMutation.mutateAsync({
+        ...orderData,
+        additionalsId: preOrder.additionals.map((additional) => additional.id),
+        image: orderData.image,
+      });
+
+      setPreOrder(undefined);
+      await router.push("/confirmada");
+    } catch (error) {
+      error instanceof TRPCClientError
+        ? toast.error(error?.message)
+        : toast.error("Sucedió un error inesperado");
+    }
   };
 
   const changePage = () => {
@@ -108,7 +108,7 @@ const Order: NextPage<OrderProps> = ({ user, defaultValues }) => {
 
   return (
     <Layout intent="goBack" onClick={() => setPreOrder(undefined)}>
-      <GoBack color="black" absolute={false} onBack={changePage} />
+      <GoBack color="black" intent="static" onBack={changePage} />
 
       <main className="flex flex-col px-5 pb-40 pt-0 font-poppins sm:px-32 sm:pb-28 sm:pt-24">
         <FormProvider {...methods}>

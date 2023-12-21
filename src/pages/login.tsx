@@ -93,6 +93,13 @@ const Register = () => {
                   <Link href="/register" className="text-blue-300">
                     ¡Regístrate aquí!
                   </Link>
+
+                  <Link
+                    href="/resetpassword"
+                    className="text-blue-300 hover:cursor-pointer"
+                  >
+                    Olvidé mi contraseña
+                  </Link>
                 </div>
               </form>
             </FormProvider>

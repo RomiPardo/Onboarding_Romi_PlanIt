@@ -12,6 +12,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Toast from "~/components/Toast";
 import Button from "~/components/Button";
 import Image from "next/image";
+import { TRPCClientError } from "@trpc/client";
 
 type UserSchemaType = z.infer<typeof UserShema>;
 
@@ -38,7 +39,9 @@ const Register = () => {
         callbackUrl: `http://localhost:3000/`,
       });
     } catch (error) {
-      toast.error("Ya existe un usuario con ese mail");
+      error instanceof TRPCClientError
+        ? toast.error(error?.message)
+        : toast.error("Sucedió un error inesperado");
     }
   };
 

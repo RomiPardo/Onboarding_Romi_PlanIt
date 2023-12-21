@@ -4,23 +4,24 @@ import InputWithLabel from "./InputWithLabel";
 import Button from "./Button";
 import { useState } from "react";
 import router, { useRouter } from "next/router";
+import { TRPCClientError } from "@trpc/client";
 
 const NewCardForm = () => {
   const [number, setNumber] = useState("");
   const [cvv, setCvv] = useState("");
-  const { asPath } = useRouter();
 
-  const addCardMutation = api.user.addCard.useMutation({
-    onError(error) {
-      toast.error(error.message);
-    },
-    onSuccess() {
+  const addCardMutation = api.user.addCard.useMutation();
+
+  const addCard = async () => {
+    try {
+      await addCardMutation.mutateAsync({ number, cvv });
+
       router.reload();
-    },
-  });
-
-  const addCard = () => {
-    addCardMutation.mutate({ number, cvv });
+    } catch (error) {
+      error instanceof TRPCClientError
+        ? toast.error(error?.message)
+        : toast.error("Sucedió un error inesperado");
+    }
   };
 
   return (

@@ -34,6 +34,7 @@ model User {
     business         String
     image            String?
     hashedPassword   String
+    resetToken       String?
     role             Role         @default(USER)
     points           Int          @default(0)
     serviceId        String?
